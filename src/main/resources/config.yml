@@ -1,0 +1,51 @@
+prefix: "&f[&6OreGen&e3&f]"
+
+# waterFence: Hàng rào + Nước
+# lavaFence: Dung nham + hàng rào
+# waterLava: Nước + Dung nham
+# Lưu ý là tắt waterLava không có nghĩa là Water + Lava sẽ ko ra cobble nữa
+mode:
+  waterFence: true
+  lavaFence: false
+  waterLava: true
+
+disabledWorlds:
+- world
+- ASkyBlock
+
+#Thay đổi Generator mặc định
+defaultGenerator: default
+
+#
+# fallback: Block mặc định nếu máy không chọn được trong Random
+# permission: Quyền để sử dụng generator, mặc định là oregen3.generator.<id> nếu không có node này (Nhìn mvp)
+# random: Những block
+generators:
+  default:
+    fallback: COBBLESTONE
+    random:
+      COBBLESTONE: 30.0
+      GOLD_BLOCK: 20.0
+      IRON_BLOCK: 15.0
+      LAPIS_BLOCK: 2.0
+  vip:
+    fallback: COBBLESTONE
+    permission: "test.vip"
+    random:
+      COBBLESTONE: 30.0
+      GOLD_BLOCK: 20.0
+      IRON_BLOCK: 15.0
+      LAPIS_BLOCK: 2.0
+      COAL_BLOCK: 5.0
+      REDSTONE_BLOCK: 10.0
+  mvp:
+    fallback: COBBLESTONE
+    random:
+      COBBLESTONE: 30.0
+      GOLD_BLOCK: 20.0
+      IRON_BLOCK: 15.0
+      LAPIS_BLOCK: 2.0
+      COAL_BLOCK: 5.0
+      REDSTONE_BLOCK: 10.0
+      DIAMOND_BLOCK: 10.0
+      EMERALD_BLOCK: 8.0

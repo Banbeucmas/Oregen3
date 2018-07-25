@@ -1,0 +1,9 @@
+name: Oregen3
+version: ${project.version}
+main: me.banbeucmas.oregen3.Oregen3
+authors: [Banbeucmas]
+
+commands:
+  oregen3:
+    description: "Main command of the plugin"
+    aliases: [og3, og]
