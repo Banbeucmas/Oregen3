@@ -8,6 +8,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class Oregen3 extends JavaPlugin implements Listener {
     private static Oregen3 plugin;
 
@@ -28,6 +31,7 @@ public final class Oregen3 extends JavaPlugin implements Listener {
         Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "------------------------------------");
 
         saveDefaultConfig();
+        updateConfig();
         DataManager.loadData();
         getCommand("oregen3").setExecutor(new AdminCommands());
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
@@ -40,5 +44,25 @@ public final class Oregen3 extends JavaPlugin implements Listener {
 
     public static Oregen3 getPlugin() {
         return plugin;
+    }
+
+    public static void updateConfig(){
+        if(!getPlugin().getConfig().isSet("version")){
+            getPlugin().getConfig().set("version", "1.1.0");
+
+            List<String> l = new ArrayList<>();
+            l.add("FENCE");
+            l.add("ACACIA_FENCE");
+            l.add("BIRCH_FENCE");
+            l.add("DARK_OAK_FENCE");
+            l.add("IRON_FENCE");
+            getPlugin().getConfig().set("blocks", l);
+            getPlugin().getConfig().set("mode.lavaBlock", false);
+            getPlugin().getConfig().set("mode.waterBlock", true);
+            getPlugin().getConfig().set("mode.lavaFence", null);
+            getPlugin().getConfig().set("mode.waterFence", null);
+        }
+        getPlugin().saveConfig();
+
     }
 }

@@ -64,13 +64,13 @@ public class BlockListener implements Listener {
             if(BlockUtils.isFence(check)
                     && (material == Material.WATER
                     || material == Material.STATIONARY_WATER)
-                    && config.getBoolean("mode.waterFence")){
+                    && config.getBoolean("mode.waterBlock")){
                     return true;
             }
             else if(BlockUtils.isFence(check)
                     && (material == Material.LAVA
                     || material == Material.STATIONARY_LAVA)
-                    && config.getBoolean("mode.lavaFence")){
+                    && config.getBoolean("mode.lavaBlock")){
                     return true;
             }
         }

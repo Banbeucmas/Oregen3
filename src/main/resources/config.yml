@@ -1,14 +1,26 @@
+## DO NOT TOUCH THIS
+version: 1.1.0
 prefix: "&f[&6OreGen&e3&f]"
 
-# waterFence: Hàng rào + Nước
-# lavaFence: Dung nham + hàng rào
+# waterBlock: Block + Nước
+# lavaBlock: Dung nham + Block
 # waterLava: Nước + Dung nham
 # Lưu ý là tắt waterLava không có nghĩa là Water + Lava sẽ ko ra cobble nữa
 mode:
-  waterFence: true
-  lavaFence: false
+  waterBlock: true
+  lavaBlock: false
   waterLava: true
 
+#Các block khi tương tác với Nước/Dung Nham sẽ tạo ra ore
+#Lưu ý viết hoa toàn bộ
+blocks:
+- FENCE
+- ACACIA_FENCE
+- BIRCH_FENCE
+- DARK_OAK_FENCE
+- IRON_FENCE
+
+#Các thế giới mà Oregen3 sẽ không hoạt động (Thích hợp với server kết hợp cả AcidIsland lẫn ASkyblock mà muốn loại bỏ 1 trong 2 cái)
 disabledWorlds:
 - world
 - ASkyBlock

@@ -1,20 +1,14 @@
 package me.banbeucmas.oregen3.utils;
 
+import me.banbeucmas.oregen3.Oregen3;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Arrays;
 
 public class BlockUtils {
-    private static Material[] FENCE = {
-            Material.FENCE,
-            Material.ACACIA_FENCE,
-            Material.BIRCH_FENCE,
-            Material.DARK_OAK_FENCE,
-            Material.IRON_FENCE
-    };
-
     public static BlockFace[] FACES = new BlockFace[] {
             BlockFace.SELF,
             BlockFace.UP,
@@ -27,7 +21,8 @@ public class BlockUtils {
 
 
     public static boolean isFence(Block b){
-        return Arrays.asList(FENCE).contains(b.getType());
+        FileConfiguration config = Oregen3.getPlugin().getConfig();
+       return config.getStringList("blocks").contains(b.getType().toString());
     }
     /*
     public static boolean isFence(Material mat){
