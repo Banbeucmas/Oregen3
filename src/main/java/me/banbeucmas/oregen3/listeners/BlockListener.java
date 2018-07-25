@@ -46,12 +46,13 @@ public class BlockListener implements Listener {
                         return;
                     }
                 }
-                    to.setType(randomChance(source.getLocation()));
+                to.setType(randomChance(source.getLocation()));
+                world.playSound(to.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 3, 2);
             }
             else if(generateCobbleFence(source, to)){
                 to.setType(randomChance(source.getLocation()));
+                world.playSound(to.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 3, 2);
             }
-            world.playSound(to.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 3, 2);
         }
 
     }
@@ -156,14 +157,4 @@ public class BlockListener implements Listener {
         return p;
     }
 
-
-    private boolean rate(double tiLe)
-    {
-        double rate = tiLe * 100.0D;
-        int random = new Random().nextInt(10000);
-        if (random < rate) {
-            return true;
-        }
-        return false;
-    }
 }
