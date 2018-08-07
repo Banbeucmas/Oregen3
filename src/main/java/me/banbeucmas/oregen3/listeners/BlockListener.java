@@ -152,7 +152,7 @@ public class BlockListener implements Listener {
         if(uuid == null){
             return null;
         }
-        OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
+        OfflinePlayer p = Bukkit.getServer().getOfflinePlayer(uuid);
 
         return p;
     }

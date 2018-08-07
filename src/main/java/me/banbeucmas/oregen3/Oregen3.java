@@ -3,6 +3,7 @@ package me.banbeucmas.oregen3;
 import me.banbeucmas.oregen3.commands.AdminCommands;
 import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.listeners.BlockListener;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.Listener;
@@ -17,6 +18,8 @@ public final class Oregen3 extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         plugin = this;
+        Metrics metrics = new Metrics(this);
+
         boolean asbHook = Bukkit.getServer().getPluginManager().isPluginEnabled("ASkyBlock");
         boolean acidHook = Bukkit.getServer().getPluginManager().isPluginEnabled("AcidIsland");
         Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "-------------" + ChatColor.WHITE + "[" + ChatColor.YELLOW + "Oregen3" + ChatColor.WHITE + "]" + ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "-------------");

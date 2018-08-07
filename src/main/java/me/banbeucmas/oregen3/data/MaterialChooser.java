@@ -12,17 +12,21 @@ public class MaterialChooser {
     private FileConfiguration config = plugin.getConfig();
     private String id;
     private String permission;
+    private String path;
     private Map<Material, Double> chances = new HashMap<>();
     private Material fallback;
 
     public MaterialChooser(String id) {
         this.id = id;
-        this.fallback = config.isSet("generators." + id + ".fallback")
-                ? Material.matchMaterial(config.getString("generators." + id + ".fallback")) : Material.COBBLESTONE;
-        this.permission = config.isSet("generators." + id + ".permission")
-                ? config.getString("generators." + id + ".permission") : "oregen3.generator." + id;
-        for(String mat : config.getConfigurationSection("generators." + id + ".random").getKeys(false)){
-            chances.put(Material.matchMaterial(mat), config.getDouble("generators." + id + ".random." + mat));
+        this.path = "generators." + id;
+
+        this.fallback = config.isSet(path + ".fallback")
+                ? Material.matchMaterial(config.getString(path + ".fallback")) : Material.COBBLESTONE;
+        this.permission = config.isSet(path + ".permission")
+                ? config.getString(path + ".permission") : "oregen3.generator." + id;
+
+        for(String mat : config.getConfigurationSection(path + ".random").getKeys(false)){
+            chances.put(Material.matchMaterial(mat), config.getDouble(path + ".random." + mat));
         }
     }
 
@@ -42,4 +46,5 @@ public class MaterialChooser {
     public Map<Material, Double> getChances() {
         return chances;
     }
+
 }
