@@ -13,12 +13,12 @@ public class UsageCommand extends AbstractCommand {
     @Override
     public ExecutionResult now() {
         CommandSender sender = getSender();
-        sender.sendMessage(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "-------------" + ChatColor.WHITE + "[" + ChatColor.YELLOW + "Oregen3" + ChatColor.WHITE + "]" + ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "-------------");
+        sender.sendMessage(StringUtils.getColoredString("&7&m-------------&f[Oregen3&f]&7-------------"));
         sender.sendMessage("");
-        sender.sendMessage("       " +ChatColor.WHITE+ "" + ChatColor.ITALIC + "Plugin made by " + ChatColor.YELLOW + "" + ChatColor.ITALIC + "Banbeucmas");
-        sender.sendMessage("       " +ChatColor.WHITE+ "" + ChatColor.ITALIC + "/help" + ChatColor.YELLOW + " for more info");
+        sender.sendMessage(StringUtils.getColoredString("       &fPlugin made by &e&oBanbeucmas"));
+        sender.sendMessage(StringUtils.getColoredString("       &f&o/help &efor more info"));
         sender.sendMessage("");
-        sender.sendMessage(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "------------------------------------");
+        sender.sendMessage(StringUtils.getColoredString("------------------------------------"));
 
         return ExecutionResult.DONT_CARE;
     }

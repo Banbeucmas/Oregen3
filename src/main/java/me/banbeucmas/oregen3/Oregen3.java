@@ -3,9 +3,11 @@ package me.banbeucmas.oregen3;
 import me.banbeucmas.oregen3.commands.AdminCommands;
 import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.listeners.BlockListener;
+import me.banbeucmas.oregen3.utils.StringUtils;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -26,15 +28,16 @@ public final class Oregen3 extends JavaPlugin implements Listener {
         boolean asbHook = Bukkit.getServer().getPluginManager().isPluginEnabled("ASkyBlock");
         boolean acidHook = Bukkit.getServer().getPluginManager().isPluginEnabled("AcidIsland");
 
-        //TODO Cleanup
-        Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "-------------" + ChatColor.WHITE + "[" + ChatColor.YELLOW + "Oregen3" + ChatColor.WHITE + "]" + ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "-------------");
-        Bukkit.getConsoleSender().sendMessage("");
-        Bukkit.getConsoleSender().sendMessage("       " +ChatColor.WHITE+ "" + ChatColor.ITALIC + "Plugin made by " + ChatColor.YELLOW + "" + ChatColor.ITALIC + "Banbeucmas");
-        Bukkit.getConsoleSender().sendMessage("       " + ChatColor.WHITE + "" + ChatColor.ITALIC + "ASkyblock: " + ChatColor.YELLOW + asbHook);
-        Bukkit.getConsoleSender().sendMessage("       " + ChatColor.WHITE + "" + ChatColor.ITALIC + "AcidIsland: " + ChatColor.YELLOW + acidHook);
-
-        Bukkit.getConsoleSender().sendMessage("");
-        Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "------------------------------------");
+        CommandSender sender = Bukkit.getConsoleSender();
+        //Send Message
+        sender.sendMessage(StringUtils.getColoredString("&7&m-------------&f[Oregen3&f]&7-------------"));
+        sender.sendMessage("");
+        sender.sendMessage(StringUtils.getColoredString("       &fPlugin made by &e&oBanbeucmas"));
+        sender.sendMessage(StringUtils.getColoredString("       &f&oVersion: &e" + getDescription().getVersion()));
+        sender.sendMessage(StringUtils.getColoredString("       &f&oASkyblock: &e" + asbHook));
+        sender.sendMessage(StringUtils.getColoredString("       &f&oAcidIsland: &e" + acidHook));
+        sender.sendMessage("");
+        sender.sendMessage(StringUtils.getColoredString("------------------------------------"));
 
         if(getConfig().getBoolean("enableDependency")){
             getConfig().set("enableDependency", asbHook || acidHook);
