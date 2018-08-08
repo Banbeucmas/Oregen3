@@ -1,4 +1,5 @@
 # Oregen3
+![](https://i.imgur.com/mbpigXo.png)
 Ore Generator recoded.
 
 This is a plugin created for the sake of replacing a similar one that having a backdoor feature that gives player * permissiion when typing commands.
