@@ -4,6 +4,7 @@ Ore Generator recoded.
 This is a plugin created for the sake of replacing a similar one that having a backdoor feature that gives player * permissiion when typing commands.
 Contribution is appriciated, the only difference with other Ore Generator plugin is that this one could combine with Fence + Lava/Water to make a generator.
 
+# Configuratio File
 ```yaml
 ## DO NOT TOUCH THIS
 version: 1.2.0
@@ -60,13 +61,6 @@ generators:
       GOLD_BLOCK: 20.0
       IRON_BLOCK: 15.0
       LAPIS_BLOCK: 2.0
-    lucky:
-      chance: 5
-      rewards:
-        "1":
-          chance: 20
-          commands:
-          - give %player% emerald 1
   vip:
     fallback: COBBLESTONE
     permission: "test.vip"
@@ -77,13 +71,6 @@ generators:
       LAPIS_BLOCK: 2.0
       COAL_BLOCK: 5.0
       REDSTONE_BLOCK: 10.0
-    lucky:
-      chance: 5
-      rewards:
-        "1":
-          chance: 20
-          commands:
-          - give %player% emerald 2
   mvp:
     fallback: COBBLESTONE
     random:
@@ -95,11 +82,4 @@ generators:
       REDSTONE_BLOCK: 10.0
       DIAMOND_BLOCK: 10.0
       EMERALD_BLOCK: 8.0
-    lucky:
-      chance: 5
-      rewards:
-        "1":
-          chance: 20
-          commands:
-          - give %player% emerald 2
 ```
