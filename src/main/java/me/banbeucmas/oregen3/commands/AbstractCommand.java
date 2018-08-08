@@ -30,17 +30,17 @@ public abstract class AbstractCommand {
 			break;
 		case MISSING_ARGS:
 			if(getFormat() != null){
-				sender.sendMessage(StringUtils.getColoredString("&cFormat: &f" + getFormat()));
+				sender.sendMessage(StringUtils.getPrefixString("&cFormat: &f" + getFormat()));
 			}
 			break;
 		case NO_PERMISSION:
-			sender.sendMessage(StringUtils.getColoredString("&4Missing Permission: &c" + permission));
+			sender.sendMessage(StringUtils.getPrefixString("&4Missing Permission: &c" + permission));
 			break;
 		case NO_PLAYER:
-			sender.sendMessage(StringUtils.getColoredString("&4Player is not excist or isn't online"));
+			sender.sendMessage(StringUtils.getPrefixString("&4Player is not excist or isn't online"));
 			break;
 		case CONSOLE_NOT_PERMITTED:
-			sender.sendMessage(StringUtils.getColoredString("&4This command is not available to console"));
+			sender.sendMessage(StringUtils.getPrefixString("&4This command is not available to console"));
 			break;
 		default:
 			break;

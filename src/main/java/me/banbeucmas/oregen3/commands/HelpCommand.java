@@ -21,6 +21,6 @@ public class HelpCommand extends AbstractCommand {
     private void sendHelp(CommandSender sender)
     {
         sender.sendMessage(StringUtils.getPrefixString("&6&o/og3 reload &f» Reload config"));
-        sender.sendMessage(StringUtils.getPrefixString("&6&o/og3 help &f» Mở trang giúp đỡ"));
+        sender.sendMessage(StringUtils.getPrefixString("&6&o/og3 help &f» Open help pages"));
     }
 }

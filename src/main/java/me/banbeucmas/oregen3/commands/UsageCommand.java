@@ -16,8 +16,7 @@ public class UsageCommand extends AbstractCommand {
         sender.sendMessage(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "-------------" + ChatColor.WHITE + "[" + ChatColor.YELLOW + "Oregen3" + ChatColor.WHITE + "]" + ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "-------------");
         sender.sendMessage("");
         sender.sendMessage("       " +ChatColor.WHITE+ "" + ChatColor.ITALIC + "Plugin made by " + ChatColor.YELLOW + "" + ChatColor.ITALIC + "Banbeucmas");
-        sender.sendMessage("       " +ChatColor.WHITE+ "" + ChatColor.ITALIC + "Better than Premium");
-        sender.sendMessage("       " +ChatColor.WHITE+ "" + ChatColor.ITALIC + "Liên hệ " + ChatColor.YELLOW + "" + ChatColor.ITALIC + "http://bit.ly/BanbeShop");
+        sender.sendMessage("       " +ChatColor.WHITE+ "" + ChatColor.ITALIC + "/help" + ChatColor.YELLOW + " for more info");
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "------------------------------------");
 

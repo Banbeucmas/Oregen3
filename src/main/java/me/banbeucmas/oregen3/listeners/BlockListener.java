@@ -100,13 +100,15 @@ public class BlockListener implements Listener {
 
     private Material randomChance(Location loc){
         MaterialChooser mc = DataManager.getChoosers().get(plugin.getConfig().getString("defaultGenerator"));
-        Player p = (Player) getOwner(loc);
-        for(MaterialChooser chooser : DataManager.getChoosers().values()){
-            if(p == null){
-                break;
-            }
-            if(p.hasPermission(chooser.getPermission())){
-                mc = chooser;
+        if(plugin.getConfig().getBoolean("enableDependency")){
+            Player p = (Player) getOwner(loc);
+            for(MaterialChooser chooser : DataManager.getChoosers().values()){
+                if(p == null){
+                    break;
+                }
+                if(p.hasPermission(chooser.getPermission())){
+                    mc = chooser;
+                }
             }
         }
 

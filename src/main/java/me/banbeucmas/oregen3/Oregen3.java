@@ -20,21 +20,27 @@ public final class Oregen3 extends JavaPlugin implements Listener {
         plugin = this;
         Metrics metrics = new Metrics(this);
 
+        saveDefaultConfig();
+        updateConfig();
+
         boolean asbHook = Bukkit.getServer().getPluginManager().isPluginEnabled("ASkyBlock");
         boolean acidHook = Bukkit.getServer().getPluginManager().isPluginEnabled("AcidIsland");
+
+        //TODO Cleanup
         Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "-------------" + ChatColor.WHITE + "[" + ChatColor.YELLOW + "Oregen3" + ChatColor.WHITE + "]" + ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "-------------");
         Bukkit.getConsoleSender().sendMessage("");
         Bukkit.getConsoleSender().sendMessage("       " +ChatColor.WHITE+ "" + ChatColor.ITALIC + "Plugin made by " + ChatColor.YELLOW + "" + ChatColor.ITALIC + "Banbeucmas");
-        Bukkit.getConsoleSender().sendMessage("       " +ChatColor.WHITE+ "" + ChatColor.ITALIC + "Better than Premium");
-        Bukkit.getConsoleSender().sendMessage("       " +ChatColor.WHITE+ "" + ChatColor.ITALIC + "Liên hệ " + ChatColor.YELLOW + "" + ChatColor.ITALIC + "http://bit.ly/BanbeShop");
         Bukkit.getConsoleSender().sendMessage("       " + ChatColor.WHITE + "" + ChatColor.ITALIC + "ASkyblock: " + ChatColor.YELLOW + asbHook);
         Bukkit.getConsoleSender().sendMessage("       " + ChatColor.WHITE + "" + ChatColor.ITALIC + "AcidIsland: " + ChatColor.YELLOW + acidHook);
 
         Bukkit.getConsoleSender().sendMessage("");
         Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "------------------------------------");
 
-        saveDefaultConfig();
-        updateConfig();
+        if(getConfig().getBoolean("enableDependency")){
+            getConfig().set("enableDependency", asbHook || acidHook);
+            saveConfig();
+        }
+
         DataManager.loadData();
         getCommand("oregen3").setExecutor(new AdminCommands());
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
@@ -64,8 +70,12 @@ public final class Oregen3 extends JavaPlugin implements Listener {
             getPlugin().getConfig().set("mode.waterBlock", true);
             getPlugin().getConfig().set("mode.lavaFence", null);
             getPlugin().getConfig().set("mode.waterFence", null);
+            getPlugin().saveConfig();
         }
-        getPlugin().saveConfig();
-
+        else if(getPlugin().getConfig().getString("version").equals("1.1.0")){
+            getPlugin().getConfig().set("version", "1.2.0");
+            getPlugin().getConfig().set("enableDependency", true);
+            getPlugin().saveConfig();
+        }
     }
 }
