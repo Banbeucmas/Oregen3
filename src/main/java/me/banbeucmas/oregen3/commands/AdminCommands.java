@@ -17,6 +17,8 @@ public class AdminCommands implements CommandExecutor {
             case "help":
                 new HelpCommand(sender).execute();
                 break;
+            case "info":
+                new InformationCommand(sender).execute();
         }
         return true;
     }

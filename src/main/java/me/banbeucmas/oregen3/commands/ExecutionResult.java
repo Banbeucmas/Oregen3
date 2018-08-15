@@ -9,6 +9,7 @@ public enum ExecutionResult {
 	MISSING_ARGS,
 	NO_PERMISSION,
 	CONSOLE_NOT_PERMITTED,
-	NO_PLAYER
+	NO_PLAYER,
+	NOT_PLAYER;
 
 }

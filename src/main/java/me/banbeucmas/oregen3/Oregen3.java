@@ -3,6 +3,7 @@ package me.banbeucmas.oregen3;
 import me.banbeucmas.oregen3.commands.AdminCommands;
 import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.listeners.BlockListener;
+import me.banbeucmas.oregen3.listeners.GUIListener;
 import me.banbeucmas.oregen3.utils.StringUtils;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -12,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public final class Oregen3 extends JavaPlugin implements Listener {
@@ -47,6 +49,7 @@ public final class Oregen3 extends JavaPlugin implements Listener {
         DataManager.loadData();
         getCommand("oregen3").setExecutor(new AdminCommands());
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
+        getServer().getPluginManager().registerEvents(new GUIListener(), this);
     }
 
     public void onDisable() {
@@ -75,9 +78,18 @@ public final class Oregen3 extends JavaPlugin implements Listener {
             getPlugin().getConfig().set("mode.waterFence", null);
             getPlugin().saveConfig();
         }
-        else if(getPlugin().getConfig().getString("version").equals("1.1.0")){
+        if(getPlugin().getConfig().getString("version").equals("1.1.0")){
             getPlugin().getConfig().set("version", "1.2.0");
             getPlugin().getConfig().set("enableDependency", true);
+            getPlugin().saveConfig();
+            updateConfig();
+        }
+        if(getPlugin().getConfig().getString("version").equals("1.2.0")){
+            getPlugin().getConfig().set("version", "1.3.0");
+            getPlugin().getConfig().set("messages.gui.title", "&eChances");
+            getPlugin().getConfig().set("messages.gui.block.displayName", "&6%name%");
+            getPlugin().getConfig().set("messages.gui.block.lore",
+                    Arrays.asList("&6Chances: &e%chance%&6%"));
             getPlugin().saveConfig();
         }
     }

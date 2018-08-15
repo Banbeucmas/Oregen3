@@ -26,24 +26,26 @@ public abstract class AbstractCommand {
 
 	public void execute() {
 		switch (now()) {
-		case DONT_CARE:
-			break;
-		case MISSING_ARGS:
-			if(getFormat() != null){
-				sender.sendMessage(StringUtils.getPrefixString("&cFormat: &f" + getFormat()));
-			}
-			break;
-		case NO_PERMISSION:
-			sender.sendMessage(StringUtils.getPrefixString("&4Missing Permission: &c" + permission));
-			break;
-		case NO_PLAYER:
-			sender.sendMessage(StringUtils.getPrefixString("&4Player is not excist or isn't online"));
-			break;
-		case CONSOLE_NOT_PERMITTED:
-			sender.sendMessage(StringUtils.getPrefixString("&4This command is not available to console"));
-			break;
-		default:
-			break;
+			case DONT_CARE:
+				break;
+			case MISSING_ARGS:
+			    if(getFormat() != null){
+				    sender.sendMessage(StringUtils.getPrefixString("&cFormat: &f" + getFormat()));
+			    }
+			    break;
+            case NO_PERMISSION:
+			    sender.sendMessage(StringUtils.getPrefixString("&4Missing Permission: &c" + permission));
+			    break;
+		    case NO_PLAYER:
+			    sender.sendMessage(StringUtils.getPrefixString("&4Player is not excist or isn't online"));
+			    break;
+		    case NOT_PLAYER:
+			    sender.sendMessage(StringUtils.getPrefixString("&4Only player can use this command"));
+		    case CONSOLE_NOT_PERMITTED:
+			    sender.sendMessage(StringUtils.getPrefixString("&4This command is not available to console"));
+			    break;
+		    default:
+			    break;
 		}
 	}
 

@@ -4,6 +4,7 @@ import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.data.MaterialChooser;
 import me.banbeucmas.oregen3.utils.BlockUtils;
+import me.banbeucmas.oregen3.utils.PluginUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -99,18 +100,7 @@ public class BlockListener implements Listener {
     }
 
     private Material randomChance(Location loc){
-        MaterialChooser mc = DataManager.getChoosers().get(plugin.getConfig().getString("defaultGenerator"));
-        if(plugin.getConfig().getBoolean("enableDependency")){
-            Player p = (Player) getOwner(loc);
-            for(MaterialChooser chooser : DataManager.getChoosers().values()){
-                if(p == null){
-                    break;
-                }
-                if(p.hasPermission(chooser.getPermission())){
-                    mc = chooser;
-                }
-            }
-        }
+        MaterialChooser mc = PluginUtils.getChooser(loc);
 
         Random r = new Random();
         int id = r.nextInt(mc.getChances().size());
@@ -137,26 +127,6 @@ public class BlockListener implements Listener {
         }
         return false;
 
-    }
-
-    private OfflinePlayer getOwner(Location loc) {
-        Set<Location> set = new HashSet<>();
-        set.add(loc);
-
-        UUID uuid = null;
-        if(Bukkit.getServer().getPluginManager().isPluginEnabled("ASkyBlock")) {
-            uuid = com.wasteofplastic.askyblock.ASkyBlockAPI.getInstance()
-                    .getOwner(com.wasteofplastic.askyblock.ASkyBlockAPI.getInstance().locationIsOnIsland(set, loc));
-        }else if(Bukkit.getServer().getPluginManager().isPluginEnabled("AcidIsland")) {
-            uuid = com.wasteofplastic.acidisland.ASkyBlockAPI.getInstance()
-                    .getOwner(com.wasteofplastic.acidisland.ASkyBlockAPI.getInstance().locationIsOnIsland(set, loc));
-        }
-        if(uuid == null){
-            return null;
-        }
-        OfflinePlayer p = Bukkit.getServer().getOfflinePlayer(uuid);
-
-        return p;
     }
 
 }
