@@ -56,6 +56,8 @@ enableDependency: true
 # For example:
 # If the generator contains stone and diamond blocks you set Stone to have 46% of spawning then diamond blocks should have 54% # chance or smaller
 # - In case the total chance of all of the block isn't 100% then the fallback block will be chosen (sometimes)
+#
+# IF YOU DON'T UNDERSTAND WHAT THE HELL I SAID THEN JUST KEEP THIS FALSE ;)
 randomFallback: false
 
 #Changing default generator, the generator declared here won't require permission
