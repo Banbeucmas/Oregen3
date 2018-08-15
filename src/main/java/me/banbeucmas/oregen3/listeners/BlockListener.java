@@ -101,12 +101,23 @@ public class BlockListener implements Listener {
 
     private Material randomChance(Location loc){
         MaterialChooser mc = PluginUtils.getChooser(loc);
+        Map<Material, Double> chances = mc.getChances();
 
         Random r = new Random();
-        int id = r.nextInt(mc.getChances().size());
+
         double chance = 100 * r.nextDouble();
 
-        Material mat = (Material) mc.getChances().keySet().toArray()[id];
+        if(!config.getBoolean("randomFallback")){
+            for(Material material : chances.keySet()){
+                chance -= chances.get(material);
+                if(chance <= 0){
+                    return material;
+                }
+            }
+        }
+
+        int id = r.nextInt(chances.size());
+        Material mat = (Material) chances.keySet().toArray()[id];
         if(chance <= mc.getChances().get(mat)){
             return mat;
         }
