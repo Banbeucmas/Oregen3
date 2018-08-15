@@ -18,9 +18,13 @@ public class HelpCommand extends AbstractCommand {
         return ExecutionResult.DONT_CARE;
     }
 
-    private void sendHelp(CommandSender sender)
-    {
-        sender.sendMessage(StringUtils.getPrefixString("&6&o/og3 reload &f» Reload config"));
+    private void sendHelp(CommandSender sender) {
         sender.sendMessage(StringUtils.getPrefixString("&6&o/og3 help &f» Open help pages"));
+        if(sender.hasPermission("oregen3.reload")){
+            sender.sendMessage(StringUtils.getPrefixString("&6&o/og3 reload &f» Reload config"));
+        }
+        if(sender.hasPermission("oregen3.information")){
+            sender.sendMessage(StringUtils.getPrefixString("&6&o/og3 info &f» Getting ore spawning chance of the island you are standing"));
+        }
     }
 }

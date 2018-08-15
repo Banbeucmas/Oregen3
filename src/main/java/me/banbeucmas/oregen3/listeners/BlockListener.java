@@ -115,11 +115,12 @@ public class BlockListener implements Listener {
                 }
             }
         }
-
-        int id = r.nextInt(chances.size());
-        Material mat = (Material) chances.keySet().toArray()[id];
-        if(chance <= mc.getChances().get(mat)){
-            return mat;
+        else{
+            int id = r.nextInt(chances.size());
+            Material mat = (Material) chances.keySet().toArray()[id];
+            if(chance <= mc.getChances().get(mat)){
+                return mat;
+            }
         }
         return mc.getFallback();
     }

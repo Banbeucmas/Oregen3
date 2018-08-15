@@ -1,13 +1,12 @@
 package me.banbeucmas.oregen3;
 
-import me.banbeucmas.oregen3.commands.AdminCommands;
+import me.banbeucmas.oregen3.commands.Commands;
 import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.listeners.BlockListener;
 import me.banbeucmas.oregen3.listeners.GUIListener;
 import me.banbeucmas.oregen3.utils.StringUtils;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -47,7 +46,7 @@ public final class Oregen3 extends JavaPlugin implements Listener {
         }
 
         DataManager.loadData();
-        getCommand("oregen3").setExecutor(new AdminCommands());
+        getCommand("oregen3").setExecutor(new Commands());
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
         getServer().getPluginManager().registerEvents(new GUIListener(), this);
     }
