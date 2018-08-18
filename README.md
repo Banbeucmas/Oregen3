@@ -8,7 +8,7 @@ Contribution is appriciated, the only difference with other Ore Generator plugin
 # Configuratio File
 ```yaml
 ## DO NOT TOUCH THIS
-version: 1.2.0
+version: 1.3.0
 prefix: "&f[&6OreGen&e3&f]"
 
 # Enabling which format should Oregen generate ore
