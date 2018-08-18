@@ -6,6 +6,7 @@ import me.banbeucmas.oregen3.data.MaterialChooser;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;
@@ -14,6 +15,9 @@ import java.util.UUID;
 
 public class PluginUtils {
     public static OfflinePlayer getOwner(Location loc) {
+        if(Oregen3.DEBUG){
+            System.out.println("Begin getting Owner: ");
+        }
         Set<Location> set = new HashSet<>();
         set.add(loc);
 
@@ -28,7 +32,11 @@ public class PluginUtils {
         if(uuid == null){
             return null;
         }
+        if(Oregen3.DEBUG){
+            System.out.println("UUID: " + uuid);
+        }
         OfflinePlayer p = Bukkit.getServer().getOfflinePlayer(uuid);
+
 
         return p;
     }
@@ -48,5 +56,12 @@ public class PluginUtils {
             }
         }
         return mc;
+    }
+
+    public static Sound getCobbleSound(){
+        if(Bukkit.getVersion().contains("1.8")){
+            return Sound.valueOf("FIZZ");
+        }
+        return Sound.valueOf("BLOCK_FIRE_EXTINGUISH");
     }
 }

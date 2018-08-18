@@ -2,8 +2,8 @@ package me.banbeucmas.oregen3.gui;
 
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.MaterialChooser;
-import me.banbeucmas.oregen3.utils.ItemUtils.ItemInfo;
-import me.banbeucmas.oregen3.utils.ItemUtils.Items;
+import me.banbeucmas.oregen3.utils.item.ItemInfo;
+import me.banbeucmas.oregen3.utils.item.Items;
 import me.banbeucmas.oregen3.utils.PluginUtils;
 import me.banbeucmas.oregen3.utils.StringUtils;
 import org.bukkit.Bukkit;

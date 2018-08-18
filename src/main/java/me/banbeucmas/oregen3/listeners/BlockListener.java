@@ -34,41 +34,41 @@ public class BlockListener implements Listener {
         if((source.getType() == Material.WATER
                 || source.getType() == Material.STATIONARY_LAVA
                 || source.getType() == Material.STATIONARY_WATER
-                || source.getType() == Material.LAVA)
-                && e.getFace() != BlockFace.DOWN) {
+                || source.getType() == Material.LAVA)) {
 
             if((to.getType() == Material.AIR
                     || to.getType() == Material.WATER
                     || to.getType() == Material.STATIONARY_WATER)
                     && source.getType() != Material.STATIONARY_WATER
-                    && generateCobble(source.getType(), to)){
+                    && generateCobble(source.getType(), to)
+                    && e.getFace() != BlockFace.DOWN){
                 if(source.getType() == Material.LAVA || source.getType() == Material.STATIONARY_LAVA){
                     if(!isSurroundedByWater(to.getLocation())){
                         return;
                     }
                 }
                 to.setType(randomChance(source.getLocation()));
-                world.playSound(to.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 3, 2);
+                world.playSound(to.getLocation(), PluginUtils.getCobbleSound(), 3, 2);
             }
-            else if(generateCobbleFence(source, to)){
+            else if(generateCobbleBlock(source, to)){
                 to.setType(randomChance(source.getLocation()));
-                world.playSound(to.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 3, 2);
+                world.playSound(to.getLocation(), PluginUtils.getCobbleSound(), 3, 2);
             }
         }
 
     }
 
-    private boolean generateCobbleFence(Block src, Block to){
+    private boolean generateCobbleBlock(Block src, Block to){
         Material material = src.getType();
         for(BlockFace face : BlockUtils.FACES){
             Block check = to.getRelative(face);
-            if(BlockUtils.isFence(check)
+            if(BlockUtils.isBlock(check)
                     && (material == Material.WATER
                     || material == Material.STATIONARY_WATER)
                     && config.getBoolean("mode.waterBlock")){
                     return true;
             }
-            else if(BlockUtils.isFence(check)
+            else if(BlockUtils.isBlock(check)
                     && (material == Material.LAVA
                     || material == Material.STATIONARY_LAVA)
                     && config.getBoolean("mode.lavaBlock")){

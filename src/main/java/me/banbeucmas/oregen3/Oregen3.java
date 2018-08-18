@@ -17,6 +17,7 @@ import java.util.List;
 
 public final class Oregen3 extends JavaPlugin implements Listener {
     private static Oregen3 plugin;
+    public static boolean DEBUG = false;
 
     @Override
     public void onEnable() {

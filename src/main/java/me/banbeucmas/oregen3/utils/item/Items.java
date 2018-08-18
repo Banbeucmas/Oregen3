@@ -1,4 +1,4 @@
-package me.banbeucmas.oregen3.utils.ItemUtils;
+package me.banbeucmas.oregen3.utils.item;
 
 import java.util.ArrayList;
 import java.util.Collections;

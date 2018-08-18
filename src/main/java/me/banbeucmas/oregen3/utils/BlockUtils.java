@@ -20,9 +20,9 @@ public class BlockUtils {
     };
 
 
-    public static boolean isFence(Block b){
+    public static boolean isBlock(Block b){
         FileConfiguration config = Oregen3.getPlugin().getConfig();
-       return config.getStringList("blocks").contains(b.getType().toString());
+        return config.getStringList("blocks").contains(b.getType().toString());
     }
     /*
     public static boolean isFence(Material mat){
