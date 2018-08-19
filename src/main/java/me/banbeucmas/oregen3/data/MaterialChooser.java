@@ -27,7 +27,7 @@ public class MaterialChooser {
         this.permission = config.isSet(path + ".permission")
                 ? config.getString(path + ".permission") : "oregen3.generator." + id;
         this.priority = config.isSet(path + ".priority")
-                ? config.getInt(path + ".priority") : 1;
+                ? config.getInt(path + ".priority") : 0;
         this.level = config.isSet(path + ".level")
                 ? config.getInt(path + ".level") : 0;
 

@@ -52,7 +52,7 @@ public class PluginUtils {
                 }
                 if(p.hasPermission(chooser.getPermission())
                         && chooser.getPriority() >= mc.getPriority()
-                        && getLevel(p.getUniqueId()) >= mc.getLevel()){
+                        && getLevel(p.getUniqueId()) >= chooser.getLevel()){
                     mc = chooser;
                 }
             }
