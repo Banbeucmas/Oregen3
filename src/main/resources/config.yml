@@ -31,7 +31,7 @@ defaultGenerator: default
 
 generators:
   default:
-    fallback: DIAMOND_ORE
+    fallback: COBBLESTONE
     random:
       COBBLESTONE: 30.0
       GOLD_BLOCK: 20.0
@@ -50,7 +50,7 @@ generators:
       COAL_BLOCK: 5.0
       REDSTONE_BLOCK: 10.0
   mvp:
-    fallback: COBBLESTONE
+    fallback: DIAMOND_ORE
     priority: 3
     level: 10
     random:
