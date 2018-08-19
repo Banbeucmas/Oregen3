@@ -1,5 +1,6 @@
 package me.banbeucmas.oregen3.utils;
 
+import com.wasteofplastic.askyblock.ASkyBlockAPI;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.data.MaterialChooser;
@@ -50,12 +51,24 @@ public class PluginUtils {
                 if(p == null){
                     break;
                 }
-                if(p.hasPermission(chooser.getPermission()) && chooser.getPriority() >= mc.getPriority()){
+                if(p.hasPermission(chooser.getPermission())
+                        && chooser.getPriority() >= mc.getPriority()
+                        && getLevel(p.getUniqueId()) >= mc.getLevel()){
                     mc = chooser;
                 }
             }
         }
         return mc;
+    }
+
+    public static int getLevel(UUID id){
+        if(Bukkit.getServer().getPluginManager().isPluginEnabled("ASkyBlock")){
+            return (int) com.wasteofplastic.askyblock.ASkyBlockAPI.getInstance().getLongIslandLevel(id);
+        }
+        else if(Bukkit.getServer().getPluginManager().isPluginEnabled("ASkyBlock")){
+            return com.wasteofplastic.acidisland.ASkyBlockAPI.getInstance().getIslandLevel(id);
+        }
+        return 0;
     }
 
     public static Sound getCobbleSound(){

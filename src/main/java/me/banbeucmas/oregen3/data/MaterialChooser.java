@@ -11,6 +11,7 @@ public class MaterialChooser {
     private Oregen3 plugin = Oregen3.getPlugin();
     private FileConfiguration config = plugin.getConfig();
     private int priority;
+    private int level;
     private String id;
     private String permission;
     private String path;
@@ -27,6 +28,8 @@ public class MaterialChooser {
                 ? config.getString(path + ".permission") : "oregen3.generator." + id;
         this.priority = config.isSet(path + ".priority")
                 ? config.getInt(path + ".priority") : 1;
+        this.level = config.isSet(path + ".level")
+                ? config.getInt(path + ".level") : 0;
 
         for(String mat : config.getConfigurationSection(path + ".random").getKeys(false)){
             chances.put(Material.matchMaterial(mat), config.getDouble(path + ".random." + mat));
@@ -44,6 +47,10 @@ public class MaterialChooser {
 
     public int getPriority() {
         return priority;
+    }
+
+    public int getLevel() {
+        return level;
     }
 
     public Material getFallback() {

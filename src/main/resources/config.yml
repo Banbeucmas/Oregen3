@@ -41,6 +41,7 @@ generators:
     fallback: COBBLESTONE
     permission: "test.vip"
     priority: 2
+    level: 10
     random:
       COBBLESTONE: 30.0
       GOLD_BLOCK: 20.0
@@ -51,6 +52,7 @@ generators:
   mvp:
     fallback: COBBLESTONE
     priority: 3
+    level: 10
     random:
       COBBLESTONE: 30.0
       GOLD_BLOCK: 20.0
