@@ -67,6 +67,9 @@ defaultGenerator: default
 # fallback: The fallback block
 # permission: Custom permission to use the generator, default is oregen3.generator.<id>
 # random: Custom block
+# level: Minimum level required for island to upgrade its generator (Default is 0)
+# priority: If the island owner have 2 generator permission, one with higher priority will be used as the generator (Default is 0)
+
 generators:
   default:
     fallback: COBBLESTONE
