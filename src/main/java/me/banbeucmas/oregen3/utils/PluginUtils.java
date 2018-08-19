@@ -1,6 +1,5 @@
 package me.banbeucmas.oregen3.utils;
 
-import com.wasteofplastic.askyblock.ASkyBlockAPI;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.data.MaterialChooser;
@@ -65,7 +64,7 @@ public class PluginUtils {
         if(Bukkit.getServer().getPluginManager().isPluginEnabled("ASkyBlock")){
             return (int) com.wasteofplastic.askyblock.ASkyBlockAPI.getInstance().getLongIslandLevel(id);
         }
-        else if(Bukkit.getServer().getPluginManager().isPluginEnabled("ASkyBlock")){
+        else if(Bukkit.getServer().getPluginManager().isPluginEnabled("AcidIsland")){
             return com.wasteofplastic.acidisland.ASkyBlockAPI.getInstance().getIslandLevel(id);
         }
         return 0;
