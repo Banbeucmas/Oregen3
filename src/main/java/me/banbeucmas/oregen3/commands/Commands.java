@@ -19,6 +19,10 @@ public class Commands implements CommandExecutor {
                 break;
             case "info":
                 new InformationCommand(sender).execute();
+                break;
+            case "debug":
+                new DebugCommand(sender).execute();
+                break;
         }
         return true;
     }

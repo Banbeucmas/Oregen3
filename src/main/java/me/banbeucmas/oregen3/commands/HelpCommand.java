@@ -26,5 +26,8 @@ public class HelpCommand extends AbstractCommand {
         if(sender.hasPermission("oregen3.information")){
             sender.sendMessage(StringUtils.getPrefixString("&6&o/og3 info &f» Getting ore spawning chance of the island you are standing"));
         }
+        if(sender.hasPermission("oregen3.debug")){
+            sender.sendMessage(StringUtils.getPrefixString("&6&o/og3 debug &f» Enable debugging"));
+        }
     }
 }

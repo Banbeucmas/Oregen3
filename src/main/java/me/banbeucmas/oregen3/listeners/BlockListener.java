@@ -79,7 +79,7 @@ public class BlockListener implements Listener {
     }
 
     /*
-    Checks for Water + Lava, fence will use another method to prevent confusion
+    Checks for Water + Lava, block will use another method to prevent confusion
      */
     private boolean generateCobble(Material material, Block b){
         Material mirMat1 = material == Material.WATER || material == Material.STATIONARY_WATER
