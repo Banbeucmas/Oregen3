@@ -50,7 +50,7 @@ public class PluginUtils {
                 if(p == null){
                     break;
                 }
-                if(p.hasPermission(chooser.getPermission())){
+                if(p.hasPermission(chooser.getPermission()) && chooser.getPriority() >= mc.getPriority()){
                     mc = chooser;
                 }
             }
