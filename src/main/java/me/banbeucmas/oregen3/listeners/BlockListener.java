@@ -48,6 +48,7 @@ public class BlockListener implements Listener {
                     }
                 }
                 to.setType(randomChance(source.getLocation()));
+
                 world.playSound(to.getLocation(), PluginUtils.getCobbleSound(), 3, 2);
             }
             else if(generateCobbleBlock(source, to)){

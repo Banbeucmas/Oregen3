@@ -5,6 +5,9 @@ import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.listeners.BlockListener;
 import me.banbeucmas.oregen3.listeners.GUIListener;
 import me.banbeucmas.oregen3.utils.StringUtils;
+import me.banbeucmas.oregen3.utils.hooks.ASkyblockHook;
+import me.banbeucmas.oregen3.utils.hooks.AcidIslandHook;
+import me.banbeucmas.oregen3.utils.hooks.SkyblockHook;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -17,8 +20,11 @@ import java.util.List;
 
 public final class Oregen3 extends JavaPlugin implements Listener {
     private static Oregen3 plugin;
+    private static SkyblockHook hook;
     public static boolean DEBUG = false;
 
+
+    //TODO Seperate these into methods
     @Override
     public void onEnable() {
         plugin = this;
@@ -29,6 +35,12 @@ public final class Oregen3 extends JavaPlugin implements Listener {
 
         boolean asbHook = Bukkit.getServer().getPluginManager().isPluginEnabled("ASkyBlock");
         boolean acidHook = Bukkit.getServer().getPluginManager().isPluginEnabled("AcidIsland");
+        if(asbHook){
+            hook = new ASkyblockHook();
+        }
+        else if(acidHook){
+            hook = new AcidIslandHook();
+        }
 
         CommandSender sender = Bukkit.getConsoleSender();
         //Send Message
@@ -41,10 +53,14 @@ public final class Oregen3 extends JavaPlugin implements Listener {
         sender.sendMessage("");
         sender.sendMessage(StringUtils.getColoredString("------------------------------------"));
 
+
         if(getConfig().getBoolean("enableDependency")){
             getConfig().set("enableDependency", asbHook || acidHook);
             saveConfig();
         }
+
+
+
 
         DataManager.loadData();
         getCommand("oregen3").setExecutor(new Commands());
@@ -55,6 +71,10 @@ public final class Oregen3 extends JavaPlugin implements Listener {
     public void onDisable() {
         plugin = null;
         DataManager.unregisterAll();
+    }
+
+    public static SkyblockHook getHook() {
+        return hook;
     }
 
     public static Oregen3 getPlugin() {

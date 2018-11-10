@@ -13,31 +13,23 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import static me.banbeucmas.oregen3.Oregen3.getHook;
+
 public class PluginUtils {
     public static OfflinePlayer getOwner(Location loc) {
         if(Oregen3.DEBUG){
             System.out.println("Begin getting Owner: ");
         }
-        Set<Location> set = new HashSet<>();
-        set.add(loc);
 
-        UUID uuid = null;
-        if(Bukkit.getServer().getPluginManager().isPluginEnabled("ASkyBlock")) {
-            uuid = com.wasteofplastic.askyblock.ASkyBlockAPI.getInstance()
-                    .getOwner(com.wasteofplastic.askyblock.ASkyBlockAPI.getInstance().locationIsOnIsland(set, loc));
-        }else if(Bukkit.getServer().getPluginManager().isPluginEnabled("AcidIsland")) {
-            uuid = com.wasteofplastic.acidisland.ASkyBlockAPI.getInstance()
-                    .getOwner(com.wasteofplastic.acidisland.ASkyBlockAPI.getInstance().locationIsOnIsland(set, loc));
-        }
+        UUID uuid = getHook().getIslandOwner(loc);
         if(uuid == null){
             return null;
         }
         if(Oregen3.DEBUG){
             System.out.println("UUID: " + uuid);
         }
+
         OfflinePlayer p = Bukkit.getServer().getOfflinePlayer(uuid);
-
-
         return p;
     }
 
@@ -46,10 +38,10 @@ public class PluginUtils {
         MaterialChooser mc = DataManager.getChoosers().get(plugin.getConfig().getString("defaultGenerator"));
         if(plugin.getConfig().getBoolean("enableDependency")){
             Player p = (Player) PluginUtils.getOwner(loc);
+            if(p == null){
+                return mc;
+            }
             for(MaterialChooser chooser : DataManager.getChoosers().values()){
-                if(p == null){
-                    break;
-                }
                 if(p.hasPermission(chooser.getPermission())
                         && chooser.getPriority() >= mc.getPriority()
                         && getLevel(p.getUniqueId()) >= chooser.getLevel()){

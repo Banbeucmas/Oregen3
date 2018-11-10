@@ -2,6 +2,7 @@ package me.banbeucmas.oregen3.data;
 
 import me.banbeucmas.oregen3.Oregen3;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.HashMap;
