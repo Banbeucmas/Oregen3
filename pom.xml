@@ -6,7 +6,7 @@
 
     <groupId>me.banbeucmas</groupId>
     <artifactId>oregen3</artifactId>
-    <version>1.4.0</version>
+    <version>1.4.2</version>
     <packaging>jar</packaging>
 
     <name>Oregen3</name>
@@ -85,7 +85,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.10.2-R0.1-SNAPSHOT</version>
+            <version>1.11.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
