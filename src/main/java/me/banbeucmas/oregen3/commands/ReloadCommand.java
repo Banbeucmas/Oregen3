@@ -27,10 +27,6 @@ public class ReloadCommand extends AbstractCommand {
         plugin.reloadConfig();
         DataManager.loadData();
 
-        if(getSender() instanceof Player){
-            Player p = (Player) getSender();
-            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-        }
         getSender().sendMessage(StringUtils.getPrefixString("Config reloaded"));
 
 
