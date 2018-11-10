@@ -67,6 +67,5 @@ messages:
   gui:
     title: "&eChances"
     block:
-      displayName: "&6%name%"
       lore:
       - "&6Chances: &e%chance%&6%"

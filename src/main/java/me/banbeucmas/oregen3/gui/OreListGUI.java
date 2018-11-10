@@ -2,8 +2,6 @@ package me.banbeucmas.oregen3.gui;
 
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.MaterialChooser;
-import me.banbeucmas.oregen3.utils.item.ItemInfo;
-import me.banbeucmas.oregen3.utils.item.Items;
 import me.banbeucmas.oregen3.utils.PluginUtils;
 import me.banbeucmas.oregen3.utils.StringUtils;
 import org.bukkit.Bukkit;
@@ -43,9 +41,6 @@ public class OreListGUI {
             ItemMeta meta = display.getItemMeta();
             double chance = chances.get(material);
 
-            ItemInfo itemInfo = Items.itemByType(material);
-            String name = StringUtils.getColoredString(config.getString("messages.gui.block.displayName")
-                    .replace("%name%", itemInfo.getName()));
             List<String> lore = new ArrayList<>();
             for(String s : config.getStringList("messages.gui.block.lore")){
                 s = s.replace("%chance%", Double.toString(chance));
@@ -53,7 +48,6 @@ public class OreListGUI {
                 lore.add(s);
             }
 
-            meta.setDisplayName(name);
             meta.setLore(lore);
             display.setItemMeta(meta);
 
