@@ -10,4 +10,6 @@ public interface SkyblockHook {
     long getIslandLevel(UUID uuid);
 
     UUID getIslandOwner(Location loc);
+
+    boolean isOnIsland(Location loc);
 }

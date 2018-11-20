@@ -22,4 +22,9 @@ public class ASkyblockHook implements SkyblockHook{
     public UUID getIslandOwner(Location loc) {
         return api.getIslandAt(loc).getOwner();
     }
+
+    @Override
+    public boolean isOnIsland(Location loc) {
+        return api.getIslandAt(loc) != null;
+    }
 }

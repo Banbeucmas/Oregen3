@@ -21,7 +21,8 @@ public class InformationCommand extends AbstractCommand{
             return ExecutionResult.NO_PERMISSION;
         }
         Player p = (Player) getSender();
-        if(PluginUtils.getOwner(p.getLocation()) == null
+        if((!Oregen3.getHook().isOnIsland(p.getLocation())
+                || PluginUtils.getOwner(p.getLocation()) == null)
                 && Oregen3.getPlugin().getConfig().getBoolean("enableDependency")){
             p.sendMessage(StringUtils.getPrefixString("&cYou has to be on an island to view this"));
             return ExecutionResult.DONT_CARE;
