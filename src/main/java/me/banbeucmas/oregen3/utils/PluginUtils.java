@@ -45,7 +45,7 @@ public class PluginUtils {
         for (MaterialChooser chooser : DataManager.getChoosers().values()) {
             if ((p.hasPermission(chooser.getPermission()) || !plugin.getConfig().getBoolean("enablePermission"))
                     && chooser.getPriority() >= mc.getPriority()
-                    && getHook().getIslandLevel(p.getUniqueId()) >= chooser.getLevel()) {
+                    && getHook().getIslandLevel(p.getUniqueId(), loc.getWorld()) >= chooser.getLevel()) {
                 mc = chooser;
             }
         }

@@ -5,10 +5,7 @@ import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.listeners.BlockListener;
 import me.banbeucmas.oregen3.listeners.GUIListener;
 import me.banbeucmas.oregen3.utils.StringUtils;
-import me.banbeucmas.oregen3.utils.hooks.ASkyblockHook;
-import me.banbeucmas.oregen3.utils.hooks.AcidIslandHook;
-import me.banbeucmas.oregen3.utils.hooks.SkyblockHook;
-import me.banbeucmas.oregen3.utils.hooks.VanillaHook;
+import me.banbeucmas.oregen3.utils.hooks.*;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -36,11 +33,15 @@ public final class Oregen3 extends JavaPlugin implements Listener {
 
         boolean asbHook = Bukkit.getServer().getPluginManager().isPluginEnabled("ASkyBlock");
         boolean acidHook = Bukkit.getServer().getPluginManager().isPluginEnabled("AcidIsland");
+        boolean bentoHook = Bukkit.getServer().getPluginManager().isPluginEnabled("BentoBox");
         if(asbHook){
             hook = new ASkyblockHook();
         }
         else if(acidHook){
             hook = new AcidIslandHook();
+        }
+        else if(bentoHook){
+            hook = new BentoboxHook();
         }
         else {
             hook = new VanillaHook();

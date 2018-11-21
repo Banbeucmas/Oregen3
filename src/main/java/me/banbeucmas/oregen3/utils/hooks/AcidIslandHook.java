@@ -2,6 +2,7 @@ package me.banbeucmas.oregen3.utils.hooks;
 
 import com.wasteofplastic.acidisland.ASkyBlockAPI;
 import org.bukkit.Location;
+import org.bukkit.World;
 
 import java.util.UUID;
 
@@ -13,7 +14,7 @@ public class AcidIslandHook implements SkyblockHook{
     }
 
     @Override
-    public long getIslandLevel(UUID uuid) {
+    public long getIslandLevel(UUID uuid, World world) {
         return api.getIslandLevel(uuid);
     }
 
