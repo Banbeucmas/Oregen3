@@ -93,18 +93,26 @@ public final class Oregen3 extends JavaPlugin implements Listener {
             getPlugin().getConfig().set("mode.waterFence", null);
             getPlugin().saveConfig();
         }
-        if(getPlugin().getConfig().getString("version").equals("1.1.0")){
+
+        String version = getPlugin().getConfig().getString("version");
+
+        if(version.equals("1.1.0")){
             getPlugin().getConfig().set("version", "1.2.0");
             getPlugin().getConfig().set("enableDependency", true);
             getPlugin().saveConfig();
             updateConfig();
         }
-        if(getPlugin().getConfig().getString("version").equals("1.2.0")){
+        if(version.equals("1.2.0")){
             getPlugin().getConfig().set("version", "1.3.0");
             getPlugin().getConfig().set("messages.gui.title", "&eChances");
             getPlugin().getConfig().set("messages.gui.block.displayName", "&6%name%");
             getPlugin().getConfig().set("messages.gui.block.lore",
                     Arrays.asList("&6Chances: &e%chance%&6%"));
+            getPlugin().saveConfig();
+        }
+        if(version.equals("1.3.0")){
+            getPlugin().getConfig().set("version", "1.3.1");
+            getPlugin().getConfig().set("enablePermission", false);
             getPlugin().saveConfig();
         }
     }

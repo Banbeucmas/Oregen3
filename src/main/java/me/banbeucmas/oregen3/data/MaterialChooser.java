@@ -35,6 +35,7 @@ public class MaterialChooser {
         for(String mat : config.getConfigurationSection(path + ".random").getKeys(false)){
             chances.put(Material.matchMaterial(mat), config.getDouble(path + ".random." + mat));
         }
+
     }
 
 
