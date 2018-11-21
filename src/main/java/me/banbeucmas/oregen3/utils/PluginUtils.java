@@ -9,8 +9,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-import java.util.HashSet;
-import java.util.Set;
+
 import java.util.UUID;
 
 import static me.banbeucmas.oregen3.Oregen3.getHook;
@@ -19,6 +18,10 @@ public class PluginUtils {
     public static OfflinePlayer getOwner(Location loc) {
         if(Oregen3.DEBUG){
             System.out.println("Begin getting Owner: ");
+        }
+
+        if(!getHook().isOnIsland(loc)){
+            return null;
         }
 
         UUID uuid = getHook().getIslandOwner(loc);
