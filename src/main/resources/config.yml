@@ -25,7 +25,6 @@ blocks:
 disabledWorlds:
 - world
 
-enableDependency: true
 randomFallback: false
 defaultGenerator: default
 

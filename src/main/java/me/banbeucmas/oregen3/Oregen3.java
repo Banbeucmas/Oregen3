@@ -8,6 +8,7 @@ import me.banbeucmas.oregen3.utils.StringUtils;
 import me.banbeucmas.oregen3.utils.hooks.ASkyblockHook;
 import me.banbeucmas.oregen3.utils.hooks.AcidIslandHook;
 import me.banbeucmas.oregen3.utils.hooks.SkyblockHook;
+import me.banbeucmas.oregen3.utils.hooks.VanillaHook;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -41,6 +42,9 @@ public final class Oregen3 extends JavaPlugin implements Listener {
         else if(acidHook){
             hook = new AcidIslandHook();
         }
+        else {
+            hook = new VanillaHook();
+        }
 
         CommandSender sender = Bukkit.getConsoleSender();
         //Send Message
@@ -52,15 +56,6 @@ public final class Oregen3 extends JavaPlugin implements Listener {
         sender.sendMessage(StringUtils.getColoredString("       &f&oAcidIsland: &e" + acidHook));
         sender.sendMessage("");
         sender.sendMessage(StringUtils.getColoredString("------------------------------------"));
-
-
-        if(getConfig().getBoolean("enableDependency")){
-            getConfig().set("enableDependency", asbHook || acidHook);
-            saveConfig();
-        }
-
-
-
 
         DataManager.loadData();
         getCommand("oregen3").setExecutor(new Commands());

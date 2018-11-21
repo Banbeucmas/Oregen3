@@ -9,26 +9,25 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-
 import java.util.UUID;
 
 import static me.banbeucmas.oregen3.Oregen3.getHook;
 
 public class PluginUtils {
     public static OfflinePlayer getOwner(Location loc) {
-        if(Oregen3.DEBUG){
+        if (Oregen3.DEBUG) {
             System.out.println("Begin getting Owner: ");
         }
 
-        if(!getHook().isOnIsland(loc)){
+        if (!getHook().isOnIsland(loc)) {
             return null;
         }
 
         UUID uuid = getHook().getIslandOwner(loc);
-        if(uuid == null){
+        if (uuid == null) {
             return null;
         }
-        if(Oregen3.DEBUG){
+        if (Oregen3.DEBUG) {
             System.out.println("UUID: " + uuid);
         }
 
@@ -36,37 +35,25 @@ public class PluginUtils {
         return p;
     }
 
-    public static MaterialChooser getChooser(Location loc){
+    public static MaterialChooser getChooser(Location loc) {
         Oregen3 plugin = Oregen3.getPlugin();
         MaterialChooser mc = DataManager.getChoosers().get(plugin.getConfig().getString("defaultGenerator"));
-        if(plugin.getConfig().getBoolean("enableDependency")){
-            Player p = (Player) PluginUtils.getOwner(loc);
-            if(p == null){
-                return mc;
-            }
-            for(MaterialChooser chooser : DataManager.getChoosers().values()){
-                if(p.hasPermission(chooser.getPermission())
-                        && chooser.getPriority() >= mc.getPriority()
-                        && getLevel(p.getUniqueId()) >= chooser.getLevel()){
-                    mc = chooser;
-                }
+        Player p = (Player) PluginUtils.getOwner(loc);
+        if (p == null) {
+            return mc;
+        }
+        for (MaterialChooser chooser : DataManager.getChoosers().values()) {
+            if (p.hasPermission(chooser.getPermission())
+                    && chooser.getPriority() >= mc.getPriority()
+                    && getHook().getIslandLevel(p.getUniqueId()) >= chooser.getLevel()) {
+                mc = chooser;
             }
         }
         return mc;
     }
 
-    public static int getLevel(UUID id){
-        if(Bukkit.getServer().getPluginManager().isPluginEnabled("ASkyBlock")){
-            return (int) com.wasteofplastic.askyblock.ASkyBlockAPI.getInstance().getLongIslandLevel(id);
-        }
-        else if(Bukkit.getServer().getPluginManager().isPluginEnabled("AcidIsland")){
-            return com.wasteofplastic.acidisland.ASkyBlockAPI.getInstance().getIslandLevel(id);
-        }
-        return 0;
-    }
-
-    public static Sound getCobbleSound(){
-        if(Bukkit.getVersion().contains("1.8")){
+    public static Sound getCobbleSound() {
+        if (Bukkit.getVersion().contains("1.8")) {
             return Sound.valueOf("FIZZ");
         }
         return Sound.valueOf("BLOCK_FIRE_EXTINGUISH");
