@@ -71,7 +71,7 @@ public final class Oregen3 extends JavaPlugin implements Listener {
             BentoBox bento = (BentoBox) Bukkit.getPluginManager().getPlugin("BentoBox");
             Optional<Addon> addon = bento.getAddonsManager().getAddonByName("Level");
 
-            //TODO Fix redundency
+            //TODO Fix redundancy
             if(addon.isPresent()){
                 hook = new BentoLevelHook();
             }
