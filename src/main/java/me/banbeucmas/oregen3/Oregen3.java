@@ -11,10 +11,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import world.bentobox.bentobox.BentoBox;
+import world.bentobox.bentobox.api.addons.Addon;
+import world.bentobox.level.Level;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public final class Oregen3 extends JavaPlugin implements Listener {
     private static Oregen3 plugin;
@@ -30,22 +34,7 @@ public final class Oregen3 extends JavaPlugin implements Listener {
 
         saveDefaultConfig();
         updateConfig();
-
-        boolean asbHook = Bukkit.getServer().getPluginManager().isPluginEnabled("ASkyBlock");
-        boolean acidHook = Bukkit.getServer().getPluginManager().isPluginEnabled("AcidIsland");
-        boolean bentoHook = Bukkit.getServer().getPluginManager().isPluginEnabled("BentoBox");
-        if(asbHook){
-            hook = new ASkyblockHook();
-        }
-        else if(acidHook){
-            hook = new AcidIslandHook();
-        }
-        else if(bentoHook){
-            hook = new BentoboxHook();
-        }
-        else {
-            hook = new VanillaHook();
-        }
+        hookInit();
 
         CommandSender sender = Bukkit.getConsoleSender();
         //Send Message
@@ -53,8 +42,6 @@ public final class Oregen3 extends JavaPlugin implements Listener {
         sender.sendMessage("");
         sender.sendMessage(StringUtils.getColoredString("       &fPlugin made by &e&oBanbeucmas"));
         sender.sendMessage(StringUtils.getColoredString("       &f&oVersion: &e" + getDescription().getVersion()));
-        sender.sendMessage(StringUtils.getColoredString("       &f&oASkyblock: &e" + asbHook));
-        sender.sendMessage(StringUtils.getColoredString("       &f&oAcidIsland: &e" + acidHook));
         sender.sendMessage("");
         sender.sendMessage(StringUtils.getColoredString("------------------------------------"));
 
@@ -67,6 +54,32 @@ public final class Oregen3 extends JavaPlugin implements Listener {
     public void onDisable() {
         plugin = null;
         DataManager.unregisterAll();
+    }
+
+    private void hookInit(){
+        boolean asbHook = Bukkit.getServer().getPluginManager().isPluginEnabled("ASkyBlock");
+        boolean acidHook = Bukkit.getServer().getPluginManager().isPluginEnabled("AcidIsland");
+        boolean bentoHook = Bukkit.getServer().getPluginManager().isPluginEnabled("BentoBox");
+        if(asbHook){
+            hook = new ASkyblockHook();
+        }
+        else if(acidHook){
+            hook = new AcidIslandHook();
+        }
+        else if(bentoHook){
+            hook = new BentoboxHook();
+            BentoBox bento = (BentoBox) Bukkit.getPluginManager().getPlugin("BentoBox");
+            Optional<Addon> addon = bento.getAddonsManager().getAddonByName("Level");
+
+            //TODO Fix redundency
+            if(addon.isPresent()){
+                hook = new BentoLevelHook();
+            }
+        }
+        else {
+            hook = new VanillaHook();
+        }
+
     }
 
     public static SkyblockHook getHook() {
