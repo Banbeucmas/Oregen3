@@ -18,13 +18,12 @@ public class BentoboxHook implements SkyblockHook{
         this.api = (BentoBox) Bukkit.getPluginManager().getPlugin("BentoBox");
     }
 
+    protected BentoBox getBentoBox(){
+        return api;
+    }
+
     @Override
     public long getIslandLevel(UUID uuid, World world) {
-        Optional<Addon> addon = api.getAddonsManager().getAddonByName("Level");
-        if(addon.isPresent()){
-            Level levelAddon = (Level) addon.get();
-            return levelAddon.getIslandLevel(world, uuid);
-        }
         return -1;
     }
 
