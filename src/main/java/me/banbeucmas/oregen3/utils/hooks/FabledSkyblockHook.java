@@ -1,0 +1,39 @@
+package me.banbeucmas.oregen3.utils.hooks;
+
+import com.songoda.skyblock.SkyBlock;
+import com.songoda.skyblock.island.Island;
+import com.songoda.skyblock.island.IslandManager;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
+
+import java.util.UUID;
+
+public class FabledSkyblockHook implements SkyblockHook {
+    private final IslandManager manager;
+
+    public FabledSkyblockHook() {
+        manager = SkyBlock.getInstance().getIslandManager();
+    }
+
+    @Override
+    public long getIslandLevel(final UUID uuid) {
+        final OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
+        if (manager.getIsland(player) != null) {
+            final Island is = manager.getIsland(player);
+            if (is.getLevel() != null)
+                return is.getLevel().getLevel();
+        }
+        return 0;
+    }
+
+    @Override
+    public UUID getIslandOwner(final Location loc) {
+        return manager.getIslandAtLocation(loc).getOwnerUUID();
+    }
+
+    @Override
+    public boolean isOnIsland(final Location loc) {
+        return manager.getIslandAtLocation(loc) != null;
+    }
+}
