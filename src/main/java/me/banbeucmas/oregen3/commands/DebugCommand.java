@@ -5,7 +5,7 @@ import me.banbeucmas.oregen3.utils.StringUtils;
 import org.bukkit.command.CommandSender;
 
 public class DebugCommand extends AbstractCommand {
-    public DebugCommand(final CommandSender sender) {
+    DebugCommand(final CommandSender sender) {
         super("oregen3.debug", sender);
     }
 

@@ -25,8 +25,5 @@ public class GUIListener implements Listener {
         }
 
         e.setCancelled(true);
-
-
-
     }
 }

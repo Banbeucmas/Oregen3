@@ -38,7 +38,7 @@ public class PluginUtils {
     public static MaterialChooser getChooser(final Location loc) {
         final Oregen3 plugin = Oregen3.getPlugin();
         MaterialChooser mc = DataManager.getChoosers().get(plugin.getConfig().getString("defaultGenerator"));
-        if (plugin.getConfig().getBoolean("enableDependency")) {
+        if (plugin.hasDependency()) {
             final Entity p = (Entity) PluginUtils.getOwner(loc);
             if (p == null) {
                 return mc;
@@ -59,6 +59,6 @@ public class PluginUtils {
     }
 
     public static Sound getCobbleSound() {
-        return Sound.BLOCK_FIRE_EXTINGUISH;
+        return Sound.valueOf(Oregen3.getPlugin().getConfig().getString("sound.created"));
     }
 }

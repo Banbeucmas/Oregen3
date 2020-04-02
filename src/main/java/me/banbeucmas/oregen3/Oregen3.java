@@ -5,25 +5,29 @@ import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.listeners.BlockListener;
 import me.banbeucmas.oregen3.listeners.GUIListener;
 import me.banbeucmas.oregen3.utils.StringUtils;
-import me.banbeucmas.oregen3.utils.hooks.ASkyblockHook;
-import me.banbeucmas.oregen3.utils.hooks.AcidIslandHook;
-import me.banbeucmas.oregen3.utils.hooks.BentoBoxHook;
-import me.banbeucmas.oregen3.utils.hooks.SkyblockHook;
+import me.banbeucmas.oregen3.utils.hooks.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 public final class Oregen3 extends JavaPlugin {
+    private boolean hasDependency = true;
     private static Oregen3 plugin;
     private static SkyblockHook hook;
     public static boolean DEBUG;
 
-    private static void updateConfig() {
+    public boolean hasDependency() {
+        return hasDependency;
+    }
+
+    private void updateConfig() {
         if (!plugin.getConfig().isSet("version")) {
             plugin.getConfig().set("version", "1.1.0");
 
@@ -69,47 +73,56 @@ public final class Oregen3 extends JavaPlugin {
         return plugin;
     }
 
-    //TODO Seperate these into methods
     @Override
     public void onEnable() {
         plugin = this;
 
         saveDefaultConfig();
         updateConfig();
-
-        final boolean asbHook = Bukkit.getServer().getPluginManager().isPluginEnabled("ASkyBlock");
-        final boolean acidHook = Bukkit.getServer().getPluginManager().isPluginEnabled("AcidIsland");
-        final boolean bentoboxHook = Bukkit.getServer().getPluginManager().isPluginEnabled("BentoBox");
-        if (asbHook) {
-            hook = new ASkyblockHook();
-        }
-        else if (acidHook) {
-            hook = new AcidIslandHook();
-        }
-        else if (bentoboxHook) {
-            hook = new BentoBoxHook();
-        }
+        checkDependency();
 
         final CommandSender sender = Bukkit.getConsoleSender();
         //Send Message
         sender.sendMessage(StringUtils.getColoredString("&7&m-------------&f[Oregen3&f]&7-------------"));
         sender.sendMessage("");
-        sender.sendMessage(StringUtils.getColoredString("       &fPlugin made by &e&oBanbeucmas"));
+        sender.sendMessage(StringUtils.getColoredString("       &fPlugin made by &e&oBanbeucmas, updated by xHexed"));
         sender.sendMessage(StringUtils.getColoredString("       &f&oVersion: &e" + getDescription().getVersion()));
-        sender.sendMessage(StringUtils.getColoredString("       &f&oASkyblock: &e" + asbHook));
-        sender.sendMessage(StringUtils.getColoredString("       &f&oAcidIsland: &e" + acidHook));
         sender.sendMessage("");
         sender.sendMessage(StringUtils.getColoredString("------------------------------------"));
 
-
-        if(getConfig().getBoolean("enableDependency")){
-            getConfig().set("enableDependency", asbHook || acidHook);
-            saveConfig();
-        }
 
         DataManager.loadData();
         Objects.requireNonNull(getCommand("oregen3")).setExecutor(new Commands());
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
         getServer().getPluginManager().registerEvents(new GUIListener(), this);
+    }
+
+    private void checkDependency() {
+        if (plugin.getConfig().getBoolean("enableDependency")) {
+            hasDependency = false;
+            return;
+        }
+
+        final PluginManager manager = Bukkit.getServer().getPluginManager();
+        if (manager.isPluginEnabled("ASkyBlock")) {
+            hook = new ASkyblockHook();
+        }
+        else if (manager.isPluginEnabled("AcidIsland")) {
+            hook = new AcidIslandHook();
+        }
+        else if (manager.isPluginEnabled("BentoBox")) {
+            hook = new BentoBoxHook();
+        }
+        else if (manager.isPluginEnabled("SuperiorSkyblock")) {
+            hook = new SuperiorSkyblockHook();
+        }
+        else if (manager.isPluginEnabled("FabledSkyblock")) {
+            hook = new FabledSkyblockHook();
+        }
+        else {
+            hasDependency = false;
+            final Logger logger = Bukkit.getLogger();
+            logger.warning("Plugin dependency for Oregen3 not found! enableDependency will be turn off!");
+        }
     }
 }

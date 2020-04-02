@@ -2,7 +2,7 @@ name: Oregen3
 version: ${project.version}
 main: me.banbeucmas.oregen3.Oregen3
 authors: [Banbeucmas, xHexed]
-softdepend: [ASkyBlock, AcidIsland, BentoBox, uSkyBlock, SuperiorSkyblock]
+softdepend: [ASkyBlock, AcidIsland, BentoBox, uSkyBlock, SuperiorSkyblock, FabledSkyblock]
 
 commands:
   oregen3:

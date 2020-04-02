@@ -43,18 +43,20 @@ public class BlockListener implements Listener {
                     && source.getType() != Material.STATIONARY_WATER
                     && generateCobble(source.getType(), to)
                     && e.getFace() != BlockFace.DOWN){
-                if(source.getType() == Material.LAVA || source.getType() == Material.STATIONARY_LAVA){
-                    if(!isSurroundedByWater(to.getLocation())){
+                if (source.getType() == Material.LAVA || source.getType() == Material.STATIONARY_LAVA) {
+                    if (!isSurroundedByWater(to.getLocation())) {
                         return;
                     }
                 }
                 to.setType(randomChance(source.getLocation()));
 
-                world.playSound(to.getLocation(), PluginUtils.getCobbleSound(), 3, 2);
+                if (config.getBoolean("sound.enabled"))
+                    world.playSound(to.getLocation(), PluginUtils.getCobbleSound(), config.getInt("sound.volume"), config.getInt("sound.pitch"));
             }
             else if (generateCobbleBlock(source, to)) {
                 to.setType(randomChance(source.getLocation()));
-                world.playSound(to.getLocation(), PluginUtils.getCobbleSound(), 3, 2);
+                if (config.getBoolean("sound.enabled"))
+                    world.playSound(to.getLocation(), PluginUtils.getCobbleSound(), config.getInt("sound.volume"), config.getInt("sound.pitch"));
             }
         }
 
@@ -103,6 +105,7 @@ public class BlockListener implements Listener {
         final MaterialChooser mc = PluginUtils.getChooser(loc);
         final Map<Material, Double> chances = mc.getChances();
 
+        //We like unique chances ;)
         final SecureRandom r = new SecureRandom();
 
         double chance = 100 * r.nextDouble();

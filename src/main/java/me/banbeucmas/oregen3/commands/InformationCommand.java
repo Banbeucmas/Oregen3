@@ -21,11 +21,11 @@ public class InformationCommand extends AbstractCommand {
         if (!getSender().hasPermission(getPermission())) {
             return ExecutionResult.NO_PERMISSION;
         }
-        final HumanEntity p = (Player) getSender();
-        if((!Oregen3.getHook().isOnIsland(p.getLocation())
-                || PluginUtils.getOwner(p.getLocation()) == null)
-                && Oregen3.getPlugin().getConfig().getBoolean("enableDependency")){
-            p.sendMessage(StringUtils.getPrefixString("&cYou has to be on an island to view this"));
+        final HumanEntity p = (HumanEntity) getSender();
+        if ((!Oregen3.getHook().isOnIsland(p.getLocation()) || PluginUtils.getOwner(p.getLocation()) == null)
+                && Oregen3.getPlugin().hasDependency()
+        ) {
+            p.sendMessage(StringUtils.getPrefixString(Oregen3.getPlugin().getConfig().getString("messages.noIsland")));
             return ExecutionResult.DONT_CARE;
         }
 
