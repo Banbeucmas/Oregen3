@@ -11,17 +11,16 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class GUIListener implements Listener {
-    private Oregen3 plugin = Oregen3.getPlugin();
-    private FileConfiguration config = plugin.getConfig();
+    private final Oregen3 plugin = Oregen3.getPlugin();
+    private final FileConfiguration config = plugin.getConfig();
 
     @EventHandler
-    public void onClick(InventoryClickEvent e){
-        ItemStack item = e.getCurrentItem();
-        Inventory inv = e.getView().getTopInventory();
-
-        if(!inv.getTitle().equals(StringUtils.getColoredString(config.getString("messages.gui.title"))) ||
+    public void onClick(final InventoryClickEvent e) {
+        final ItemStack item = e.getCurrentItem();
+        final Inventory inv = e.getView().getTopInventory();
+        if (!inv.getTitle().equals(StringUtils.getColoredString(config.getString("messages.gui.title"))) ||
                 item == null ||
-                item.getType() == Material.AIR){
+                item.getType() == Material.AIR) {
             return;
         }
 

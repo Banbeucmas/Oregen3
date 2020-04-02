@@ -5,25 +5,25 @@ import org.bukkit.Location;
 
 import java.util.UUID;
 
-public class AcidIslandHook implements SkyblockHook{
-    private ASkyBlockAPI api;
+public class AcidIslandHook implements SkyblockHook {
+    private final ASkyBlockAPI api;
 
-    public AcidIslandHook(){
+    public AcidIslandHook() {
         api = ASkyBlockAPI.getInstance();
     }
 
     @Override
-    public long getIslandLevel(UUID uuid) {
+    public long getIslandLevel(final UUID uuid) {
         return api.getIslandLevel(uuid);
     }
 
     @Override
-    public UUID getIslandOwner(Location loc) {
+    public UUID getIslandOwner(final Location loc) {
         return api.getIslandAt(loc).getOwner();
     }
 
     @Override
-    public boolean isOnIsland(Location loc) {
+    public boolean isOnIsland(final Location loc) {
         return api.getIslandAt(loc) != null;
     }
 }

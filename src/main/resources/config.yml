@@ -5,9 +5,10 @@
 # For the sake of using it PLEASE
 # I will give you tacos if you do it :3
 # -------------------------------------
-# DO NOT TOUCH THIS
 
+# DO NOT TOUCH THIS
 version: 1.3.0
+
 prefix: "&f[&6OreGen&e3&f]"
 
 mode:

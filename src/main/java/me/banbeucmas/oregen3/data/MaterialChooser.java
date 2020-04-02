@@ -2,45 +2,44 @@ package me.banbeucmas.oregen3.data;
 
 import me.banbeucmas.oregen3.Oregen3;
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class MaterialChooser {
-    private Oregen3 plugin = Oregen3.getPlugin();
-    private FileConfiguration config = plugin.getConfig();
-    private int priority;
-    private int level;
-    private String id;
-    private String permission;
-    private String path;
-    private Map<Material, Double> chances = new HashMap<>();
-    private Material fallback;
+    private final int priority;
+    private final int level;
+    private final String permission;
+    private final Map<Material, Double> chances = new EnumMap<>(Material.class);
+    private final Material fallback;
 
-    public MaterialChooser(String id) {
-        this.id = id;
-        this.path = "generators." + id;
+    MaterialChooser(final String id) {
+        final String path = "generators." + id;
 
-        this.fallback = config.isSet(path + ".fallback")
-                ? Material.matchMaterial(config.getString(path + ".fallback")) : Material.COBBLESTONE;
-        this.permission = config.isSet(path + ".permission")
+        final Oregen3 plugin = Oregen3.getPlugin();
+        final FileConfiguration config = plugin.getConfig();
+        fallback   = config.isSet(path + ".fallback")
+                ? Material.matchMaterial(Objects.requireNonNull(config.getString(path + ".fallback"))) : Material.COBBLESTONE;
+        permission = config.isSet(path + ".permission")
                 ? config.getString(path + ".permission") : "oregen3.generator." + id;
-        this.priority = config.isSet(path + ".priority")
+        priority   = config.isSet(path + ".priority")
                 ? config.getInt(path + ".priority") : 0;
-        this.level = config.isSet(path + ".level")
+        level      = config.isSet(path + ".level")
                 ? config.getInt(path + ".level") : 0;
 
-        for(String mat : config.getConfigurationSection(path + ".random").getKeys(false)){
+        for (final String mat : Objects.requireNonNull(config.getConfigurationSection(path + ".random")).getKeys(false)) {
             chances.put(Material.matchMaterial(mat), config.getDouble(path + ".random." + mat));
         }
     }
 
 
-    public String getId() {
-        return id;
-    }
+// --Commented out by Inspection START (25/03/2020 8:27 SA):
+//    public String getId() {
+//        return id;
+//    }
+// --Commented out by Inspection STOP (25/03/2020 8:27 SA)
 
     public String getPermission() {
         return permission;

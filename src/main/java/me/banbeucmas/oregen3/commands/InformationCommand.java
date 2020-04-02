@@ -5,22 +5,23 @@ import me.banbeucmas.oregen3.gui.OreListGUI;
 import me.banbeucmas.oregen3.utils.PluginUtils;
 import me.banbeucmas.oregen3.utils.StringUtils;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
-public class InformationCommand extends AbstractCommand{
-    public InformationCommand(CommandSender sender) {
-        super("oregen3.information", null, sender);
+public class InformationCommand extends AbstractCommand {
+    InformationCommand(final CommandSender sender) {
+        super("oregen3.information", sender);
     }
 
     @Override
     public ExecutionResult now() {
-        if(!(getSender() instanceof Player)){
+        if (!(getSender() instanceof Player)) {
             return ExecutionResult.NOT_PLAYER;
         }
-        if(!getSender().hasPermission(getPermission())){
+        if (!getSender().hasPermission(getPermission())) {
             return ExecutionResult.NO_PERMISSION;
         }
-        Player p = (Player) getSender();
+        final HumanEntity p = (Player) getSender();
         if((!Oregen3.getHook().isOnIsland(p.getLocation())
                 || PluginUtils.getOwner(p.getLocation()) == null)
                 && Oregen3.getPlugin().getConfig().getBoolean("enableDependency")){
@@ -28,7 +29,7 @@ public class InformationCommand extends AbstractCommand{
             return ExecutionResult.DONT_CARE;
         }
 
-        OreListGUI gui = new OreListGUI(p.getLocation());
+        final OreListGUI gui = new OreListGUI(p.getLocation());
         p.openInventory(gui.getInventory());
 
         return ExecutionResult.DONT_CARE;

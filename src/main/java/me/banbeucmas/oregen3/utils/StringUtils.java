@@ -4,15 +4,15 @@ import me.banbeucmas.oregen3.Oregen3;
 import org.bukkit.ChatColor;
 
 public class StringUtils {
-    public static String getColoredString(String s){
+    public static String getColoredString(final String s) {
         return ChatColor.translateAlternateColorCodes('&', s);
     }
 
-    public static String getPrefix(){
+    private static String getPrefix() {
         return StringUtils.getColoredString(Oregen3.getPlugin().getConfig().getString("prefix"));
     }
 
-    public static String getPrefixString(String s){
+    public static String getPrefixString(final String s) {
         return getPrefix() + " " + getColoredString(s);
     }
 }

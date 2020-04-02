@@ -5,38 +5,35 @@ import me.banbeucmas.oregen3.utils.StringUtils;
 import org.bukkit.command.CommandSender;
 
 
-public abstract class AbstractCommand {
+abstract class AbstractCommand {
 
-	private String permission;
-	private String[] args;
-	private CommandSender sender;
-	private Oregen3 plugin = Oregen3.getPlugin();
+	private final String permission;
+	private final CommandSender sender;
+	private final Oregen3 plugin = Oregen3.getPlugin();
 
 
-	public AbstractCommand(String permission, String[] args, CommandSender sender) {
+	AbstractCommand(final String permission, final CommandSender sender) {
 		this.permission = permission;
-		this.args = args;
+		//final String[] args = null;
 		this.sender = sender;
 	}
 
 	/**
 	 * @return an {@link ExecutionResult}, should never be null
 	 */
-	public abstract ExecutionResult now();
+	protected abstract ExecutionResult now();
 
-	public void execute() {
+	void execute() {
 		switch (now()) {
-			case DONT_CARE:
-				break;
 			case MISSING_ARGS:
-			    if(getFormat() != null){
-				    sender.sendMessage(StringUtils.getPrefixString("&cFormat: &f" + getFormat()));
-			    }
-			    break;
-            case NO_PERMISSION:
-			    sender.sendMessage(StringUtils.getPrefixString("&4Missing Permission: &c" + permission));
-			    break;
-		    case NO_PLAYER:
+				if (getFormat() != null) {
+					sender.sendMessage(StringUtils.getPrefixString("&cFormat: &f" + getFormat()));
+				}
+				break;
+			case NO_PERMISSION:
+				sender.sendMessage(StringUtils.getPrefixString("&4Missing Permission: &c" + permission));
+				break;
+			case NO_PLAYER:
 			    sender.sendMessage(StringUtils.getPrefixString("&4Player is not excist or isn't online"));
 			    break;
 		    case NOT_PLAYER:
@@ -44,29 +41,31 @@ public abstract class AbstractCommand {
 		    case CONSOLE_NOT_PERMITTED:
 			    sender.sendMessage(StringUtils.getPrefixString("&4This command is not available to console"));
 			    break;
-		    default:
-			    break;
+			default:
+				break;
 		}
 	}
 
 	/* Getters */
-	public String getPermission() {
+	String getPermission() {
 		return permission;
 	}
 
-	public String[] getArgs() {
-		return args;
-	}
+// --Commented out by Inspection START (25/03/2020 8:27 SA):
+//	public String[] getArgs() {
+//		return args;
+//	}
+// --Commented out by Inspection STOP (25/03/2020 8:27 SA)
 
-	public String getFormat() {
+	private String getFormat() {
 		return null;
 	}
 
-	public CommandSender getSender() {
+	CommandSender getSender() {
 		return sender;
 	}
 
-	public Oregen3 getPlugin() {
+	Oregen3 getPlugin() {
 		return plugin;
 	}
 }
