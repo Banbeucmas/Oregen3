@@ -6,9 +6,11 @@ import me.banbeucmas.oregen3.listeners.BlockListener;
 import me.banbeucmas.oregen3.listeners.GUIListener;
 import me.banbeucmas.oregen3.utils.StringUtils;
 import me.banbeucmas.oregen3.utils.hooks.*;
+import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -21,6 +23,8 @@ public final class Oregen3 extends JavaPlugin {
     private boolean hasDependency = true;
     private static Oregen3 plugin;
     private static SkyblockHook hook;
+    private String hookName = "none";
+    private Permission perm;
     public static boolean DEBUG;
 
     public boolean hasDependency() {
@@ -58,6 +62,16 @@ public final class Oregen3 extends JavaPlugin {
                                    Collections.singletonList("&6Chances: &e%chance%&6%"));
             plugin.saveConfig();
         }
+        if (Objects.equals(plugin.getConfig().getString("version"), "1.3.0")) {
+            plugin.getConfig().set("version", "1.3.0.1");
+            plugin.getConfig().set("debug", true);
+            plugin.getConfig().set("messages.noIsland", "&cYou have to be on an island to view this.");
+            plugin.getConfig().set("sound.enabled", true);
+            plugin.getConfig().set("sound.created", "BLOCK_FIRE_EXTINGUISH");
+            plugin.getConfig().set("sound.volume", 3);
+            plugin.getConfig().set("sound.pitch", 2);
+            plugin.saveConfig();
+        }
     }
 
     public void onDisable() {
@@ -73,6 +87,10 @@ public final class Oregen3 extends JavaPlugin {
         return plugin;
     }
 
+    public Permission getPerm() {
+        return perm;
+    }
+
     @Override
     public void onEnable() {
         plugin = this;
@@ -80,6 +98,11 @@ public final class Oregen3 extends JavaPlugin {
         saveDefaultConfig();
         updateConfig();
         checkDependency();
+        setupPermissions();
+
+        if (getConfig().getBoolean("debug")) {
+            DEBUG = true;
+        }
 
         final CommandSender sender = Bukkit.getConsoleSender();
         //Send Message
@@ -87,9 +110,9 @@ public final class Oregen3 extends JavaPlugin {
         sender.sendMessage("");
         sender.sendMessage(StringUtils.getColoredString("       &fPlugin made by &e&oBanbeucmas, updated by xHexed"));
         sender.sendMessage(StringUtils.getColoredString("       &f&oVersion: &e" + getDescription().getVersion()));
+        sender.sendMessage(StringUtils.getColoredString("       &f&oHooked plugin: &e" + hookName));
         sender.sendMessage("");
         sender.sendMessage(StringUtils.getColoredString("------------------------------------"));
-
 
         DataManager.loadData();
         Objects.requireNonNull(getCommand("oregen3")).setExecutor(new Commands());
@@ -98,31 +121,50 @@ public final class Oregen3 extends JavaPlugin {
     }
 
     private void checkDependency() {
-        if (plugin.getConfig().getBoolean("enableDependency")) {
+        if (!plugin.getConfig().getBoolean("enableDependency")) {
             hasDependency = false;
             return;
         }
 
         final PluginManager manager = Bukkit.getServer().getPluginManager();
+        final Logger logger = Bukkit.getLogger();
         if (manager.isPluginEnabled("ASkyBlock")) {
-            hook = new ASkyblockHook();
+            hook     = new ASkyblockHook();
+            hookName = "ASkyBlock";
+            logger.info("Hooked ASkyBlock");
         }
         else if (manager.isPluginEnabled("AcidIsland")) {
-            hook = new AcidIslandHook();
+            hook     = new AcidIslandHook();
+            hookName = "AcidIsland";
+            logger.info("Hooked AcidIsland");
         }
         else if (manager.isPluginEnabled("BentoBox")) {
-            hook = new BentoBoxHook();
+            hook     = new BentoBoxHook();
+            hookName = "AcidIsland";
+            logger.info("Hooked AcidIsland");
         }
         else if (manager.isPluginEnabled("SuperiorSkyblock")) {
-            hook = new SuperiorSkyblockHook();
+            hook     = new SuperiorSkyblockHook();
+            hookName = "SuperiorSkyblock";
+            logger.info("Hooked SuperiorSkyblock");
         }
         else if (manager.isPluginEnabled("FabledSkyblock")) {
-            hook = new FabledSkyblockHook();
+            hook     = new FabledSkyblockHook();
+            hookName = "FabledSkyblock";
+            logger.info("Hooked FabledSkyblock");
         }
         else {
             hasDependency = false;
-            final Logger logger = Bukkit.getLogger();
-            logger.warning("Plugin dependency for Oregen3 not found! enableDependency will be turn off!");
+            logger.warning("Plugin dependency for Oregen3 not found! enableDependency will turn off!");
         }
+    }
+
+    private void setupPermissions() {
+        final RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+        if (rsp == null) {
+            getLogger().severe("Vault not found! Disabling plugin...");
+            return;
+        }
+        perm = rsp.getProvider();
     }
 }

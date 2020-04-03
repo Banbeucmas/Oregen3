@@ -1,5 +1,6 @@
 package me.banbeucmas.oregen3.utils;
 
+import com.cryptomorin.xseries.XSound;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.data.MaterialChooser;
@@ -7,8 +8,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
-import org.bukkit.entity.Entity;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static me.banbeucmas.oregen3.Oregen3.getHook;
@@ -39,12 +40,13 @@ public class PluginUtils {
         final Oregen3 plugin = Oregen3.getPlugin();
         MaterialChooser mc = DataManager.getChoosers().get(plugin.getConfig().getString("defaultGenerator"));
         if (plugin.hasDependency()) {
-            final Entity p = (Entity) PluginUtils.getOwner(loc);
+            final OfflinePlayer p = getOwner(loc);
             if (p == null) {
                 return mc;
             }
             for (final MaterialChooser chooser : DataManager.getChoosers().values()) {
-                if (p.hasPermission(chooser.getPermission())
+                //TODO: Support island-only world?
+                if (plugin.getPerm().playerHas(null, p, chooser.getPermission())
                         && chooser.getPriority() >= mc.getPriority()
                         && getLevel(p.getUniqueId()) >= chooser.getLevel()) {
                     mc = chooser;
@@ -59,6 +61,7 @@ public class PluginUtils {
     }
 
     public static Sound getCobbleSound() {
-        return Sound.valueOf(Oregen3.getPlugin().getConfig().getString("sound.created"));
+        final Optional<XSound> sound = XSound.matchXSound(Oregen3.getPlugin().getConfig().getString("sound.created"));
+        return sound.map(XSound::parseSound).orElse(null);
     }
 }

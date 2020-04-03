@@ -49,7 +49,6 @@ public class BlockListener implements Listener {
                     }
                 }
                 to.setType(randomChance(source.getLocation()));
-
                 if (config.getBoolean("sound.enabled"))
                     world.playSound(to.getLocation(), PluginUtils.getCobbleSound(), config.getInt("sound.volume"), config.getInt("sound.pitch"));
             }
@@ -59,7 +58,6 @@ public class BlockListener implements Listener {
                     world.playSound(to.getLocation(), PluginUtils.getCobbleSound(), config.getInt("sound.volume"), config.getInt("sound.pitch"));
             }
         }
-
     }
 
     private boolean generateCobbleBlock(final Block src, final Block to) {
