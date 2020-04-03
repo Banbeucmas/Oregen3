@@ -144,3 +144,6 @@ fabric.properties
 
 
 # End of https://www.gitignore.io/api/eclipse,intellij
+
+#Others
+dependency-reduced-pom.xml
