@@ -145,6 +145,10 @@ public final class Oregen3 extends JavaPlugin {
             hook     = new FabledSkyblockHook();
             hookName = "FabledSkyblock";
         }
+        else if (manager.isPluginEnabled("uSkyBlock")) {
+            hook     = new uSkyBlockHook();
+            hookName = "uSkyBlock";
+        }
         else {
             Bukkit.getLogger().warning("[Oregen3] Plugin dependency for Oregen3 not found! enableDependency will be turned off!");
             hasDependency = false;

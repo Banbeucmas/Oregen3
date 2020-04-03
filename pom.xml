@@ -89,6 +89,10 @@
             <id>public</id>
             <url>http://repo.songoda.com/artifactory/public/</url>
         </repository>
+        <repository>
+            <id>savagelabs</id>
+            <url>https://nexus.savagelabs.net/repository/maven-public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -145,5 +149,11 @@
             <version>2.1.2</version>
             <scope>provided</scope>
         </dependency>
+        <!-- dependency>
+            <groupId>io.illyria</groupId>
+            <artifactId>SkyblockX</artifactId>
+            <version>v1.4.1-alpha</version>
+            <scope>provided</scope>
+        </dependency -->
     </dependencies>
 </project>
