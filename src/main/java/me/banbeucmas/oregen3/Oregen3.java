@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
-import java.util.logging.Logger;
 
 public final class Oregen3 extends JavaPlugin {
     private boolean hasDependency = true;
@@ -34,7 +33,6 @@ public final class Oregen3 extends JavaPlugin {
     private void updateConfig() {
         if (!plugin.getConfig().isSet("version")) {
             plugin.getConfig().set("version", "1.1.0");
-
             final Collection<String> l = new ArrayList<>();
             l.add("FENCE");
             l.add("ACACIA_FENCE");
@@ -127,35 +125,29 @@ public final class Oregen3 extends JavaPlugin {
         }
 
         final PluginManager manager = Bukkit.getServer().getPluginManager();
-        final Logger logger = Bukkit.getLogger();
         if (manager.isPluginEnabled("ASkyBlock")) {
             hook     = new ASkyblockHook();
             hookName = "ASkyBlock";
-            logger.info("Hooked ASkyBlock");
         }
         else if (manager.isPluginEnabled("AcidIsland")) {
             hook     = new AcidIslandHook();
             hookName = "AcidIsland";
-            logger.info("Hooked AcidIsland");
         }
         else if (manager.isPluginEnabled("BentoBox")) {
             hook     = new BentoBoxHook();
             hookName = "AcidIsland";
-            logger.info("Hooked AcidIsland");
         }
         else if (manager.isPluginEnabled("SuperiorSkyblock")) {
             hook     = new SuperiorSkyblockHook();
             hookName = "SuperiorSkyblock";
-            logger.info("Hooked SuperiorSkyblock");
         }
         else if (manager.isPluginEnabled("FabledSkyblock")) {
             hook     = new FabledSkyblockHook();
             hookName = "FabledSkyblock";
-            logger.info("Hooked FabledSkyblock");
         }
         else {
+            Bukkit.getLogger().warning("[Oregen3] Plugin dependency for Oregen3 not found! enableDependency will be turned off!");
             hasDependency = false;
-            logger.warning("Plugin dependency for Oregen3 not found! enableDependency will turn off!");
         }
     }
 
