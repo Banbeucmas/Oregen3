@@ -12,19 +12,13 @@ import org.bukkit.Sound;
 import java.util.Optional;
 import java.util.UUID;
 
-import static me.banbeucmas.oregen3.Oregen3.getHook;
-
 public class PluginUtils {
     public static OfflinePlayer getOwner(final Location loc) {
-        if (Oregen3.DEBUG) {
-            System.out.println("Begin getting Owner: ");
-        }
-
-        if (!getHook().isOnIsland(loc)) {
+        if (!Oregen3.getHook().isOnIsland(loc)) {
             return null;
         }
 
-        final UUID uuid = getHook().getIslandOwner(loc);
+        final UUID uuid = Oregen3.getHook().getIslandOwner(loc);
         if (uuid == null) {
             return null;
         }

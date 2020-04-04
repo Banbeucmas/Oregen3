@@ -11,8 +11,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class GUIListener implements Listener {
-    private final Oregen3 plugin = Oregen3.getPlugin();
-    private final FileConfiguration config = plugin.getConfig();
+    private final FileConfiguration config = Oregen3.getPlugin().getConfig();
 
     @EventHandler
     public void onClick(final InventoryClickEvent e) {

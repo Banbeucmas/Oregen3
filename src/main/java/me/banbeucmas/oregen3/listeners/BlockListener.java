@@ -19,8 +19,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class BlockListener implements Listener {
-    private final Oregen3 plugin = Oregen3.getPlugin();
-    private final FileConfiguration config = plugin.getConfig();
+    private final FileConfiguration config = Oregen3.getPlugin().getConfig();
 
     @EventHandler
     public void onOre(final BlockFromToEvent e) {
