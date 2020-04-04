@@ -94,8 +94,7 @@ public final class Oregen3 extends JavaPlugin {
     public void onEnable() {
         plugin = this;
 
-        // Maybe using the wrong pluginId ? :(
-        new Metrics(this, 3052);
+        new Metrics(this);
 
         saveDefaultConfig();
         updateConfig();
