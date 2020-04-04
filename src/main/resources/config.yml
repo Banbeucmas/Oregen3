@@ -18,7 +18,7 @@ mode:
   waterLava: true
 
 blocks:
-  - FENCE
+- FENCE
 - ACACIA_FENCE
 - BIRCH_FENCE
 - DARK_OAK_FENCE
