@@ -70,7 +70,7 @@ messages:
     title: "&eChances"
     block:
       lore:
-        - "&6Chances: &e%chance%&6%"
+      - "&6Chances: &e%chance%&6%"
   noIsland: "&cYou have to be on an island to view this."
 
 sound:
