@@ -7,6 +7,7 @@ import me.banbeucmas.oregen3.listeners.GUIListener;
 import me.banbeucmas.oregen3.utils.StringUtils;
 import me.banbeucmas.oregen3.utils.hooks.*;
 import net.milkbowl.vault.permission.Permission;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginManager;
@@ -92,6 +93,9 @@ public final class Oregen3 extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
+
+        // Maybe using the wrong pluginId ? :(
+        new Metrics(this, 3052);
 
         saveDefaultConfig();
         updateConfig();
