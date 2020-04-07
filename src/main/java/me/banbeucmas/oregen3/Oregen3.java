@@ -15,8 +15,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
 
@@ -35,13 +34,7 @@ public final class Oregen3 extends JavaPlugin {
     private void updateConfig() {
         if (!plugin.getConfig().isSet("version")) {
             plugin.getConfig().set("version", "1.1.0");
-            final Collection<String> l = new ArrayList<>();
-            l.add("FENCE");
-            l.add("ACACIA_FENCE");
-            l.add("BIRCH_FENCE");
-            l.add("DARK_OAK_FENCE");
-            l.add("IRON_FENCE");
-            plugin.getConfig().set("blocks", l);
+            plugin.getConfig().set("blocks", Arrays.asList("FENCE", "ACACIA_FENCE", "BIRCH_FENCE", "DARK_OAK_FENCE", "IRON_FENCE"));
             plugin.getConfig().set("mode.lavaBlock", false);
             plugin.getConfig().set("mode.waterBlock", true);
             plugin.getConfig().set("mode.lavaFence", null);
