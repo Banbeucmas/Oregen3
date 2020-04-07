@@ -151,7 +151,7 @@ public final class Oregen3 extends JavaPlugin {
             hookName = "uSkyBlock";
         }
         else {
-            getLogger().warning("[Oregen3] Plugin dependency for Oregen3 not found! enableDependency will be turned off!");
+            getLogger().warning("[Oregen3] Plugin dependency for Oregen3 not found! Turning enableDependency off...");
             hasDependency = false;
         }
     }
