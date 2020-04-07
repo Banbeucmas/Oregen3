@@ -23,7 +23,7 @@ public final class Oregen3 extends JavaPlugin {
     private boolean hasDependency = true;
     private static Oregen3 plugin;
     private static SkyblockHook hook;
-    private String hookName = "none";
+    private String hookName = "None";
     private Permission perm;
     public static boolean DEBUG;
 
