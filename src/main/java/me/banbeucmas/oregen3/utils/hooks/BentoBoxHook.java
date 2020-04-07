@@ -11,12 +11,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class BentoBoxHook implements SkyblockHook {
-    private final AddonRequestBuilder builder;
     private final IslandsManager manager;
     private boolean level = true;
 
     public BentoBoxHook() {
-        builder = new AddonRequestBuilder();
         manager = BentoBox.getInstance().getIslands();
         if (!BentoBox.getInstance().getAddonsManager().getAddonByName("Level").isPresent()) {
             Oregen3.getPlugin().getLogger().warning("Level addon for BentoBox not found! Turning island level feature off...");
@@ -27,7 +25,7 @@ public class BentoBoxHook implements SkyblockHook {
     @Override
     public long getIslandLevel(final UUID uuid, final Location loc) {
         if (level)
-            return (Long) builder
+            return (Long) new AddonRequestBuilder()
                     .addon("Level")
                     .label("island-level")
                     .addMetaData("world-name", loc.getWorld().getName())
