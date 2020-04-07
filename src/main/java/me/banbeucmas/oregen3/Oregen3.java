@@ -10,6 +10,7 @@ import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.MetricsLite;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -116,7 +117,11 @@ public final class Oregen3 extends JavaPlugin {
         sender.sendMessage(StringUtils.getColoredString("------------------------------------"));
 
         DataManager.loadData();
-        Objects.requireNonNull(getCommand("oregen3")).setExecutor(new Commands());
+
+        final PluginCommand command = Objects.requireNonNull(getCommand("oregen3"));
+        command.setExecutor(new Commands());
+        command.setTabCompleter(new Commands());
+
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
         getServer().getPluginManager().registerEvents(new GUIListener(), this);
     }
