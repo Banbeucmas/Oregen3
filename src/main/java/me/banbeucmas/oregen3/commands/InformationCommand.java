@@ -29,7 +29,7 @@ public class InformationCommand extends AbstractCommand {
             return ExecutionResult.DONT_CARE;
         }
 
-        final OreListGUI gui = new OreListGUI(p.getLocation());
+        final OreListGUI gui = new OreListGUI(p.getLocation(), p);
         p.openInventory(gui.getInventory());
 
         return ExecutionResult.DONT_CARE;

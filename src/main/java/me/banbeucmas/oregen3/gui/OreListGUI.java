@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -23,7 +24,7 @@ public class OreListGUI {
 
     private final Inventory inv;
 
-    public OreListGUI(final Location location) {
+    public OreListGUI(final Location location, final InventoryHolder player) {
 
         int size = 9;
         final MaterialChooser mc = PluginUtils.getChooser(location);
@@ -32,9 +33,8 @@ public class OreListGUI {
             size *= (mc.getChances().size() / size) + 1;
         }
 
-        final Oregen3 plugin = Oregen3.getPlugin();
-        final FileConfiguration config = plugin.getConfig();
-        inv = Bukkit.createInventory(null, size,
+        final FileConfiguration config = Oregen3.getPlugin().getConfig();
+        inv = Bukkit.createInventory(player, size,
                                      StringUtils.getColoredString(config.getString("messages.gui.title")));
 
         int slot = 0;

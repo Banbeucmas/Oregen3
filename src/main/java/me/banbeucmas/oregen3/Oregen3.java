@@ -7,7 +7,7 @@ import me.banbeucmas.oregen3.listeners.GUIListener;
 import me.banbeucmas.oregen3.utils.StringUtils;
 import me.banbeucmas.oregen3.utils.hooks.*;
 import net.milkbowl.vault.permission.Permission;
-import org.bstats.bukkit.Metrics;
+import org.bstats.bukkit.MetricsLite;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginManager;
@@ -94,7 +94,7 @@ public final class Oregen3 extends JavaPlugin {
     public void onEnable() {
         plugin = this;
 
-        new Metrics(this);
+        new MetricsLite(this);
 
         saveDefaultConfig();
         updateConfig();
@@ -138,22 +138,22 @@ public final class Oregen3 extends JavaPlugin {
         }
         else if (manager.isPluginEnabled("BentoBox")) {
             hook     = new BentoBoxHook();
-            hookName = "AcidIsland";
+            hookName = "BentoBox";
         }
         else if (manager.isPluginEnabled("SuperiorSkyblock")) {
             hook     = new SuperiorSkyblockHook();
             hookName = "SuperiorSkyblock";
         }
-        else if (manager.isPluginEnabled("FabledSkyblock")) {
-            hook     = new FabledSkyblockHook();
-            hookName = "FabledSkyblock";
+        else if (manager.isPluginEnabled("FabledSkyBlock")) {
+            hook     = new FabledSkyBlockHook();
+            hookName = "FabledSkyBlock";
         }
         else if (manager.isPluginEnabled("uSkyBlock")) {
             hook     = new uSkyBlockHook();
             hookName = "uSkyBlock";
         }
         else {
-            Bukkit.getLogger().warning("[Oregen3] Plugin dependency for Oregen3 not found! enableDependency will be turned off!");
+            getLogger().warning("[Oregen3] Plugin dependency for Oregen3 not found! enableDependency will be turned off!");
             hasDependency = false;
         }
     }

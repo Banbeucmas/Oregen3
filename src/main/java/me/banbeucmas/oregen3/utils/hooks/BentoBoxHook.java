@@ -23,7 +23,9 @@ public class BentoBoxHook implements SkyblockHook {
         return (Long) builder
                 .addon("Level")
                 .label("island-level")
-                .addMetaData("world-name", uuid)
+                //TODO: Find a way to get the island world (seems like bentobox handle world per-addon...)
+                .addMetaData("world-name", "i need help")
+                .addMetaData("player", uuid)
                 .request();
     }
 

@@ -9,10 +9,10 @@ import org.bukkit.OfflinePlayer;
 
 import java.util.UUID;
 
-public class FabledSkyblockHook implements SkyblockHook {
+public class FabledSkyBlockHook implements SkyblockHook {
     private final IslandManager manager;
 
-    public FabledSkyblockHook() {
+    public FabledSkyBlockHook() {
         manager = SkyBlock.getInstance().getIslandManager();
     }
 

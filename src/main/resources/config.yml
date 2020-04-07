@@ -1,11 +1,11 @@
-# _____________________________________
+# -------------------------------------
 # Configuration instruction is here
 # https://github.com/xHexed/Oregen3/blob/master/src/main/resources/config.yml
 # Please click if you use the plugin the first time or updating
-# For the sake of using it PLEASE
-# I will give you tacos if you do it :3
+# Notes:
+#  enableDependency: it will try to find a skyblock plugin to enable the owner perm feature
+#  sound: you can use the old enum sound, as long as it playable in your version (ex: 1.8 sound for 1.12 server)
 # -------------------------------------
-
 # DO NOT TOUCH THIS
 version: 1.3.0.1
 debug: false

@@ -16,7 +16,6 @@ import org.bukkit.event.block.BlockFromToEvent;
 
 import java.security.SecureRandom;
 import java.util.Map;
-import java.util.Objects;
 
 public class BlockListener implements Listener {
     private final FileConfiguration config = Oregen3.getPlugin().getConfig();
@@ -126,11 +125,12 @@ public class BlockListener implements Listener {
     }
 
     private boolean isSurroundedByWater(final Location fromLoc) {
+        final World world = fromLoc.getWorld();
         final Block[] blocks = {
-                Objects.requireNonNull(fromLoc.getWorld()).getBlockAt(fromLoc.getBlockX() + 1, fromLoc.getBlockY(), fromLoc.getBlockZ()),
-                fromLoc.getWorld().getBlockAt(fromLoc.getBlockX() - 1, fromLoc.getBlockY(), fromLoc.getBlockZ()),
-                fromLoc.getWorld().getBlockAt(fromLoc.getBlockX(), fromLoc.getBlockY(), fromLoc.getBlockZ() + 1),
-                fromLoc.getWorld().getBlockAt(fromLoc.getBlockX(), fromLoc.getBlockY(), fromLoc.getBlockZ() - 1)};
+                world.getBlockAt(fromLoc.getBlockX() + 1, fromLoc.getBlockY(), fromLoc.getBlockZ()),
+                world.getBlockAt(fromLoc.getBlockX() - 1, fromLoc.getBlockY(), fromLoc.getBlockZ()),
+                world.getBlockAt(fromLoc.getBlockX(), fromLoc.getBlockY(), fromLoc.getBlockZ() + 1),
+                world.getBlockAt(fromLoc.getBlockX(), fromLoc.getBlockY(), fromLoc.getBlockZ() - 1)};
 
         for (final Block b : blocks) {
             if (b.getType() == Material.WATER || b.getType() == Material.STATIONARY_WATER) {
