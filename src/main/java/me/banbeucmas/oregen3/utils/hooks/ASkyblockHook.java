@@ -13,7 +13,7 @@ public class ASkyblockHook implements SkyblockHook {
     }
 
     @Override
-    public long getIslandLevel(final UUID uuid) {
+    public long getIslandLevel(final UUID uuid, final Location loc) {
         return api.getLongIslandLevel(uuid);
     }
 

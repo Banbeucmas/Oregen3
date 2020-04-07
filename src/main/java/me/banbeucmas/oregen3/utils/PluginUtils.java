@@ -42,7 +42,7 @@ public class PluginUtils {
                 //TODO: Support island-only world?
                 if (plugin.getPerm().playerHas(null, p, chooser.getPermission())
                         && chooser.getPriority() >= mc.getPriority()
-                        && getLevel(p.getUniqueId()) >= chooser.getLevel()) {
+                        && getLevel(p.getUniqueId(), loc) >= chooser.getLevel()) {
                     mc = chooser;
                 }
             }
@@ -50,8 +50,8 @@ public class PluginUtils {
         return mc;
     }
 
-    private static long getLevel(final UUID id) {
-        return Oregen3.getHook().getIslandLevel(id);
+    private static long getLevel(final UUID id, final Location loc) {
+        return Oregen3.getHook().getIslandLevel(id, loc);
     }
 
     public static Sound getCobbleSound() {

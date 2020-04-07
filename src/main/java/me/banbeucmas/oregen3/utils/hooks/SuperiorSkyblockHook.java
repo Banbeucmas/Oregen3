@@ -9,7 +9,7 @@ import java.util.UUID;
 public class SuperiorSkyblockHook implements SkyblockHook {
 
     @Override
-    public long getIslandLevel(final UUID uuid) {
+    public long getIslandLevel(final UUID uuid, final Location loc) {
         final SuperiorPlayer player = SuperiorSkyblockAPI.getPlayer(uuid);
         if (player == null || player.getIsland() == null)
             return 0;
