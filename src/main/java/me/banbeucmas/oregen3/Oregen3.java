@@ -88,7 +88,7 @@ public final class Oregen3 extends JavaPlugin {
     public void onEnable() {
         plugin = this;
 
-        new MetricsLite(this);
+        new MetricsLite(this, 3052);
 
         saveDefaultConfig();
         updateConfig();
