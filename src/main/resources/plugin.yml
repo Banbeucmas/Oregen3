@@ -3,9 +3,18 @@ version: ${project.version}
 main: me.banbeucmas.oregen3.Oregen3
 authors: [Banbeucmas, xHexed]
 depend: [Vault]
-softdepend: [ASkyBlock, AcidIsland, BentoBox, uSkyBlock, SuperiorSkyblock, FabledSkyBlock]
+softdepend: [ASkyBlock, AcidIsland, BentoBox, uSkyBlock, SuperiorSkyblock, FabledSkyBlock, PlaceholderAPI]
 
 commands:
   oregen3:
     description: "Main command of the plugin"
     aliases: [og3, og]
+permissions:
+  oregen3.information:
+    default: op
+  oregen3.reload:
+    default: op
+  oregen3.debug:
+    default: op
+  oregen3.help:
+    default: op

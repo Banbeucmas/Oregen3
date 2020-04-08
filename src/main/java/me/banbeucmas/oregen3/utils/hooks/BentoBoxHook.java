@@ -24,13 +24,18 @@ public class BentoBoxHook implements SkyblockHook {
 
     @Override
     public long getIslandLevel(final UUID uuid, final Location loc) {
-        if (level)
+        if (level) {
+            if (loc == null) {
+                // TODO: Handle null locations
+                return 0;
+            }
             return (Long) new AddonRequestBuilder()
                     .addon("Level")
                     .label("island-level")
                     .addMetaData("world-name", loc.getWorld().getName())
                     .addMetaData("player", uuid)
                     .request();
+        }
         else
             return 0;
     }
@@ -39,6 +44,11 @@ public class BentoBoxHook implements SkyblockHook {
     public UUID getIslandOwner(final Location loc) {
         final Optional<Island> island = manager.getIslandAt(loc);
         return island.map(Island::getOwner).orElse(null);
+    }
+
+    @Override
+    public UUID getIslandOwner(final UUID uuid) {
+        return null;
     }
 
     @Override

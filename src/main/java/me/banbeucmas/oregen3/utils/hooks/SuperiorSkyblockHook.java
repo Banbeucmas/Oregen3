@@ -22,6 +22,11 @@ public class SuperiorSkyblockHook implements SkyblockHook {
     }
 
     @Override
+    public UUID getIslandOwner(final UUID uuid) {
+        return SuperiorSkyblockAPI.getPlayer(uuid).getIslandLeader().getUniqueId();
+    }
+
+    @Override
     public boolean isOnIsland(final Location loc) {
         return SuperiorSkyblockAPI.getIslandAt(loc) != null;
     }

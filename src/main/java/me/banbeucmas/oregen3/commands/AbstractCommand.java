@@ -3,19 +3,64 @@ package me.banbeucmas.oregen3.commands;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.utils.StringUtils;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 
 abstract class AbstractCommand {
-
 	private final String permission;
 	private final CommandSender sender;
-	private final Oregen3 plugin = Oregen3.getPlugin();
+	private final Player player;
+	private final String label;
+	private final String[] args;
 
+	AbstractCommand(final String permission, final CommandSender sender, final String label, final String[] args) {
+		this.permission = permission;
+		this.label      = label;
+		this.args       = args;
+		this.sender     = sender;
+		if (sender instanceof Player) {
+			player = (Player) sender;
+		}
+		else
+			player = null;
+	}
+
+	/*
+	AbstractCommand(final String permission, final CommandSender sender, final String[] args) {
+		this.permission = permission;
+		label           = null;
+		this.args       = args;
+		this.sender     = sender;
+		if (sender instanceof Player) {
+			player = (Player) sender;
+		}
+		else
+			player = null;
+	}
+	*/
+
+	AbstractCommand(final String permission, final CommandSender sender, final String label) {
+		this.permission = permission;
+		this.label      = label;
+		args            = null;
+		this.sender     = sender;
+		if (sender instanceof Player) {
+			player = (Player) sender;
+		}
+		else
+			player = null;
+	}
 
 	AbstractCommand(final String permission, final CommandSender sender) {
 		this.permission = permission;
-		//final String[] args = null;
-		this.sender = sender;
+		label           = null;
+		args            = null;
+		this.sender     = sender;
+		if (sender instanceof Player) {
+			player = (Player) sender;
+		}
+		else
+			player = null;
 	}
 
 	/**
@@ -27,22 +72,17 @@ abstract class AbstractCommand {
 		switch (now()) {
 			case MISSING_ARGS:
 				if (getFormat() != null) {
-					sender.sendMessage(StringUtils.getPrefixString("&cFormat: &f" + getFormat()));
+					sender.sendMessage(StringUtils.getPrefixString("&cFormat: &f" + getFormat(), player));
 				}
 				break;
 			case NO_PERMISSION:
-				sender.sendMessage(StringUtils.getPrefixString("&4Missing Permission: &c" + permission));
+				sender.sendMessage(StringUtils.getPrefixString("&4Missing Permission: &c" + permission, player));
 				break;
 			case NO_PLAYER:
-			    sender.sendMessage(StringUtils.getPrefixString("&4Player is not excist or isn't online"));
-			    break;
-		    case NOT_PLAYER:
-			    sender.sendMessage(StringUtils.getPrefixString("&4Only player can use this command"));
-		    case CONSOLE_NOT_PERMITTED:
-			    sender.sendMessage(StringUtils.getPrefixString("&4This command is not available to console"));
-			    break;
-			default:
+				sender.sendMessage(StringUtils.getPrefixString(Oregen3.getPlugin().getConfig().getString("messages.noPlayer"), player));
 				break;
+			case NOT_PLAYER:
+				sender.sendMessage(StringUtils.getPrefixString(Oregen3.getPlugin().getConfig().getString("messages.notPlayer"), player));
 		}
 	}
 
@@ -51,11 +91,13 @@ abstract class AbstractCommand {
 		return permission;
 	}
 
-// --Commented out by Inspection START (25/03/2020 8:27 SA):
-//	public String[] getArgs() {
-//		return args;
-//	}
-// --Commented out by Inspection STOP (25/03/2020 8:27 SA)
+	String[] getArgs() {
+		return args;
+	}
+
+	String getLabel() {
+		return label;
+	}
 
 	private String getFormat() {
 		return null;
@@ -65,7 +107,7 @@ abstract class AbstractCommand {
 		return sender;
 	}
 
-	Oregen3 getPlugin() {
-		return plugin;
+	Player getPlayer() {
+		return player;
 	}
 }

@@ -8,7 +8,6 @@ public enum ExecutionResult {
     DONT_CARE, // Could be null, but that would throw a NPE if it wasn't checked
     MISSING_ARGS,
     NO_PERMISSION,
-    CONSOLE_NOT_PERMITTED,
     NO_PLAYER,
     NOT_PLAYER
 

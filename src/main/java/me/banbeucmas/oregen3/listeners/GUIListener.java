@@ -15,12 +15,11 @@ public class GUIListener implements Listener {
     @EventHandler
     public void onClick(final InventoryClickEvent e) {
         final ItemStack item = e.getCurrentItem();
-        if (!e.getView().getTitle().equals(StringUtils.getColoredString(config.getString("messages.gui.title"))) ||
+        if (!e.getView().getTitle().equals(StringUtils.getColoredString(config.getString("messages.gui.title"), null)) ||
                 item == null ||
                 item.getType() == Material.AIR) {
             return;
         }
-
         e.setCancelled(true);
     }
 }

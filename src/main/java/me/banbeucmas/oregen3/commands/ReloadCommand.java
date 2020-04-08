@@ -19,11 +19,10 @@ public class ReloadCommand extends AbstractCommand {
             return ExecutionResult.NO_PERMISSION;
         }
 
-        final Oregen3 plugin = getPlugin();
-        plugin.reloadConfig();
+        Oregen3.getPlugin().reloadConfig();
         DataManager.loadData();
 
-        getSender().sendMessage(StringUtils.getPrefixString("Config reloaded"));
+        getSender().sendMessage(StringUtils.getPrefixString("Config reloaded", getPlayer()));
 
 
         return ExecutionResult.DONT_CARE;

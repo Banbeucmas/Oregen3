@@ -22,7 +22,7 @@ public class Commands implements CommandExecutor, TabCompleter {
                 new HelpCommand(sender, label).execute();
                 break;
             case "info":
-                new InformationCommand(sender, label).execute();
+                new InformationCommand(sender, label, args).execute();
                 break;
             case "debug":
                 new DebugCommand(sender).execute();

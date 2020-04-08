@@ -21,6 +21,7 @@ import java.util.Objects;
 
 public final class Oregen3 extends JavaPlugin {
     private boolean hasDependency = true;
+    private boolean papi;
     private static Oregen3 plugin;
     private static SkyblockHook hook;
     private String hookName = "None";
@@ -29,6 +30,10 @@ public final class Oregen3 extends JavaPlugin {
 
     public boolean hasDependency() {
         return hasDependency;
+    }
+
+    public boolean hasPlaceholderAPI() {
+        return papi;
     }
 
     private void updateConfig() {
@@ -41,29 +46,32 @@ public final class Oregen3 extends JavaPlugin {
             plugin.getConfig().set("mode.waterFence", null);
             plugin.saveConfig();
         }
-        if (Objects.equals(plugin.getConfig().getString("version"), "1.1.0")) {
-            plugin.getConfig().set("version", "1.2.0");
-            plugin.getConfig().set("enableDependency", true);
-            plugin.saveConfig();
-            updateConfig();
-        }
-        if (Objects.equals(plugin.getConfig().getString("version"), "1.2.0")) {
-            plugin.getConfig().set("version", "1.3.0");
-            plugin.getConfig().set("messages.gui.title", "&eChances");
-            plugin.getConfig().set("messages.gui.block.displayName", "&6%name%");
-            plugin.getConfig().set("messages.gui.block.lore",
-                                   Collections.singletonList("&6Chances: &e%chance%&6%"));
-            plugin.saveConfig();
-        }
-        if (Objects.equals(plugin.getConfig().getString("version"), "1.3.0")) {
-            plugin.getConfig().set("version", "1.3.0.1");
-            plugin.getConfig().set("debug", true);
-            plugin.getConfig().set("messages.noIsland", "&cYou have to be on an island to view this.");
-            plugin.getConfig().set("sound.enabled", true);
-            plugin.getConfig().set("sound.created", "BLOCK_FIRE_EXTINGUISH");
-            plugin.getConfig().set("sound.volume", 3);
-            plugin.getConfig().set("sound.pitch", 2);
-            plugin.saveConfig();
+        switch (plugin.getConfig().getString("version")) {
+            case "1.1.0":
+                plugin.getConfig().set("version", "1.2.0");
+                plugin.getConfig().set("enableDependency", true);
+            case "1.2.0":
+                plugin.getConfig().set("version", "1.3.0");
+                plugin.getConfig().set("messages.gui.title", "&eChances");
+                plugin.getConfig().set("messages.gui.block.displayName", "&6%name%");
+                plugin.getConfig().set("messages.gui.block.lore",
+                                       Collections.singletonList("&6Chances: &e%chance%&6%"));
+            case "1.3.0":
+                plugin.getConfig().set("version", "1.3.0.1");
+                plugin.getConfig().set("debug", true);
+                plugin.getConfig().set("messages.noIsland", "&cYou have to be on an island to view this.");
+                plugin.getConfig().set("sound.enabled", true);
+                plugin.getConfig().set("sound.created", "BLOCK_FIRE_EXTINGUISH");
+                plugin.getConfig().set("sound.volume", 3);
+                plugin.getConfig().set("sound.pitch", 2);
+            case "1.3.0.1":
+                plugin.getConfig().set("version", "1.3.0.2");
+                plugin.getConfig().set("messages.noIsland", "&cYou have to be on an island to view this.");
+                plugin.getConfig().set("messages.missingArgs", "&cFormat: &f + getFormat()");
+                plugin.getConfig().set("messages.noPermission", "&4Missing Permission: &c + permission");
+                plugin.getConfig().set("messages.noPlayer", "&4Player is not exist or isn't online");
+                plugin.getConfig().set("messages.notPlayer", "&4Only player can use this command");
+                saveConfig();
         }
     }
 
@@ -101,13 +109,13 @@ public final class Oregen3 extends JavaPlugin {
 
         final CommandSender sender = Bukkit.getConsoleSender();
         //Send Message
-        sender.sendMessage(StringUtils.getColoredString("&7&m-------------&f[Oregen3&f]&7-------------"));
+        sender.sendMessage(StringUtils.getColoredString("&7&m-------------&f[Oregen3&f]&7-------------", null));
         sender.sendMessage("");
-        sender.sendMessage(StringUtils.getColoredString("       &fPlugin made by &e&oBanbeucmas, updated by xHexed"));
-        sender.sendMessage(StringUtils.getColoredString("       &f&oVersion: &e" + getDescription().getVersion()));
-        sender.sendMessage(StringUtils.getColoredString("       &f&oHooked plugin: &e" + hookName));
+        sender.sendMessage(StringUtils.getColoredString("       &fPlugin made by &e&oBanbeucmas, updated by xHexed", null));
+        sender.sendMessage(StringUtils.getColoredString("       &f&oVersion: &e" + getDescription().getVersion(), null));
+        sender.sendMessage(StringUtils.getColoredString("       &f&oHooked plugin: &e" + hookName, null));
         sender.sendMessage("");
-        sender.sendMessage(StringUtils.getColoredString("------------------------------------"));
+        sender.sendMessage(StringUtils.getColoredString("------------------------------------", null));
 
         DataManager.loadData();
 
@@ -153,6 +161,10 @@ public final class Oregen3 extends JavaPlugin {
         else {
             getLogger().warning("[Oregen3] Plugin dependency for Oregen3 not found! Turning enableDependency off...");
             hasDependency = false;
+        }
+
+        if (manager.isPluginEnabled("PlaceholderAPI")) {
+            papi = true;
         }
     }
 

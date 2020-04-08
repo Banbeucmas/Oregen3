@@ -23,6 +23,11 @@ public class AcidIslandHook implements SkyblockHook {
     }
 
     @Override
+    public UUID getIslandOwner(final UUID uuid) {
+        return api.getTeamLeader(uuid);
+    }
+
+    @Override
     public boolean isOnIsland(final Location loc) {
         return api.getIslandAt(loc) != null;
     }

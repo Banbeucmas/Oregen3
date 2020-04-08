@@ -50,6 +50,26 @@ public class PluginUtils {
         return mc;
     }
 
+    public static MaterialChooser getChooser(final UUID uuid) {
+        final Oregen3 plugin = Oregen3.getPlugin();
+        MaterialChooser mc = DataManager.getChoosers().get(plugin.getConfig().getString("defaultGenerator"));
+        if (plugin.hasDependency()) {
+            final UUID p = Oregen3.getHook().getIslandOwner(uuid);
+            if (p == null) {
+                return mc;
+            }
+            for (final MaterialChooser chooser : DataManager.getChoosers().values()) {
+                //TODO: Support island-only world?
+                if (plugin.getPerm().playerHas(null, Bukkit.getOfflinePlayer(uuid), chooser.getPermission())
+                        && chooser.getPriority() >= mc.getPriority()
+                        && getLevel(p, null) >= chooser.getLevel()) {
+                    mc = chooser;
+                }
+            }
+        }
+        return mc;
+    }
+
     private static long getLevel(final UUID id, final Location loc) {
         return Oregen3.getHook().getIslandLevel(id, loc);
     }

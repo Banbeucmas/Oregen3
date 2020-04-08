@@ -12,7 +12,7 @@ public class DebugCommand extends AbstractCommand {
     @Override
     public ExecutionResult now() {
         Oregen3.DEBUG = !Oregen3.DEBUG;
-        getSender().sendMessage(StringUtils.getPrefixString("&eToggled Debug"));
+        getSender().sendMessage(StringUtils.getPrefixString("&eToggled Debug to" + Oregen3.DEBUG, getPlayer()));
         return ExecutionResult.DONT_CARE;
     }
 }
