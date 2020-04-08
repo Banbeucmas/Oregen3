@@ -5,8 +5,13 @@ import me.banbeucmas.oregen3.utils.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 abstract class AbstractCommand {
+	private static final Pattern FORMAT = Pattern.compile("%format%", Pattern.LITERAL);
+	private static final Pattern PERM = Pattern.compile("%perm%", Pattern.LITERAL);
+	private static final Pattern PLAYER = Pattern.compile("%player%", Pattern.LITERAL);
 	private final String permission;
 	private final CommandSender sender;
 	private final Player player;
@@ -72,14 +77,15 @@ abstract class AbstractCommand {
 		switch (now()) {
 			case MISSING_ARGS:
 				if (getFormat() != null) {
-					sender.sendMessage(StringUtils.getPrefixString("&cFormat: &f" + getFormat(), player));
+					sender.sendMessage(StringUtils.getPrefixString(FORMAT.matcher(Oregen3.getPlugin().getConfig().getString("messages.missingArgs")).replaceAll(Matcher.quoteReplacement(getFormat())), player));
 				}
 				break;
 			case NO_PERMISSION:
-				sender.sendMessage(StringUtils.getPrefixString("&4Missing Permission: &c" + permission, player));
+				sender.sendMessage(StringUtils.getPrefixString(PERM.matcher(Oregen3.getPlugin().getConfig().getString("messages.noPermission")).replaceAll(Matcher.quoteReplacement(permission)), player));
 				break;
 			case NO_PLAYER:
-				sender.sendMessage(StringUtils.getPrefixString(Oregen3.getPlugin().getConfig().getString("messages.noPlayer"), player));
+				assert player != null;
+				sender.sendMessage(StringUtils.getPrefixString(PLAYER.matcher(Oregen3.getPlugin().getConfig().getString("messages.noPlayer")).replaceAll(Matcher.quoteReplacement(player.getName())), player));
 				break;
 			case NOT_PLAYER:
 				sender.sendMessage(StringUtils.getPrefixString(Oregen3.getPlugin().getConfig().getString("messages.notPlayer"), player));
