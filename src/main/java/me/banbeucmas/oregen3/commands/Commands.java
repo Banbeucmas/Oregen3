@@ -4,10 +4,16 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.util.StringUtil;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Commands implements CommandExecutor, TabCompleter {
+    private static final List<String> commands = Arrays.asList("reload", "help", "info", "debug");
+
     @Override
     public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
         if (args.length == 0) {
@@ -33,6 +39,9 @@ public class Commands implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(final CommandSender sender, final Command command, final String alias, final String[] args) {
-        return null;
+        final List<String> completions = new ArrayList<>();
+        StringUtil.copyPartialMatches(args[0], commands, completions);
+        Collections.sort(completions);
+        return completions;
     }
 }
