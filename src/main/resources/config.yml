@@ -9,11 +9,12 @@
 #  - missingArgs: %format%
 #  - noPermission: %perm%
 #  - noPlayer: %player%
+#  - noIslandOthers: %player%
 #  hooks:
 #   BentoBox:
 #    gamemodePriorities:
 #     - This plugin will check for avalable gamemode by order. If witch addon comes first then it will use that gamemode to check
-#       for player's island
+#       for player's island (who knows someone would use 2 gamemode at a time....)
 #     - Since BentoBox lets you install many Gamemodes, this check is required due to the fact this plugin only hooks into one
 #       gamemode.
 #     - If an invaild gamemode is found, the plugin will skip it.
@@ -94,6 +95,7 @@ messages:
       lore:
       - "&6Chances: &e%chance%&6%"
   noIsland: "&cYou have to be on an island to view this."
+  noIslandOthers: "&c%player% have to be on an island to view this."
   missingArgs: "&cFormat: &f %format%"
   noPermission: "&4Missing Permission: &c %perm%"
   noPlayer: "&4Player %player% is not exist or isn't online"

@@ -10,6 +10,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
+import java.util.regex.Matcher;
+
+import static me.banbeucmas.oregen3.utils.StringUtils.PLAYER;
 
 public class InformationCommand extends AbstractCommand {
     InformationCommand(final CommandSender sender, final String label, final String[] args) {
@@ -34,10 +37,12 @@ public class InformationCommand extends AbstractCommand {
                 return ExecutionResult.NO_PLAYER;
             }
             final UUID uuid = player.getUniqueId();
+
             if (!Oregen3.getPlugin().hasDependency() || PluginUtils.getOwner(uuid) == null) {
-                getSender().sendMessage(StringUtils.getPrefixString(Oregen3.getPlugin().getConfig().getString("messages.noIsland"), getPlayer()));
+                getSender().sendMessage(PLAYER.matcher(StringUtils.getPrefixString(Oregen3.getPlugin().getConfig().getString("messages.noIslandOthers"), getPlayer())).replaceAll(Matcher.quoteReplacement(player.getName())));
                 return ExecutionResult.DONT_CARE;
             }
+
             p.openInventory(new OreListGUI(uuid, p).getInventory());
         }
 
