@@ -30,6 +30,19 @@ public class PluginUtils {
         return Bukkit.getServer().getOfflinePlayer(uuid);
     }
 
+    public static OfflinePlayer getOwner(final UUID uuid) {
+        final UUID p = Oregen3.getHook().getIslandOwner(uuid);
+        if (p == null) {
+            return null;
+        }
+
+        if (Oregen3.DEBUG) {
+            System.out.println("UUID: " + p);
+        }
+
+        return Bukkit.getServer().getOfflinePlayer(p);
+    }
+
     public static MaterialChooser getChooser(final Location loc) {
         final Oregen3 plugin = Oregen3.getPlugin();
         MaterialChooser mc = DataManager.getChoosers().get(plugin.getConfig().getString("defaultGenerator"));

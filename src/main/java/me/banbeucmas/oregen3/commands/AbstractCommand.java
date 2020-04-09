@@ -6,12 +6,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import static me.banbeucmas.oregen3.utils.StringUtils.*;
 
 abstract class AbstractCommand {
-	private static final Pattern FORMAT = Pattern.compile("%format%", Pattern.LITERAL);
-	private static final Pattern PERM = Pattern.compile("%perm%", Pattern.LITERAL);
-	private static final Pattern PLAYER = Pattern.compile("%player%", Pattern.LITERAL);
 	private final String permission;
 	private final CommandSender sender;
 	private final Player player;

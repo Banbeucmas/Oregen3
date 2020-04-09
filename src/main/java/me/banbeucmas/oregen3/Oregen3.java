@@ -11,6 +11,7 @@ import org.bstats.bukkit.MetricsLite;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -37,40 +38,44 @@ public final class Oregen3 extends JavaPlugin {
     }
 
     private void updateConfig() {
-        if (!plugin.getConfig().isSet("version")) {
-            plugin.getConfig().set("version", "1.1.0");
-            plugin.getConfig().set("blocks", Arrays.asList("FENCE", "ACACIA_FENCE", "BIRCH_FENCE", "DARK_OAK_FENCE", "IRON_FENCE"));
-            plugin.getConfig().set("mode.lavaBlock", false);
-            plugin.getConfig().set("mode.waterBlock", true);
-            plugin.getConfig().set("mode.lavaFence", null);
-            plugin.getConfig().set("mode.waterFence", null);
+        final FileConfiguration config = plugin.getConfig();
+        if (!config.isSet("version")) {
+            config.set("version", "1.1.0");
+            config.set("blocks", Arrays.asList("FENCE", "ACACIA_FENCE", "BIRCH_FENCE", "DARK_OAK_FENCE", "IRON_FENCE"));
+            config.set("mode.lavaBlock", false);
+            config.set("mode.waterBlock", true);
+            config.set("mode.lavaFence", null);
+            config.set("mode.waterFence", null);
             plugin.saveConfig();
         }
-        switch (plugin.getConfig().getString("version")) {
+        switch (config.getString("version")) {
             case "1.1.0":
-                plugin.getConfig().set("version", "1.2.0");
-                plugin.getConfig().set("enableDependency", true);
+                config.set("version", "1.2.0");
+                config.set("enableDependency", true);
             case "1.2.0":
-                plugin.getConfig().set("version", "1.3.0");
-                plugin.getConfig().set("messages.gui.title", "&eChances");
-                plugin.getConfig().set("messages.gui.block.displayName", "&6%name%");
-                plugin.getConfig().set("messages.gui.block.lore",
-                                       Collections.singletonList("&6Chances: &e%chance%&6%"));
+                config.set("version", "1.3.0");
+                config.set("messages.gui.title", "&eChances");
+                config.set("messages.gui.block.displayName", "&6%name%");
+                config.set("messages.gui.block.lore",
+                           Collections.singletonList("&6Chances: &e%chance%&6%"));
             case "1.3.0":
-                plugin.getConfig().set("version", "1.3.0.1");
-                plugin.getConfig().set("debug", true);
-                plugin.getConfig().set("messages.noIsland", "&cYou have to be on an island to view this.");
-                plugin.getConfig().set("sound.enabled", true);
-                plugin.getConfig().set("sound.created", "BLOCK_FIRE_EXTINGUISH");
-                plugin.getConfig().set("sound.volume", 3);
-                plugin.getConfig().set("sound.pitch", 2);
+                config.set("version", "1.3.0.1");
+                config.set("debug", true);
+                config.set("messages.noIsland", "&cYou have to be on an island to view this.");
+                config.set("sound.enabled", true);
+                config.set("sound.created", "BLOCK_FIRE_EXTINGUISH");
+                config.set("sound.volume", 3);
+                config.set("sound.pitch", 2);
             case "1.3.0.1":
-                plugin.getConfig().set("version", "1.3.0.2");
-                plugin.getConfig().set("messages.noIsland", "&cYou have to be on an island to view this.");
-                plugin.getConfig().set("messages.missingArgs", "&cFormat: &f + getFormat()");
-                plugin.getConfig().set("messages.noPermission", "&4Missing Permission: &c + permission");
-                plugin.getConfig().set("messages.noPlayer", "&4Player is not exist or isn't online");
-                plugin.getConfig().set("messages.notPlayer", "&4Only player can use this command");
+                config.set("version", "1.3.0.2");
+                config.set("messages.noIsland", "&cYou have to be on an island to view this.");
+                config.set("messages.missingArgs", "&cFormat: &f + getFormat()");
+                config.set("messages.noPermission", "&4Missing Permission: &c + permission");
+                config.set("messages.noPlayer", "&4Player is not exist or isn't online");
+                config.set("messages.notPlayer", "&4Only player can use this command");
+            case "1.3.0.2":
+                config.set("version", "1.3.0.3");
+                config.set("hooks.BentoBox.gamemodePriorities", Arrays.asList("AcidIsland", "BSkyBlock", "CaveBlock", "SkyGrid"));
                 saveConfig();
         }
     }

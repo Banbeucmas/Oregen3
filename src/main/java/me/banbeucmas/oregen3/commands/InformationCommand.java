@@ -28,22 +28,22 @@ public class InformationCommand extends AbstractCommand {
 
         final String[] args = getArgs();
         if (args.length > 1) {
-            //noinspection deprecation
+            @SuppressWarnings("deprecation")
             final OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
             if (player == null) {
                 return ExecutionResult.NO_PLAYER;
             }
             final UUID uuid = player.getUniqueId();
-            if (Oregen3.getHook().getIslandOwner(uuid) == null || !Oregen3.getPlugin().hasDependency()) {
+            if (!Oregen3.getPlugin().hasDependency() || PluginUtils.getOwner(uuid) == null) {
                 getSender().sendMessage(StringUtils.getPrefixString(Oregen3.getPlugin().getConfig().getString("messages.noIsland"), getPlayer()));
                 return ExecutionResult.DONT_CARE;
             }
             p.openInventory(new OreListGUI(uuid, p).getInventory());
         }
 
-        if (!Oregen3.getHook().isOnIsland(p.getLocation())
-                || PluginUtils.getOwner(p.getLocation()) == null
-                || !Oregen3.getPlugin().hasDependency()) {
+        if (!Oregen3.getPlugin().hasDependency()
+                || !Oregen3.getHook().isOnIsland(p.getLocation())
+                || PluginUtils.getOwner(p.getLocation()) == null) {
             p.sendMessage(StringUtils.getPrefixString(Oregen3.getPlugin().getConfig().getString("messages.noIsland"), getPlayer()));
             return ExecutionResult.DONT_CARE;
         }

@@ -3,17 +3,25 @@
 # https://github.com/xHexed/Oregen3/blob/master/src/main/resources/config.yml
 # Please click if you use the plugin the first time or updating
 # Notes:
-#  enableDependency: it will try to find a skyblock plugin to enable the owner perm feature
+#  enableDependency: it will try to find a skyblock plugin to enable the owner permission feature
 #  sound: you can use the old enum sound, as long as it playable in your version (ex: 1.8 sound for 1.12 server)
 #  Avalable placeholder for messages:
 #  - missingArgs: %format%
 #  - noPermission: %perm%
 #  - noPlayer: %player%
+#  hooks:
+#   BentoBox:
+#    AddonChecksByPriority:
+#     - This plugin will check for avalable gamemode by order. If witch addon comes first then it will use that addon to check
+#       for island
+#     - Since BentoBox lets you install many Gamemodes, this check is required due to the fact this plugin only hooks into one
+#       gamemode.
+#     - If an invaild gamemode is found, it will skip it
 # Tips:
-#  You can use PlaceholderAPI in every messages (execpt some that requires a player but the message don't get the player vaule)
+#  You can use PlaceholderAPI in every messages (execpt some that requires a player but the message can't get the player's name)
 # -------------------------------------
 # DO NOT TOUCH THIS
-version: 1.3.0.2
+version: 1.3.0.3
 debug: false
 
 prefix: "&f[&6OreGen&e3&f]"
@@ -36,6 +44,14 @@ disabledWorlds:
 enableDependency: true
 randomFallback: false
 defaultGenerator: default
+
+hooks:
+  BentoBox:
+    gamemodePriorities:
+    - "AcidIsland"
+    - "BSkyBlock"
+    - "CaveBlock"
+    - "SkyGrid"
 
 generators:
   default:
