@@ -1,8 +1,11 @@
 package me.banbeucmas.oregen3.commands;
 
+import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.utils.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import static me.banbeucmas.oregen3.utils.StringUtils.LABEL;
 
 public class HelpCommand extends AbstractCommand {
     HelpCommand(final CommandSender sender, final String label) {
@@ -19,15 +22,15 @@ public class HelpCommand extends AbstractCommand {
     }
 
     private void sendHelp(final CommandSender sender, final String label) {
-        sender.sendMessage(StringUtils.getPrefixString("&6&o/" + label + " help &f» Open help pages", getPlayer()));
+        sender.sendMessage(StringUtils.getPrefixString(LABEL.matcher(Oregen3.getPlugin().getConfig().getString("messages.commands.help")).replaceAll(getLabel()), getPlayer()));
         if (sender.hasPermission("oregen3.reload")) {
-            sender.sendMessage(StringUtils.getPrefixString("&6&o/" + label + " reload &f» Reload config", getPlayer()));
+            sender.sendMessage(StringUtils.getPrefixString(LABEL.matcher(Oregen3.getPlugin().getConfig().getString("messages.commands.reload")).replaceAll(getLabel()), getPlayer()));
         }
         if (sender.hasPermission("oregen3.information")) {
-            sender.sendMessage(StringUtils.getPrefixString("&6&o/" + label + " info &f» Getting ore spawning chance of the island you are standing", getPlayer()));
+            sender.sendMessage(StringUtils.getPrefixString(LABEL.matcher(Oregen3.getPlugin().getConfig().getString("messages.commands.info")).replaceAll(getLabel()), getPlayer()));
         }
         if (sender.hasPermission("oregen3.debug")) {
-            sender.sendMessage(StringUtils.getPrefixString("&6&o/" + label + " debug &f» Enable debugging", getPlayer()));
+            sender.sendMessage(StringUtils.getPrefixString(LABEL.matcher(Oregen3.getPlugin().getConfig().getString("messages.commands.debug")).replaceAll(getLabel()), getPlayer()));
         }
     }
 }

@@ -12,6 +12,7 @@ public class StringUtils {
     public static final Pattern FORMAT = Pattern.compile("%format%", Pattern.LITERAL);
     public static final Pattern PERM = Pattern.compile("%perm%", Pattern.LITERAL);
     public static final Pattern PLAYER = Pattern.compile("%player%", Pattern.LITERAL);
+    public static final Pattern LABEL = Pattern.compile("%label%", Pattern.LITERAL);
 
     public static String getColoredString(String s, final OfflinePlayer player) {
         if (Oregen3.getPlugin().hasPlaceholderAPI())

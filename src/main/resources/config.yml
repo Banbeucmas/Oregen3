@@ -10,6 +10,8 @@
 #  - noPermission: %perm%
 #  - noPlayer: %player%
 #  - noIslandOthers: %player%
+#  - messages:
+#     commands: %label% (First argument in command)
 #  hooks:
 #   BentoBox:
 #    gamemodePriorities:
@@ -89,6 +91,11 @@ generators:
       EMERALD_BLOCK: 8.0
 
 messages:
+  commands:
+    help: "&6&o/%label% help &f» Open help pages"
+    reload: "&6&o/%label% reload &f» Reload config"
+    info: "&6&o/%label% info [player] &f» Getting ore spawning chance of the island you are standing on or the targetted player"
+    debug: "&6&o/%label% debug &f» Toggle debugging"
   gui:
     title: "&eChances"
     block:
