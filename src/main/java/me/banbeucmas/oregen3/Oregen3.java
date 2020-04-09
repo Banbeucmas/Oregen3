@@ -76,6 +76,10 @@ public final class Oregen3 extends JavaPlugin {
             case "1.3.0.2":
                 config.set("version", "1.3.0.3");
                 config.set("hooks.BentoBox.gamemodePriorities", Arrays.asList("AcidIsland", "BSkyBlock", "CaveBlock", "SkyGrid"));
+                config.set("messages.commands.help", "&6&o/%label% help &f» Open help pages");
+                config.set("messages.commands.reload", "&6&o/%label% reload &f» Reload config");
+                config.set("messages.commands.info", "&6&o/%label% info [player] &f» Getting ore spawning chance of the island you are standing on or the targetted player");
+                config.set("messages.commands.debug", "&6&o/%label% debug &f» Toggle debugging");
                 saveConfig();
         }
     }
