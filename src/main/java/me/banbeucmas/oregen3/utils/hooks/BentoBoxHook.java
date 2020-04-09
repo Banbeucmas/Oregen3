@@ -55,20 +55,23 @@ public class BentoBoxHook implements SkyblockHook {
 
     @Override
     public long getIslandLevel(final UUID uuid, final Location loc) {
-        final World world;
+        Long num = 0L;
         if (level) {
-            if (loc != null) {
-                world = loc.getWorld();
-            }
-            else {
-                world = this.world;
-            }
-            return (Long) new AddonRequestBuilder()
+            final AddonRequestBuilder builder = new AddonRequestBuilder()
                     .addon("Level")
                     .label("island-level")
-                    .addMetaData("world-name", world)
-                    .addMetaData("player", uuid)
-                    .request();
+                    .addMetaData("player", uuid);
+            if (loc != null) {
+                num = (Long) builder
+                        .addMetaData("world-name", loc.getWorld())
+                        .request();
+            }
+            if (num == 0) {
+                num = (Long) builder
+                        .addMetaData("world-name", world)
+                        .request();
+            }
+            return num;
         }
         else
             return 0;
