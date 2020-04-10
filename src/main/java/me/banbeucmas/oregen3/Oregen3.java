@@ -173,7 +173,7 @@ public final class Oregen3 extends JavaPlugin {
             hookName = "uSkyBlock";
         }
         else {
-            getLogger().warning("[Oregen3] Plugin dependency for Oregen3 not found! Turning enableDependency off...");
+            getLogger().warning(StringUtils.getPrefixString("Plugin dependency for Oregen3 not found! Turning enableDependency off...", null));
             hasDependency = false;
         }
 
@@ -189,7 +189,7 @@ public final class Oregen3 extends JavaPlugin {
     private void setupPermissions() {
         final RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
         if (rsp == null) {
-            getLogger().severe("Vault not found! Disabling plugin...");
+            getLogger().severe(StringUtils.getPrefixString("Vault not found! Disabling plugin...", null));
             return;
         }
         perm = rsp.getProvider();

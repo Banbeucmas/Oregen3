@@ -3,6 +3,18 @@
 # https://github.com/xHexed/Oregen3/blob/master/src/main/resources/config.yml
 # Please click if you use the plugin the first time or updating
 # Notes:
+#  generator options:
+#   required options: options that MUST be provided, or else the plugin will throw errors
+#    random: list of blocks that will randomly be choosen upon generating ores
+#   optional options: options that are optionally provided, the generator will work normally if missing
+#    fallback: the block it will pick if all other block are not choosen, default to COBBLESTONE if missing
+#    sound: sound option that the block will cast if present
+#     name: name of the sound, default to BLOCK_FIRE_EXTINGUISH if missing
+#     volume: volume of the sound, default to 1 if missing
+#     pitch: pitch of the sound, default to 1 if missing
+#    world: world-related options
+#     blacklist: if the world list provided below are blacklist (non-whitelist), default to false if missing
+#     list: list of world that the generator are consider of, default to an empty list if missing
 #  enableDependency: it will try to find a skyblock plugin to enable the owner permission feature
 #  sound: you can use the old enum sound, as long as it playable in your version (ex: 1.8 sound for 1.12 server)
 #  Avalable placeholder for messages:
@@ -15,10 +27,10 @@
 #  hooks:
 #   BentoBox:
 #    gamemodePriorities:
-#     - This plugin will check for avalable gamemode by order. If witch addon comes first then it will use that gamemode to check
+#     - This plugin will check for avalable gamemode by order. If which addon comes first then it will use that gamemode to check
 #       for player's island (who knows someone would use 2 gamemode at a time....)
 #     - Since BentoBox lets you install many Gamemodes, this check is required due to the fact this plugin only hooks into one
-#       gamemode.
+#       gamemode (may be fixed later).
 #     - If an invaild gamemode is found, the plugin will skip it.
 # Tips:
 #  You can use PlaceholderAPI or MVDWPlaceholderAPI placeholder
@@ -42,9 +54,6 @@ blocks:
 - DARK_OAK_FENCE
 - IRON_FENCE
 
-disabledWorlds:
-- world
-
 enableDependency: true
 randomFallback: false
 defaultGenerator: default
@@ -65,6 +74,15 @@ generators:
       GOLD_BLOCK: 20.0
       IRON_BLOCK: 15.0
       LAPIS_BLOCK: 2.0
+    sound:
+      name: BLOCK_FIRE_EXTINGUISH
+      volume: 3
+      pitch: 2
+    world:
+      blacklist: false
+      list:
+      - world1
+      - world2
   vip:
     fallback: COBBLESTONE
     permission: "test.vip"
@@ -77,6 +95,15 @@ generators:
       LAPIS_BLOCK: 2.0
       COAL_BLOCK: 5.0
       REDSTONE_BLOCK: 10.0
+    sound:
+      name: BLOCK_FIRE_EXTINGUISH
+      volume: 3
+      pitch: 2
+    world:
+      blacklist: false
+      list:
+      - world1
+      - world2
   mvp:
     fallback: DIAMOND_ORE
     priority: 3
@@ -90,6 +117,15 @@ generators:
       REDSTONE_BLOCK: 10.0
       DIAMOND_BLOCK: 10.0
       EMERALD_BLOCK: 8.0
+    sound:
+      name: BLOCK_FIRE_EXTINGUISH
+      volume: 3
+      pitch: 2
+    world:
+      blacklist: false
+      list:
+      - world1
+      - world2
 
 messages:
   commands:
@@ -108,9 +144,3 @@ messages:
   noPermission: "&4Missing Permission: &c %perm%"
   noPlayer: "&4Player %player% isn't exist or online"
   notPlayer: "&4Only player can use this command"
-
-sound:
-  enabled: true
-  created: BLOCK_FIRE_EXTINGUISH
-  volume: 3
-  pitch: 2

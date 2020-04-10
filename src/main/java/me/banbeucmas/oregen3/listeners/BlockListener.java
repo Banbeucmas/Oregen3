@@ -23,39 +23,48 @@ public class BlockListener implements Listener {
     @EventHandler
     public void onOre(final BlockFromToEvent e) {
         final World world = e.getBlock().getLocation().getWorld();
-        assert world != null;
-        if (e.getBlock().getType() == Material.AIR || config.getStringList("disabledWorlds").contains(world.getName())) {
+
+        if (world == null || e.getBlock().getType() == Material.AIR)
             return;
-        }
 
         final Block source = e.getBlock();
         final Block to = e.getToBlock();
-        if ((source.getType() == Material.WATER
-                || source.getType() == Material.STATIONARY_LAVA
-                || source.getType() == Material.STATIONARY_WATER
-                || source.getType() == Material.LAVA)) {
 
-            if ((to.getType() == Material.AIR
-                    || to.getType() == Material.WATER
-                    || to.getType() == Material.STATIONARY_WATER)
-                    && source.getType() != Material.STATIONARY_WATER
-                    && generateCobble(source.getType(), to)
-                    && e.getFace() != BlockFace.DOWN){
-                if (source.getType() == Material.LAVA || source.getType() == Material.STATIONARY_LAVA) {
+        final Material sourceMaterial = source.getType();
+        final Material toMaterial = to.getType();
+
+        if ((sourceMaterial == Material.WATER
+                || sourceMaterial == Material.STATIONARY_LAVA
+                || sourceMaterial == Material.STATIONARY_WATER
+                || sourceMaterial == Material.LAVA)) {
+
+            if ((toMaterial == Material.AIR
+                    || toMaterial == Material.WATER
+                    || toMaterial == Material.STATIONARY_WATER)
+                    && sourceMaterial != Material.STATIONARY_WATER
+                    && generateCobble(sourceMaterial, to)
+                    && e.getFace() != BlockFace.DOWN) {
+                if (sourceMaterial == Material.LAVA || sourceMaterial == Material.STATIONARY_LAVA) {
                     if (!isSurroundedByWater(to.getLocation())) {
                         return;
                     }
                 }
-                to.setType(randomChance(source.getLocation()));
-                if (config.getBoolean("sound.enabled"))
-                    world.playSound(to.getLocation(), PluginUtils.getCobbleSound(), config.getInt("sound.volume"), config.getInt("sound.pitch"));
+                run(world, source, to);
             }
+
             else if (generateCobbleBlock(source, to)) {
-                to.setType(randomChance(source.getLocation()));
-                if (config.getBoolean("sound.enabled"))
-                    world.playSound(to.getLocation(), PluginUtils.getCobbleSound(), config.getInt("sound.volume"), config.getInt("sound.pitch"));
+                run(world, source, to);
             }
         }
+    }
+
+    private void run(final World world, final Block source, final Block to) {
+        final MaterialChooser mc = PluginUtils.getChooser(source.getLocation());
+        if (mc.isWorldEnabled() && mc.getWorldList().contains(to.getWorld().getName()) == mc.isWorldBlacklist())
+            return;
+        to.setType(randomChance(mc));
+        if (mc.isSoundEnabled())
+            world.playSound(to.getLocation(), mc.getSound(), mc.getSoundVolume(), mc.getSoundPitch());
     }
 
     private boolean generateCobbleBlock(final Block src, final Block to) {
@@ -97,8 +106,7 @@ public class BlockListener implements Listener {
         return false;
     }
 
-    private Material randomChance(final Location loc) {
-        final MaterialChooser mc = PluginUtils.getChooser(loc);
+    private Material randomChance(final MaterialChooser mc) {
         final Map<Material, Double> chances = mc.getChances();
 
         //We like unique chances ;)

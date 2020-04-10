@@ -10,8 +10,8 @@ public interface SkyblockHook {
     /**
      * Gets the island level for this player's uuid. A player location is provided if the plugin requires a location
      *
-     * @param uuid user's uuid
-     * @param loc  user's location (can be different from the uuid's location), can be null
+     * @param uuid the user's uuid
+     * @param loc  the user's location (can be different from the uuid's location) and can be null
      *
      * @return island level by player uuid, extra check with the location, or null (vaule of 0)
      */

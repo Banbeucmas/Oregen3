@@ -1,15 +1,12 @@
 package me.banbeucmas.oregen3.utils;
 
-import com.cryptomorin.xseries.XSound;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.data.MaterialChooser;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.Sound;
 
-import java.util.Optional;
 import java.util.UUID;
 
 public class PluginUtils {
@@ -85,10 +82,5 @@ public class PluginUtils {
 
     private static long getLevel(final UUID id, final Location loc) {
         return Oregen3.getHook().getIslandLevel(id, loc);
-    }
-
-    public static Sound getCobbleSound() {
-        final Optional<XSound> sound = XSound.matchXSound(Oregen3.getPlugin().getConfig().getString("sound.created"));
-        return sound.map(XSound::parseSound).orElse(null);
     }
 }

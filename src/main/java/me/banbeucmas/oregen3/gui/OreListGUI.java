@@ -50,7 +50,6 @@ public class OreListGUI {
                 lore.add(s);
             }
 
-            assert meta != null;
             meta.setLore(lore);
             display.setItemMeta(meta);
 
@@ -84,7 +83,6 @@ public class OreListGUI {
                 lore.add(s);
             }
 
-            assert meta != null;
             meta.setLore(lore);
             display.setItemMeta(meta);
 

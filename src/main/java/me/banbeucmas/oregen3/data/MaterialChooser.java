@@ -1,35 +1,51 @@
 package me.banbeucmas.oregen3.data;
 
+import com.cryptomorin.xseries.XSound;
 import me.banbeucmas.oregen3.Oregen3;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Set;
 
 public class MaterialChooser {
-    private final int priority;
-    private final int level;
+    private final long priority;
+    private final long level;
     private final String permission;
     private final Map<Material, Double> chances = new EnumMap<>(Material.class);
     private final Material fallback;
+    private boolean soundEnabled;
+    private Sound sound;
+    private float soundVolume;
+    private float soundPitch;
+    private boolean worldEnabled;
+    private boolean worldBlacklist;
+    private Set<String> worldList = new HashSet<>();
 
     MaterialChooser(final String id) {
         final String path = "generators." + id;
 
         final Oregen3 plugin = Oregen3.getPlugin();
         final FileConfiguration config = plugin.getConfig();
-        fallback   = config.isSet(path + ".fallback")
-                ? Material.matchMaterial(Objects.requireNonNull(config.getString(path + ".fallback"))) : Material.COBBLESTONE;
-        permission = config.isSet(path + ".permission")
-                ? config.getString(path + ".permission") : "oregen3.generator." + id;
-        priority   = config.isSet(path + ".priority")
-                ? config.getInt(path + ".priority") : 0;
-        level      = config.isSet(path + ".level")
-                ? config.getInt(path + ".level") : 0;
-
-        for (final String mat : Objects.requireNonNull(config.getConfigurationSection(path + ".random")).getKeys(false)) {
+        fallback   = Material.matchMaterial(config.getString(path + ".fallback", "COBBLESTONE"));
+        permission = config.getString(path + ".permission", "oregen3.generator." + id);
+        priority   = config.getLong(path + ".priority", 0);
+        level      = config.getLong(path + ".level", 0);
+        if (config.isSet(path + ".sound")) {
+            soundEnabled = true;
+            sound        = XSound.matchXSound(Oregen3.getPlugin().getConfig().getString(path + ".sound.name", "BLOCK_FIRE_EXTINGUISH")).map(XSound::parseSound).orElse(null);
+            soundVolume  = (float) config.getDouble(path + ".sound.volume", 1);
+            soundPitch   = (float) config.getDouble(path + ".sound.pitch", 1);
+        }
+        if (config.isSet(path + ".world")) {
+            worldEnabled   = true;
+            worldBlacklist = config.getBoolean(path + ".world.blacklist", false);
+            worldList      = config.getConfigurationSection(path + ".world.list").getKeys(false);
+        }
+        for (final String mat : config.getConfigurationSection(path + ".random").getKeys(false)) {
             chances.put(Material.matchMaterial(mat), config.getDouble(path + ".random." + mat));
         }
     }
@@ -45,11 +61,11 @@ public class MaterialChooser {
         return permission;
     }
 
-    public int getPriority() {
+    public long getPriority() {
         return priority;
     }
 
-    public int getLevel() {
+    public long getLevel() {
         return level;
     }
 
@@ -61,4 +77,31 @@ public class MaterialChooser {
         return chances;
     }
 
+    public boolean isSoundEnabled() {
+        return soundEnabled;
+    }
+
+    public Sound getSound() {
+        return sound;
+    }
+
+    public float getSoundVolume() {
+        return soundVolume;
+    }
+
+    public float getSoundPitch() {
+        return soundPitch;
+    }
+
+    public boolean isWorldEnabled() {
+        return worldEnabled;
+    }
+
+    public boolean isWorldBlacklist() {
+        return worldBlacklist;
+    }
+
+    public Set<String> getWorldList() {
+        return worldList;
+    }
 }

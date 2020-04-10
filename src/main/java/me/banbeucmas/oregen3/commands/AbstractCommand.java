@@ -82,7 +82,6 @@ abstract class AbstractCommand {
 				sender.sendMessage(StringUtils.getPrefixString(PERM.matcher(Oregen3.getPlugin().getConfig().getString("messages.noPermission")).replaceAll(Matcher.quoteReplacement(permission)), player));
 				break;
 			case NO_PLAYER:
-				assert player != null;
 				sender.sendMessage(StringUtils.getPrefixString(PLAYER.matcher(Oregen3.getPlugin().getConfig().getString("messages.noPlayer")).replaceAll(Matcher.quoteReplacement(player.getName())), player));
 				break;
 			case NOT_PLAYER:
