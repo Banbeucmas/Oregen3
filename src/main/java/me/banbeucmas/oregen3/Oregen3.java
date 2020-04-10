@@ -23,6 +23,7 @@ import java.util.Objects;
 public final class Oregen3 extends JavaPlugin {
     private boolean hasDependency = true;
     private boolean papi;
+    private boolean mvdw;
     private static Oregen3 plugin;
     private static SkyblockHook hook;
     private String hookName = "None";
@@ -35,6 +36,10 @@ public final class Oregen3 extends JavaPlugin {
 
     public boolean hasPlaceholderAPI() {
         return papi;
+    }
+
+    public boolean hasMVDWPlaceholderAPI() {
+        return mvdw;
     }
 
     private void updateConfig() {
@@ -174,6 +179,10 @@ public final class Oregen3 extends JavaPlugin {
 
         if (manager.isPluginEnabled("PlaceholderAPI")) {
             papi = true;
+        }
+
+        if (manager.isPluginEnabled("MVdWPlaceholderAPI")) {
+            mvdw = true;
         }
     }
 

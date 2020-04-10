@@ -1,7 +1,6 @@
 package me.banbeucmas.oregen3.utils;
 
 import me.banbeucmas.oregen3.Oregen3;
-import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 
@@ -16,7 +15,9 @@ public class StringUtils {
 
     public static String getColoredString(String s, final OfflinePlayer player) {
         if (Oregen3.getPlugin().hasPlaceholderAPI())
-            s = PlaceholderAPI.setPlaceholders(player, s);
+            s = me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(player, s);
+        if (Oregen3.getPlugin().hasMVDWPlaceholderAPI())
+            s = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(player, s);
         return ChatColor.translateAlternateColorCodes('&', s);
     }
 

@@ -21,7 +21,8 @@
 #       gamemode.
 #     - If an invaild gamemode is found, the plugin will skip it.
 # Tips:
-#  You can use PlaceholderAPI in every messages (execpt some that requires a player but the message can't get the player's name)
+#  You can use PlaceholderAPI or MVDWPlaceholderAPI placeholder
+#  in every messages (execpt some that requires a player but the message can't get the player's name)
 # -------------------------------------
 # DO NOT TOUCH THIS
 version: 1.3.0.3
