@@ -20,6 +20,7 @@ public class ReloadCommand extends AbstractCommand {
         }
 
         Oregen3.getPlugin().reloadConfig();
+        Oregen3.getPlugin().updateConfig();
         DataManager.loadData();
 
         getSender().sendMessage(StringUtils.getPrefixString("Config reloaded", getPlayer()));

@@ -17,11 +17,11 @@ public class HelpCommand extends AbstractCommand {
         if (!(getSender() instanceof Player)) {
             return ExecutionResult.NO_PERMISSION;
         }
-        sendHelp(getSender(), getLabel());
+        sendHelp(getSender());
         return ExecutionResult.DONT_CARE;
     }
 
-    private void sendHelp(final CommandSender sender, final String label) {
+    private void sendHelp(final CommandSender sender) {
         sender.sendMessage(StringUtils.getPrefixString(LABEL.matcher(Oregen3.getPlugin().getConfig().getString("messages.commands.help")).replaceAll(getLabel()), getPlayer()));
         if (sender.hasPermission("oregen3.reload")) {
             sender.sendMessage(StringUtils.getPrefixString(LABEL.matcher(Oregen3.getPlugin().getConfig().getString("messages.commands.reload")).replaceAll(getLabel()), getPlayer()));
