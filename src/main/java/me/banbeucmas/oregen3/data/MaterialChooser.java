@@ -6,10 +6,10 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class MaterialChooser {
     private final long priority;
@@ -23,7 +23,7 @@ public class MaterialChooser {
     private float soundPitch;
     private boolean worldEnabled;
     private boolean worldBlacklist;
-    private Set<String> worldList = new HashSet<>();
+    private List<String> worldList = new ArrayList<>();
 
     MaterialChooser(final String id) {
         final String path = "generators." + id;
@@ -43,7 +43,7 @@ public class MaterialChooser {
         if (config.isSet(path + ".world")) {
             worldEnabled   = true;
             worldBlacklist = config.getBoolean(path + ".world.blacklist", false);
-            worldList      = config.getConfigurationSection(path + ".world.list").getKeys(false);
+            worldList      = config.getStringList(path + ".world.list");
         }
         for (final String mat : config.getConfigurationSection(path + ".random").getKeys(false)) {
             chances.put(Material.matchMaterial(mat), config.getDouble(path + ".random." + mat));
@@ -101,7 +101,7 @@ public class MaterialChooser {
         return worldBlacklist;
     }
 
-    public Set<String> getWorldList() {
+    public List<String> getWorldList() {
         return worldList;
     }
 }
