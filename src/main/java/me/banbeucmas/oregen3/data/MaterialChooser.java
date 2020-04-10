@@ -26,27 +26,27 @@ public class MaterialChooser {
     private List<String> worldList = new ArrayList<>();
 
     MaterialChooser(final String id) {
-        final String path = "generators." + id;
+        final String path = "generators." + id + ".";
 
         final Oregen3 plugin = Oregen3.getPlugin();
         final FileConfiguration config = plugin.getConfig();
-        fallback   = Material.matchMaterial(config.getString(path + ".fallback", "COBBLESTONE"));
-        permission = config.getString(path + ".permission", "oregen3.generator." + id);
-        priority   = config.getLong(path + ".priority", 0);
-        level      = config.getLong(path + ".level", 0);
-        if (config.isSet(path + ".sound")) {
+        fallback   = Material.matchMaterial(config.getString(path + "fallback", "COBBLESTONE"));
+        permission = config.getString(path + "permission", "oregen3.generator." + id);
+        priority   = config.getLong(path + "priority", 0);
+        level      = config.getLong(path + "level", 0);
+        if (config.isSet(path + "sound")) {
             soundEnabled = true;
-            sound        = XSound.matchXSound(Oregen3.getPlugin().getConfig().getString(path + ".sound.name", "BLOCK_FIRE_EXTINGUISH")).map(XSound::parseSound).orElse(XSound.BLOCK_FIRE_EXTINGUISH.parseSound());
-            soundVolume  = (float) config.getDouble(path + ".sound.volume", 1);
-            soundPitch   = (float) config.getDouble(path + ".sound.pitch", 1);
+            sound        = XSound.matchXSound(Oregen3.getPlugin().getConfig().getString(path + "sound.name", "BLOCK_FIRE_EXTINGUISH")).map(XSound::parseSound).orElse(XSound.BLOCK_FIRE_EXTINGUISH.parseSound());
+            soundVolume  = (float) config.getDouble(path + "sound.volume", 1);
+            soundPitch   = (float) config.getDouble(path + "sound.pitch", 1);
         }
-        if (config.isSet(path + ".world")) {
+        if (config.isSet(path + "world")) {
             worldEnabled   = true;
-            worldBlacklist = config.getBoolean(path + ".world.blacklist", false);
-            worldList      = config.getStringList(path + ".world.list");
+            worldBlacklist = config.getBoolean(path + "world.blacklist", false);
+            worldList      = config.getStringList(path + "world.list");
         }
-        for (final String mat : config.getConfigurationSection(path + ".random").getKeys(false)) {
-            chances.put(Material.matchMaterial(mat), config.getDouble(path + ".random." + mat));
+        for (final String mat : config.getConfigurationSection(path + "random").getKeys(false)) {
+            chances.put(Material.matchMaterial(mat), config.getDouble(path + "random." + mat));
         }
     }
 
