@@ -33,7 +33,7 @@ public class InformationCommand extends AbstractCommand {
         if (args.length > 1) {
             @SuppressWarnings("deprecation")
             final OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
-            if (player == null) {
+            if (!player.hasPlayedBefore()) {
                 return ExecutionResult.NO_PLAYER;
             }
             final UUID uuid = player.getUniqueId();
@@ -44,6 +44,7 @@ public class InformationCommand extends AbstractCommand {
             }
 
             p.openInventory(new OreListGUI(uuid, p).getInventory());
+            return ExecutionResult.DONT_CARE;
         }
 
         if (!Oregen3.getPlugin().hasDependency()
