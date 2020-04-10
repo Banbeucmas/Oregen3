@@ -36,7 +36,7 @@ public class MaterialChooser {
         level      = config.getLong(path + ".level", 0);
         if (config.isSet(path + ".sound")) {
             soundEnabled = true;
-            sound        = XSound.matchXSound(Oregen3.getPlugin().getConfig().getString(path + ".sound.name", "BLOCK_FIRE_EXTINGUISH")).map(XSound::parseSound).orElse(null);
+            sound        = XSound.matchXSound(Oregen3.getPlugin().getConfig().getString(path + ".sound.name", "BLOCK_FIRE_EXTINGUISH")).map(XSound::parseSound).orElse(XSound.BLOCK_FIRE_EXTINGUISH.parseSound());
             soundVolume  = (float) config.getDouble(path + ".sound.volume", 1);
             soundPitch   = (float) config.getDouble(path + ".sound.pitch", 1);
         }

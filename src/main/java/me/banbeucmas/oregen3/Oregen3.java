@@ -55,36 +55,44 @@ public final class Oregen3 extends JavaPlugin {
         }
         switch (config.getString("version")) {
             case "1.1.0":
-                config.set("version", "1.2.0");
-                config.set("enableDependency", true);
+                config.addDefault("version", "1.2.0");
+                config.addDefault("enableDependency", true);
             case "1.2.0":
-                config.set("version", "1.3.0");
-                config.set("messages.gui.title", "&eChances");
-                config.set("messages.gui.block.displayName", "&6%name%");
-                config.set("messages.gui.block.lore",
-                           Collections.singletonList("&6Chances: &e%chance%&6%"));
+                config.addDefault("version", "1.3.0");
+                config.addDefault("messages.gui.title", "&eChances");
+                config.addDefault("messages.gui.block.displayName", "&6%name%");
+                config.addDefault("messages.gui.block.lore",
+                                  Collections.singletonList("&6Chances: &e%chance%&6%"));
             case "1.3.0":
-                config.set("version", "1.3.0.1");
-                config.set("debug", true);
-                config.set("messages.noIsland", "&cYou have to be on an island to view this.");
-                config.set("sound.enabled", true);
-                config.set("sound.created", "BLOCK_FIRE_EXTINGUISH");
-                config.set("sound.volume", 3);
-                config.set("sound.pitch", 2);
+                config.addDefault("version", "1.3.0.1");
+                config.addDefault("debug", true);
+                config.addDefault("messages.noIsland", "&cYou have to be on an island to view this.");
+                config.addDefault("sound.enabled", true);
+                config.addDefault("sound.created", "BLOCK_FIRE_EXTINGUISH");
+                config.addDefault("sound.volume", 3);
+                config.addDefault("sound.pitch", 2);
             case "1.3.0.1":
-                config.set("version", "1.3.0.2");
-                config.set("messages.noIsland", "&cYou have to be on an island to view this.");
-                config.set("messages.missingArgs", "&cFormat: &f + getFormat()");
-                config.set("messages.noPermission", "&4Missing Permission: &c + permission");
-                config.set("messages.noPlayer", "&4Player is not exist or isn't online");
-                config.set("messages.notPlayer", "&4Only player can use this command");
+                config.addDefault("version", "1.3.0.2");
+                config.addDefault("messages.noIsland", "&cYou have to be on an island to view this.");
+                config.addDefault("messages.missingArgs", "&cFormat: &f + getFormat()");
+                config.addDefault("messages.noPermission", "&4Missing Permission: &c + permission");
+                config.addDefault("messages.noPlayer", "&4Player is not exist or isn't online");
+                config.addDefault("messages.notPlayer", "&4Only player can use this command");
             case "1.3.0.2":
-                config.set("version", "1.3.0.3");
-                config.set("hooks.BentoBox.gamemodePriorities", Arrays.asList("AcidIsland", "BSkyBlock", "CaveBlock", "SkyGrid"));
-                config.set("messages.commands.help", "&6&o/%label% help &f» Open help pages");
-                config.set("messages.commands.reload", "&6&o/%label% reload &f» Reload config");
-                config.set("messages.commands.info", "&6&o/%label% info [player] &f» Getting ore spawning chance of the island you are standing on or the targetted player");
-                config.set("messages.commands.debug", "&6&o/%label% debug &f» Toggle debugging");
+                config.addDefault("version", "1.3.0.3");
+                config.addDefault("hooks.BentoBox.gamemodePriorities", Arrays.asList("AcidIsland", "BSkyBlock", "CaveBlock", "SkyGrid"));
+                config.addDefault("messages.commands.help", "&6&o/%label% help &f» Open help pages");
+                config.addDefault("messages.commands.reload", "&6&o/%label% reload &f» Reload config");
+                config.addDefault("messages.commands.info", "&6&o/%label% info [player] &f» Getting ore spawning chance of the island you are standing on or the targetted player");
+                config.addDefault("messages.commands.debug", "&6&o/%label% debug &f» Toggle debugging");
+            case "1.3.0.3":
+                config.addDefault("global.generators.world.enabled", false);
+                config.addDefault("global.generators.world.blacklist", false);
+                config.addDefault("global.generators.world.list", Arrays.asList("world1", "world2"));
+                config.addDefault("global.generators.world.sound.enabled", false);
+                config.addDefault("global.generators.world.sound.name", "BLOCK_FIRE_EXTINGUISH");
+                config.addDefault("global.generators.world.sound.volume", 1);
+                config.addDefault("global.generators.world.sound.pitch", 1);
                 saveConfig();
         }
     }
