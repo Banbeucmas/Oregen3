@@ -38,19 +38,4 @@ public class PermissionManager {
 
         return list.contains(permission);
     }
-
-    public static void checkPerms(final OfflinePlayer player) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                final HashSet<String> list = permlist.get(player.getName());
-                list.clear();
-                for (final MaterialChooser chooser : DataManager.getChoosers().values()) {
-                    if (checkPerm(null, player, chooser.getPermission())) {
-                        list.add(chooser.getPermission());
-                    }
-                }
-            }
-        }.runTaskAsynchronously(Oregen3.getPlugin());
-    }
 }

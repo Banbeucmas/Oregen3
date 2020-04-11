@@ -4,7 +4,6 @@ import me.banbeucmas.oregen3.commands.Commands;
 import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.listeners.BlockListener;
 import me.banbeucmas.oregen3.listeners.GUIListener;
-import me.banbeucmas.oregen3.listeners.JoinListener;
 import me.banbeucmas.oregen3.utils.StringUtils;
 import me.banbeucmas.oregen3.utils.hooks.*;
 import net.milkbowl.vault.permission.Permission;
@@ -145,7 +144,6 @@ public final class Oregen3 extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
         getServer().getPluginManager().registerEvents(new GUIListener(), this);
-        getServer().getPluginManager().registerEvents(new JoinListener(), this);
     }
 
     private void checkDependency() {
