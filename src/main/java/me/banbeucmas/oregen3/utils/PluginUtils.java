@@ -3,12 +3,12 @@ package me.banbeucmas.oregen3.utils;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.data.MaterialChooser;
+import me.banbeucmas.oregen3.data.PermissionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class PluginUtils {
     public static OfflinePlayer getOwner(final Location loc) {
@@ -43,67 +43,66 @@ public class PluginUtils {
 
     public static MaterialChooser getChooser(final Location loc) {
         final Oregen3 plugin = Oregen3.getPlugin();
-        final AtomicReference<MaterialChooser> mc = new AtomicReference<>(DataManager.getChoosers().get(plugin.getConfig().getString("defaultGenerator")));
+        MaterialChooser mc = DataManager.getChoosers().get(plugin.getConfig().getString("defaultGenerator"));
         if (plugin.hasDependency()) {
             final OfflinePlayer p = getOwner(loc);
             if (p == null) {
-                return mc.get();
+                if (Oregen3.DEBUG) {
+                    System.out.println("Null UUID...");
+                }
+                return mc;
             }
             for (final MaterialChooser chooser : DataManager.getChoosers().values()) {
-                Oregen3.getPlugin().getServer().getScheduler().runTaskAsynchronously(Oregen3.getPlugin(), () -> {
+                if (Oregen3.DEBUG) {
+                    System.out.println("Checking generator type " + chooser.getId() + " for " + p.getName() + ":");
+                    System.out.println(" - Has perms: " + Oregen3.getPerm().playerHas(null, p, chooser.getPermission()));
+                    System.out.println(" - Priority check: " + chooser.getPriority() + " " + mc.getPriority());
+                    System.out.println(" - Level check: " + getLevel(p.getUniqueId(), loc) + " " + chooser.getLevel());
+                }
+                //TODO: Support island-only world?
+                if (PermissionManager.checkPerm(null, p, chooser.getPermission())
+                        && chooser.getPriority() >= mc.getPriority()
+                        && getLevel(p.getUniqueId(), loc) >= chooser.getLevel()) {
                     if (Oregen3.DEBUG) {
-                        System.out.println("Checking generator type " + chooser.getId() + " for " + p.getName() + ":");
-                        System.out.println(" - Has perms: " + plugin.getPerm().playerHas(null, p, chooser.getPermission()));
-                        System.out.println(" - Priority check: " + chooser.getPriority() + " " + mc.get().getPriority());
-                        System.out.println(" - Level check: " + getLevel(p.getUniqueId(), loc) + " " + chooser.getLevel());
+                        System.out.println("Changed gennerator id to " + chooser.getId());
                     }
-                    //TODO: Support island-only world?
-                    if (plugin.getPerm().playerHas(null, p, chooser.getPermission())
-                            && chooser.getPriority() >= mc.get().getPriority()
-                            && getLevel(p.getUniqueId(), loc) >= chooser.getLevel()) {
-                        if (Oregen3.DEBUG) {
-                            System.out.println("Changed gennerator id to " + chooser.getId());
-                        }
-                        mc.set(chooser);
-                    }
-                });
+                    mc = chooser;
+                }
             }
         }
         if (Oregen3.DEBUG) {
-            System.out.println("Gennerator id: " + mc.get().getId());
+            System.out.println("Gennerator id: " + mc.getId());
         }
-        return mc.get();
+        return mc;
     }
 
     public static MaterialChooser getChooser(final UUID uuid) {
         final Oregen3 plugin = Oregen3.getPlugin();
-        final AtomicReference<MaterialChooser> mc = new AtomicReference<>(DataManager.getChoosers().get(plugin.getConfig().getString("defaultGenerator")));
+        MaterialChooser mc = DataManager.getChoosers().get(plugin.getConfig().getString("defaultGenerator"));
         if (plugin.hasDependency()) {
             final UUID p = Oregen3.getHook().getIslandOwner(uuid);
             if (p == null) {
                 if (Oregen3.DEBUG) {
                     System.out.println("Null UUID...");
                 }
-                return mc.get();
+                return mc;
             }
             for (final MaterialChooser chooser : DataManager.getChoosers().values()) {
-                Oregen3.getPlugin().getServer().getScheduler().runTaskAsynchronously(Oregen3.getPlugin(), () -> {
-                    //TODO: Support island-only world?
-                    if (plugin.getPerm().playerHas(null, Bukkit.getOfflinePlayer(p), chooser.getPermission())
-                            && chooser.getPriority() >= mc.get().getPriority()
-                            && getLevel(p, null) >= chooser.getLevel()) {
-                        if (Oregen3.DEBUG) {
-                            System.out.println("Changed gennerator id to " + chooser.getId());
-                        }
-                        mc.set(chooser);
+                //TODO: Support island-only world?
+                if (PermissionManager.checkPerm(null, Bukkit.getOfflinePlayer(p), chooser.getPermission())
+                        && chooser.getPriority() >= mc.getPriority()
+                        && getLevel(p, null) >= chooser.getLevel()) {
+                    if (Oregen3.DEBUG) {
+                        System.out.println("Changed gennerator id to " + chooser.getId());
                     }
-                });
+                    mc = chooser;
+                }
             }
         }
         if (Oregen3.DEBUG) {
-            System.out.println("Gennerator id: " + mc.get().getId());
+            System.out.println("Gennerator id: " + mc.getId());
         }
-        return mc.get();
+        return mc;
     }
 
     private static long getLevel(final UUID id, final Location loc) {
