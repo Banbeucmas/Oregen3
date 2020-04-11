@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MaterialChooser {
+    private final String id;
     private final long priority;
     private final long level;
     private final String permission;
@@ -26,6 +27,7 @@ public class MaterialChooser {
     private List<String> worldList = new ArrayList<>();
 
     MaterialChooser(final String id) {
+        this.id = id;
         final String path = "generators." + id + ".";
 
         final Oregen3 plugin = Oregen3.getPlugin();
@@ -42,7 +44,7 @@ public class MaterialChooser {
         }
         if (config.isSet(path + "world")) {
             worldEnabled   = true;
-            worldBlacklist = config.getBoolean(path + "world.blacklist", false);
+            worldBlacklist = config.getBoolean(path + "world.blacklist", true);
             worldList      = config.getStringList(path + "world.list");
         }
         for (final String mat : config.getConfigurationSection(path + "random").getKeys(false)) {
@@ -50,12 +52,9 @@ public class MaterialChooser {
         }
     }
 
-
-// --Commented out by Inspection START (25/03/2020 8:27 SA):
-//    public String getId() {
-//        return id;
-//    }
-// --Commented out by Inspection STOP (25/03/2020 8:27 SA)
+    public String getId() {
+        return id;
+    }
 
     public String getPermission() {
         return permission;

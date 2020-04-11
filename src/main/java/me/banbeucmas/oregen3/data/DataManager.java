@@ -1,11 +1,9 @@
 package me.banbeucmas.oregen3.data;
 
 import me.banbeucmas.oregen3.Oregen3;
-import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class DataManager {
     private static Map<String, MaterialChooser> choosers = new HashMap<>();
@@ -20,9 +18,17 @@ public class DataManager {
 
     public static void loadData() {
         choosers = new HashMap<>();
-        final FileConfiguration config = Oregen3.getPlugin().getConfig();
-        for (final String id : Objects.requireNonNull(config.getConfigurationSection("generators")).getKeys(false)) {
+        if (Oregen3.DEBUG) {
+            System.out.print("Loaded generators: ");
+        }
+        for (final String id : Oregen3.getPlugin().getConfig().getConfigurationSection("generators").getKeys(false)) {
+            if (Oregen3.DEBUG) {
+                System.out.print(id + " ");
+            }
             choosers.put(id, new MaterialChooser(id));
+        }
+        if (Oregen3.DEBUG) {
+            System.out.println();
         }
     }
 }

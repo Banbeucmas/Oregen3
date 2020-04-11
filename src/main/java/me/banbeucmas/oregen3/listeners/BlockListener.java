@@ -1,5 +1,6 @@
 package me.banbeucmas.oregen3.listeners;
 
+import com.cryptomorin.xseries.XSound;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.MaterialChooser;
 import me.banbeucmas.oregen3.utils.BlockUtils;
@@ -29,6 +30,12 @@ public class BlockListener implements Listener {
 
         final Block source = e.getBlock();
         final Block to = e.getToBlock();
+
+        if (config.getBoolean("global.generators.world.enabled", false)
+                && config.getBoolean("global.generators.world.blacklist", true)
+                == config.getStringList("global.generators.world.list").contains(to.getWorld().getName())) {
+            return;
+        }
 
         final Material sourceMaterial = source.getType();
         final Material toMaterial = to.getType();
@@ -65,6 +72,13 @@ public class BlockListener implements Listener {
         to.setType(randomChance(mc));
         if (mc.isSoundEnabled())
             world.playSound(to.getLocation(), mc.getSound(), mc.getSoundVolume(), mc.getSoundPitch());
+        else if (config.getBoolean("global.generators.sound.enabled", false)) {
+            world.playSound(to.getLocation(),
+                            XSound.matchXSound(config.getString("global.generators.sound.name", "BLOCK_FIRE_EXTINGUISH")).map(XSound::parseSound).orElse(XSound.BLOCK_FIRE_EXTINGUISH.parseSound()),
+                            (float) config.getDouble("global.generators.sound.volume", 1),
+                            (float) config.getDouble("global.generators.sound.pitch", 1)
+            );
+        }
     }
 
     private boolean generateCobbleBlock(final Block src, final Block to) {

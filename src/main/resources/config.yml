@@ -13,7 +13,7 @@
 #        volume: volume of the sound, default to 1 if missing
 #        pitch: pitch of the sound, default to 1 if missing
 #      world: world-related options
-#        blacklist: if the world list provided below are blacklist (non-whitelist), default to false if missing
+#        blacklist: if the world list provided below are blacklist (non-whitelist), default to true if missing
 #        list: list of world that the generator are consider of, default to an empty list if missing
 #  enableDependency: it will try to find a skyblock plugin to enable the owner permission feature
 #  sound: you can use the old enum sound, as long as it playable in your version (ex: 1.8 sound for 1.12 server)
@@ -73,7 +73,7 @@ global:
   generators:
     world:
       enabled: false
-      blacklist: false
+      blacklist: true
       list:
       - world1
       - world2
@@ -95,11 +95,6 @@ generators:
       name: BLOCK_FIRE_EXTINGUISH
       volume: 3
       pitch: 2
-    world:
-      blacklist: false
-      list:
-      - world1
-      - world2
   vip:
     fallback: COBBLESTONE
     permission: "test.vip"
@@ -117,7 +112,7 @@ generators:
       volume: 3
       pitch: 2
     world:
-      blacklist: false
+      blacklist: true
       list:
       - world1
       - world2
@@ -139,7 +134,7 @@ generators:
       volume: 3
       pitch: 2
     world:
-      blacklist: false
+      blacklist: true
       list:
       - world1
       - world2

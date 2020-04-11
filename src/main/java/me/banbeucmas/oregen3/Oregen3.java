@@ -49,8 +49,8 @@ public final class Oregen3 extends JavaPlugin {
                 config.addDefault("blocks", Arrays.asList("FENCE", "ACACIA_FENCE", "BIRCH_FENCE", "DARK_OAK_FENCE", "IRON_FENCE"));
                 config.addDefault("mode.lavaBlock", false);
                 config.addDefault("mode.waterBlock", true);
-                config.addDefault("mode.lavaFence", false);
-                config.addDefault("mode.waterFence", true);
+                config.set("mode.lavaFence", null);
+                config.set("mode.waterFence", null);
             case "1.1.0":
                 config.addDefault("enableDependency", true);
             case "1.2.0":
