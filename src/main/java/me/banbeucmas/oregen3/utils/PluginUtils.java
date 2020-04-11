@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class PluginUtils {
     public static OfflinePlayer getOwner(final Location loc) {
@@ -42,42 +43,61 @@ public class PluginUtils {
 
     public static MaterialChooser getChooser(final Location loc) {
         final Oregen3 plugin = Oregen3.getPlugin();
-        MaterialChooser mc = DataManager.getChoosers().get(plugin.getConfig().getString("defaultGenerator"));
+        final AtomicReference<MaterialChooser> mc = new AtomicReference<>(DataManager.getChoosers().get(plugin.getConfig().getString("defaultGenerator")));
         if (plugin.hasDependency()) {
             final OfflinePlayer p = getOwner(loc);
             if (p == null) {
-                return mc;
+                return mc.get();
             }
             for (final MaterialChooser chooser : DataManager.getChoosers().values()) {
-                //TODO: Support island-only world?
-                if (plugin.getPerm().playerHas(null, p, chooser.getPermission())
-                        && chooser.getPriority() >= mc.getPriority()
-                        && getLevel(p.getUniqueId(), loc) >= chooser.getLevel()) {
-                    mc = chooser;
-                }
+                Oregen3.getPlugin().getServer().getScheduler().runTaskAsynchronously(Oregen3.getPlugin(), () -> {
+                    //TODO: Support island-only world?
+                    if (plugin.getPerm().playerHas(null, p, chooser.getPermission())
+                            && chooser.getPriority() >= mc.get().getPriority()
+                            && getLevel(p.getUniqueId(), loc) >= chooser.getLevel()) {
+                        if (Oregen3.DEBUG) {
+                            System.out.println("Changed gennerator id to " + chooser.getId());
+                        }
+                        mc.set(chooser);
+                    }
+                });
             }
         }
-        return mc;
+        if (Oregen3.DEBUG) {
+            System.out.println("Gennerator id: " + mc.get().getId());
+        }
+        return mc.get();
     }
 
     public static MaterialChooser getChooser(final UUID uuid) {
         final Oregen3 plugin = Oregen3.getPlugin();
-        MaterialChooser mc = DataManager.getChoosers().get(plugin.getConfig().getString("defaultGenerator"));
+        final AtomicReference<MaterialChooser> mc = new AtomicReference<>(DataManager.getChoosers().get(plugin.getConfig().getString("defaultGenerator")));
         if (plugin.hasDependency()) {
             final UUID p = Oregen3.getHook().getIslandOwner(uuid);
             if (p == null) {
-                return mc;
+                if (Oregen3.DEBUG) {
+                    System.out.println("Null UUID...");
+                }
+                return mc.get();
             }
             for (final MaterialChooser chooser : DataManager.getChoosers().values()) {
-                //TODO: Support island-only world?
-                if (plugin.getPerm().playerHas(null, Bukkit.getOfflinePlayer(uuid), chooser.getPermission())
-                        && chooser.getPriority() >= mc.getPriority()
-                        && getLevel(p, null) >= chooser.getLevel()) {
-                    mc = chooser;
-                }
+                Oregen3.getPlugin().getServer().getScheduler().runTaskAsynchronously(Oregen3.getPlugin(), () -> {
+                    //TODO: Support island-only world?
+                    if (plugin.getPerm().playerHas(null, Bukkit.getOfflinePlayer(p), chooser.getPermission())
+                            && chooser.getPriority() >= mc.get().getPriority()
+                            && getLevel(p, null) >= chooser.getLevel()) {
+                        if (Oregen3.DEBUG) {
+                            System.out.println("Changed gennerator id to " + chooser.getId());
+                        }
+                        mc.set(chooser);
+                    }
+                });
             }
         }
-        return mc;
+        if (Oregen3.DEBUG) {
+            System.out.println("Gennerator id: " + mc.get().getId());
+        }
+        return mc.get();
     }
 
     private static long getLevel(final UUID id, final Location loc) {
