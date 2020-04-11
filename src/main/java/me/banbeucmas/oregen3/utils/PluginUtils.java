@@ -51,6 +51,12 @@ public class PluginUtils {
             }
             for (final MaterialChooser chooser : DataManager.getChoosers().values()) {
                 Oregen3.getPlugin().getServer().getScheduler().runTaskAsynchronously(Oregen3.getPlugin(), () -> {
+                    if (Oregen3.DEBUG) {
+                        System.out.println("Checking generator type " + chooser.getId() + " for " + p.getName() + ":");
+                        System.out.println(" - Has perms: " + plugin.getPerm().playerHas(null, p, chooser.getPermission()));
+                        System.out.println(" - Priority check: " + chooser.getPriority() + " " + mc.get().getPriority());
+                        System.out.println(" - Level check: " + getLevel(p.getUniqueId(), loc) + " " + chooser.getLevel());
+                    }
                     //TODO: Support island-only world?
                     if (plugin.getPerm().playerHas(null, p, chooser.getPermission())
                             && chooser.getPriority() >= mc.get().getPriority()
