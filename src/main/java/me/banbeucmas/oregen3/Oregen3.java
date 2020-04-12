@@ -165,9 +165,9 @@ public final class Oregen3 extends JavaPlugin {
             hook     = new BentoBoxHook();
             hookName = "BentoBox";
         }
-        else if (manager.isPluginEnabled("SuperiorSkyblock")) {
+        else if (manager.isPluginEnabled("SuperiorSkyblock2")) {
             hook     = new SuperiorSkyblockHook();
-            hookName = "SuperiorSkyblock";
+            hookName = "SuperiorSkyblock2";
         }
         else if (manager.isPluginEnabled("FabledSkyBlock")) {
             hook     = new FabledSkyBlockHook();

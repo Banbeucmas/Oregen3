@@ -3,7 +3,7 @@ version: ${project.version}
 main: me.banbeucmas.oregen3.Oregen3
 authors: [Banbeucmas, xHexed]
 depend: [Vault]
-softdepend: [ASkyBlock, AcidIsland, BentoBox, uSkyBlock, SuperiorSkyblock, FabledSkyBlock, PlaceholderAPI, MVdWPlaceholderAPI]
+softdepend: [ASkyBlock, AcidIsland, BentoBox, uSkyBlock, SuperiorSkyblock2, FabledSkyBlock, PlaceholderAPI, MVdWPlaceholderAPI]
 
 commands:
   oregen3:
