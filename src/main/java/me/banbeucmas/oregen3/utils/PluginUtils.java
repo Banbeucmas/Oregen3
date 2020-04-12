@@ -3,7 +3,7 @@ package me.banbeucmas.oregen3.utils;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.data.MaterialChooser;
-import me.banbeucmas.oregen3.data.PermissionManager;
+import me.banbeucmas.oregen3.data.permission.PermissionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;

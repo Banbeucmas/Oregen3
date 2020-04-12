@@ -1,7 +1,6 @@
 package me.banbeucmas.oregen3.commands;
 
 public enum ExecutionResult {
-
     /**
      * Can be used either the command is successful or failed
      */

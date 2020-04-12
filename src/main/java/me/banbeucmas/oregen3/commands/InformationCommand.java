@@ -24,15 +24,16 @@ public class InformationCommand extends AbstractCommand {
         if (!(getSender() instanceof Player)) {
             return ExecutionResult.NOT_PLAYER;
         }
+
         if (!getSender().hasPermission(getPermission())) {
             return ExecutionResult.NO_PERMISSION;
         }
-        final Player p = (Player) getSender();
+
+        final Player p = getPlayer();
 
         final String[] args = getArgs();
         if (args.length > 1) {
-            @SuppressWarnings("deprecation")
-            final OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
+            @SuppressWarnings("deprecation") final OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
             if (!player.hasPlayedBefore()) {
                 return ExecutionResult.NO_PLAYER;
             }

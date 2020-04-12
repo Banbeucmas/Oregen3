@@ -33,6 +33,8 @@ public class Commands implements CommandExecutor, TabCompleter {
             case "debug":
                 new DebugCommand(sender).execute();
                 break;
+            case "check":
+                new CheckCommand(sender, args).execute();
         }
         return true;
     }

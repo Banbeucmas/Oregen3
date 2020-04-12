@@ -21,44 +21,7 @@ abstract class AbstractCommand {
 		this.label      = label;
 		this.args       = args;
 		this.sender     = sender;
-		if (sender instanceof Player) {
-			player = (Player) sender;
-		}
-		else
-			player = null;
-	}
 
-	/*
-	AbstractCommand(final String permission, final CommandSender sender, final String[] args) {
-		this.permission = permission;
-		label           = null;
-		this.args       = args;
-		this.sender     = sender;
-		if (sender instanceof Player) {
-			player = (Player) sender;
-		}
-		else
-			player = null;
-	}
-	*/
-
-	AbstractCommand(final String permission, final CommandSender sender, final String label) {
-		this.permission = permission;
-		this.label      = label;
-		args            = null;
-		this.sender     = sender;
-		if (sender instanceof Player) {
-			player = (Player) sender;
-		}
-		else
-			player = null;
-	}
-
-	AbstractCommand(final String permission, final CommandSender sender) {
-		this.permission = permission;
-		label           = null;
-		args            = null;
-		this.sender     = sender;
 		if (sender instanceof Player) {
 			player = (Player) sender;
 		}
@@ -82,7 +45,7 @@ abstract class AbstractCommand {
 				sender.sendMessage(StringUtils.getPrefixString(PERM.matcher(Oregen3.getPlugin().getConfig().getString("messages.noPermission")).replaceAll(Matcher.quoteReplacement(permission)), player));
 				break;
 			case NO_PLAYER:
-				sender.sendMessage(StringUtils.getPrefixString(PLAYER.matcher(Oregen3.getPlugin().getConfig().getString("messages.noPlayer")).replaceAll(Matcher.quoteReplacement(player.getName())), player));
+				sender.sendMessage(StringUtils.getPrefixString(PLAYER.matcher(Oregen3.getPlugin().getConfig().getString("messages.noPlayer")).replaceAll(Matcher.quoteReplacement(player != null ? player.getName() : "")), player));
 				break;
 			case NOT_PLAYER:
 				sender.sendMessage(StringUtils.getPrefixString(Oregen3.getPlugin().getConfig().getString("messages.notPlayer"), player));

@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 
 public class ReloadCommand extends AbstractCommand {
     ReloadCommand(final CommandSender sender) {
-        super("oregen3.reload", sender);
+        super("oregen3.reload", sender, null, null);
     }
 
     @Override
@@ -24,7 +24,6 @@ public class ReloadCommand extends AbstractCommand {
         DataManager.loadData();
 
         getSender().sendMessage(StringUtils.getPrefixString("Config reloaded", getPlayer()));
-
 
         return ExecutionResult.DONT_CARE;
     }

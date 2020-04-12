@@ -9,14 +9,15 @@ import static me.banbeucmas.oregen3.utils.StringUtils.LABEL;
 
 public class HelpCommand extends AbstractCommand {
     HelpCommand(final CommandSender sender, final String label) {
-        super("oregen3.help", sender, label);
+        super("oregen3.help", sender, label, null);
     }
 
     @Override
     public ExecutionResult now() {
         if (!(getSender() instanceof Player)) {
-            return ExecutionResult.NO_PERMISSION;
+            return ExecutionResult.NOT_PLAYER;
         }
+
         sendHelp(getSender());
         return ExecutionResult.DONT_CARE;
     }
