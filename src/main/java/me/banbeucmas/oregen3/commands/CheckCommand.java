@@ -1,6 +1,6 @@
 package me.banbeucmas.oregen3.commands;
 
-import me.banbeucmas.oregen3.data.permission.PermissionManager;
+import me.banbeucmas.oregen3.Oregen3;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -22,7 +22,7 @@ public class CheckCommand extends AbstractCommand {
             if (!player.hasPlayedBefore()) {
                 return ExecutionResult.NO_PLAYER;
             }
-            PermissionManager.checkPerms(player);
+            Oregen3.getPermissionManager().checkPerms(player);
         }
         return ExecutionResult.DONT_CARE;
     }
