@@ -47,6 +47,7 @@ public class VaultPermission implements PermissionManager {
         new BukkitRunnable() {
             @Override
             public void run() {
+                checkContains(player.getName());
                 final HashSet<String> list = permlist.get(player.getName());
                 list.clear();
                 for (final MaterialChooser chooser : DataManager.getChoosers().values()) {
@@ -56,5 +57,11 @@ public class VaultPermission implements PermissionManager {
                 }
             }
         }.runTaskAsynchronously(Oregen3.getPlugin());
+    }
+
+    private void checkContains(final String player) {
+        if (!permlist.containsKey(player)) {
+            permlist.put(player, new HashSet<>());
+        }
     }
 }

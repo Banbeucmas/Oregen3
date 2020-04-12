@@ -2,6 +2,9 @@ package me.banbeucmas.oregen3;
 
 import me.banbeucmas.oregen3.commands.Commands;
 import me.banbeucmas.oregen3.data.DataManager;
+import me.banbeucmas.oregen3.data.permission.BentoBoxPermission;
+import me.banbeucmas.oregen3.data.permission.PermissionManager;
+import me.banbeucmas.oregen3.data.permission.VaultPermission;
 import me.banbeucmas.oregen3.listeners.BlockListener;
 import me.banbeucmas.oregen3.listeners.GUIListener;
 import me.banbeucmas.oregen3.utils.StringUtils;
@@ -28,6 +31,7 @@ public final class Oregen3 extends JavaPlugin {
     private static SkyblockHook hook;
     private String hookName = "None";
     private static Permission perm;
+    private static PermissionManager permissionManager;
     public static boolean DEBUG;
 
     public boolean hasDependency() {
@@ -111,6 +115,10 @@ public final class Oregen3 extends JavaPlugin {
         return perm;
     }
 
+    public static PermissionManager getPermissionManager() {
+        return permissionManager;
+    }
+
     @Override
     public void onEnable() {
         plugin = this;
@@ -162,8 +170,9 @@ public final class Oregen3 extends JavaPlugin {
             hookName = "AcidIsland";
         }
         else if (manager.isPluginEnabled("BentoBox")) {
-            hook     = new BentoBoxHook();
-            hookName = "BentoBox";
+            hook              = new BentoBoxHook();
+            hookName          = "BentoBox";
+            permissionManager = new BentoBoxPermission();
         }
         else if (manager.isPluginEnabled("SuperiorSkyblock2")) {
             hook     = new SuperiorSkyblockHook();
@@ -197,6 +206,7 @@ public final class Oregen3 extends JavaPlugin {
             getLogger().severe(StringUtils.getPrefixString("Vault not found! Disabling plugin...", null));
             return;
         }
-        perm = rsp.getProvider();
+        perm              = rsp.getProvider();
+        permissionManager = new VaultPermission();
     }
 }
