@@ -55,7 +55,7 @@ public class PluginUtils {
             for (final MaterialChooser chooser : DataManager.getChoosers().values()) {
                 if (Oregen3.DEBUG) {
                     System.out.println("Checking generator type " + chooser.getId() + " for " + p.getName() + ":");
-                    System.out.println(" - Has perms: " + Oregen3.getPerm().playerHas(null, p, chooser.getPermission()));
+                    System.out.println(" - Has perms: " + PermissionManager.checkPerm(null, p, chooser.getPermission()));
                     System.out.println(" - Priority check: " + chooser.getPriority() + " " + mc.getPriority());
                     System.out.println(" - Level check: " + getLevel(p.getUniqueId(), loc) + " " + chooser.getLevel());
                 }
@@ -88,6 +88,12 @@ public class PluginUtils {
                 return mc;
             }
             for (final MaterialChooser chooser : DataManager.getChoosers().values()) {
+                if (Oregen3.DEBUG) {
+                    System.out.println("Checking generator type " + chooser.getId() + " for " + Bukkit.getOfflinePlayer(uuid).getName() + ":");
+                    System.out.println(" - Has perms: " + PermissionManager.checkPerm(null, Bukkit.getOfflinePlayer(uuid), chooser.getPermission()));
+                    System.out.println(" - Priority check: " + chooser.getPriority() + " " + mc.getPriority());
+                    System.out.println(" - Level check: " + getLevel(p, null) + " " + chooser.getLevel());
+                }
                 //TODO: Support island-only world?
                 if (PermissionManager.checkPerm(null, Bukkit.getOfflinePlayer(p), chooser.getPermission())
                         && chooser.getPriority() >= mc.getPriority()
