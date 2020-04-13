@@ -11,7 +11,7 @@ public class ReloadCommand extends AbstractCommand {
     }
 
     @Override
-    public ExecutionResult now() {
+    protected ExecutionResult now() {
         if (!getSender().hasPermission(getPermission())) {
             //This is a method which was uneccessary on the old file but decided to keep it as to honoring the old author
             //Link: https://imgur.com/XAXJppv

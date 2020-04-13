@@ -13,7 +13,7 @@ public class HelpCommand extends AbstractCommand {
     }
 
     @Override
-    public ExecutionResult now() {
+    protected ExecutionResult now() {
         if (!(getSender() instanceof Player)) {
             return ExecutionResult.NOT_PLAYER;
         }
@@ -32,6 +32,12 @@ public class HelpCommand extends AbstractCommand {
         }
         if (sender.hasPermission("oregen3.debug")) {
             sender.sendMessage(StringUtils.getPrefixString(LABEL.matcher(Oregen3.getPlugin().getConfig().getString("messages.commands.debug")).replaceAll(getLabel()), getPlayer()));
+        }
+        if (sender.hasPermission("oregen3.check")) {
+            sender.sendMessage(StringUtils.getPrefixString(LABEL.matcher(Oregen3.getPlugin().getConfig().getString("messages.commands.check")).replaceAll(getLabel()), getPlayer()));
+        }
+        if (sender.hasPermission("oregen3.edit")) {
+            sender.sendMessage(StringUtils.getPrefixString(LABEL.matcher(Oregen3.getPlugin().getConfig().getString("messages.commands.edit")).replaceAll(getLabel()), getPlayer()));
         }
     }
 }

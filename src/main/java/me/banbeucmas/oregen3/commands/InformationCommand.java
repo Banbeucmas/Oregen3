@@ -7,6 +7,7 @@ import me.banbeucmas.oregen3.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -20,18 +21,20 @@ public class InformationCommand extends AbstractCommand {
     }
 
     @Override
-    public ExecutionResult now() {
-        if (!(getSender() instanceof Player)) {
+    protected ExecutionResult now() {
+        final CommandSender sender = getSender();
+        if (!(sender instanceof Player)) {
             return ExecutionResult.NOT_PLAYER;
         }
 
-        if (!getSender().hasPermission(getPermission())) {
+        if (!sender.hasPermission(getPermission())) {
             return ExecutionResult.NO_PERMISSION;
         }
 
         final Player p = getPlayer();
-
         final String[] args = getArgs();
+        final FileConfiguration config = Oregen3.getPlugin().getConfig();
+
         if (args.length > 1) {
             @SuppressWarnings("deprecation") final OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
             if (!player.hasPlayedBefore()) {
@@ -40,7 +43,7 @@ public class InformationCommand extends AbstractCommand {
             final UUID uuid = player.getUniqueId();
 
             if (!Oregen3.getPlugin().hasDependency() || PluginUtils.getOwner(uuid) == null) {
-                getSender().sendMessage(PLAYER.matcher(StringUtils.getPrefixString(Oregen3.getPlugin().getConfig().getString("messages.noIslandOthers"), getPlayer())).replaceAll(Matcher.quoteReplacement(player.getName())));
+                sender.sendMessage(PLAYER.matcher(StringUtils.getPrefixString(config.getString("messages.noIslandOthers"), getPlayer())).replaceAll(Matcher.quoteReplacement(player.getName())));
                 return ExecutionResult.DONT_CARE;
             }
 
@@ -51,7 +54,7 @@ public class InformationCommand extends AbstractCommand {
         if (!Oregen3.getPlugin().hasDependency()
                 || !Oregen3.getHook().isOnIsland(p.getLocation())
                 || PluginUtils.getOwner(p.getLocation()) == null) {
-            p.sendMessage(StringUtils.getPrefixString(Oregen3.getPlugin().getConfig().getString("messages.noIsland"), getPlayer()));
+            p.sendMessage(StringUtils.getPrefixString(config.getString("messages.noIsland"), getPlayer()));
             return ExecutionResult.DONT_CARE;
         }
         p.openInventory(new OreListGUI(p.getLocation(), p).getInventory());

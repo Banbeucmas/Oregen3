@@ -7,9 +7,10 @@ import me.banbeucmas.oregen3.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -20,12 +21,11 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class OreListGUI {
+public class OreListGUI implements InventoryHolder {
     private static final Pattern CHANCE = Pattern.compile("%chance%", Pattern.LITERAL);
-
     private final Inventory inv;
 
-    public OreListGUI(final Location location, final Player player) {
+    public OreListGUI(final Location location, final OfflinePlayer player) {
         int size = 9;
         final MaterialChooser mc = PluginUtils.getChooser(location);
         final Map<Material, Double> chances = mc.getChances();
@@ -34,8 +34,8 @@ public class OreListGUI {
         }
 
         final FileConfiguration config = Oregen3.getPlugin().getConfig();
-        inv = Bukkit.createInventory(player, size,
-                                     StringUtils.getColoredString(config.getString("messages.gui.title"), player));
+        inv = Bukkit.createInventory(this, size,
+                StringUtils.getColoredString(config.getString("messages.gui.title"), player));
 
         int slot = 0;
         for (final Map.Entry<Material, Double> entry : chances.entrySet()) {
@@ -58,7 +58,7 @@ public class OreListGUI {
         }
     }
 
-    public OreListGUI(final UUID uuid, final Player player) {
+    public OreListGUI(final UUID uuid, final OfflinePlayer player) {
         int size = 9;
         final MaterialChooser mc = PluginUtils.getChooser(uuid);
         final Map<Material, Double> chances = mc.getChances();
@@ -67,8 +67,8 @@ public class OreListGUI {
         }
 
         final FileConfiguration config = Oregen3.getPlugin().getConfig();
-        inv = Bukkit.createInventory(player, size,
-                                     StringUtils.getColoredString(config.getString("messages.gui.title"), player));
+        inv = Bukkit.createInventory(this, size,
+                StringUtils.getColoredString(config.getString("messages.gui.title"), player));
 
         int slot = 0;
         for (final Map.Entry<Material, Double> entry : chances.entrySet()) {
@@ -91,6 +91,7 @@ public class OreListGUI {
         }
     }
 
+    @Override
     public Inventory getInventory() {
         return inv;
     }

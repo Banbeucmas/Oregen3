@@ -11,7 +11,7 @@ public class UsageCommand extends AbstractCommand {
 
     //Copied from old Project lol
     @Override
-    public ExecutionResult now() {
+    protected ExecutionResult now() {
         final CommandSender sender = getSender();
         sender.sendMessage(StringUtils.getColoredString("&7&m-------------&f[Oregen3&f]&7-------------", getPlayer()));
         sender.sendMessage("");

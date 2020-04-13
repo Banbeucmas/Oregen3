@@ -49,23 +49,21 @@ public class BlockListener implements Listener {
                     || toMaterial == Material.WATER
                     || toMaterial == Material.STATIONARY_WATER)
                     && sourceMaterial != Material.STATIONARY_WATER
-                    && generateCobble(sourceMaterial, to)
+                    && canGenerateCobble(sourceMaterial, to)
                     && e.getFace() != BlockFace.DOWN) {
                 if (sourceMaterial == Material.LAVA || sourceMaterial == Material.STATIONARY_LAVA) {
                     if (!isSurroundedByWater(to.getLocation())) {
                         return;
                     }
                 }
-                run(world, source, to);
-            }
-
-            else if (generateCobbleBlock(source, to)) {
-                run(world, source, to);
+                generateBlock(world, source, to);
+            } else if (canGenerateCobbleBlock(source, to)) {
+                generateBlock(world, source, to);
             }
         }
     }
 
-    private void run(final World world, final Block source, final Block to) {
+    private void generateBlock(final World world, final Block source, final Block to) {
         final MaterialChooser mc = PluginUtils.getChooser(source.getLocation());
         if (mc.isWorldEnabled() && mc.getWorldList().contains(to.getWorld().getName()) == mc.isWorldBlacklist())
             return;
@@ -74,14 +72,14 @@ public class BlockListener implements Listener {
             world.playSound(to.getLocation(), mc.getSound(), mc.getSoundVolume(), mc.getSoundPitch());
         else if (config.getBoolean("global.generators.sound.enabled", false)) {
             world.playSound(to.getLocation(),
-                            XSound.matchXSound(config.getString("global.generators.sound.name", "BLOCK_FIRE_EXTINGUISH")).map(XSound::parseSound).orElse(XSound.BLOCK_FIRE_EXTINGUISH.parseSound()),
-                            (float) config.getDouble("global.generators.sound.volume", 1),
-                            (float) config.getDouble("global.generators.sound.pitch", 1)
+                    XSound.matchXSound(config.getString("global.generators.sound.name", "BLOCK_FIRE_EXTINGUISH")).map(XSound::parseSound).orElse(XSound.BLOCK_FIRE_EXTINGUISH.parseSound()),
+                    (float) config.getDouble("global.generators.sound.volume", 1),
+                    (float) config.getDouble("global.generators.sound.pitch", 1)
             );
         }
     }
 
-    private boolean generateCobbleBlock(final Block src, final Block to) {
+    private boolean canGenerateCobbleBlock(final Block src, final Block to) {
         final Material material = src.getType();
         for (final BlockFace face : BlockUtils.FACES) {
             final Block check = to.getRelative(face);
@@ -90,12 +88,11 @@ public class BlockListener implements Listener {
                     || material == Material.STATIONARY_WATER)
                     && config.getBoolean("mode.waterBlock")) {
                 return true;
-            }
-            else if (BlockUtils.isBlock(check)
+            } else if (BlockUtils.isBlock(check)
                     && (material == Material.LAVA
                     || material == Material.STATIONARY_LAVA)
                     && config.getBoolean("mode.lavaBlock")) {
-                    return true;
+                return true;
             }
         }
         return false;
@@ -104,7 +101,7 @@ public class BlockListener implements Listener {
     /*
     Checks for Water + Lava, block will use another method to prevent confusion
      */
-    private boolean generateCobble(final Material material, final Block b) {
+    private boolean canGenerateCobble(final Material material, final Block b) {
         final Material mirMat1 = material == Material.WATER || material == Material.STATIONARY_WATER
                 ? Material.LAVA : Material.WATER;
         final Material mirMat2 = material == Material.WATER || material == Material.STATIONARY_WATER
