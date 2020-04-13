@@ -21,6 +21,32 @@
         <defaultGoal>clean package</defaultGoal>
         <finalName>${project.name}-${project.version}</finalName>
         <plugins>
+            <!--
+            Remove the comments, put the jar in /lib and do mvn validate to get the api
+            Oh and try to repeat with other plugins if thet don't provide any repo ;)
+            -->
+            <!-- plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <configuration>
+                    <groupId>io.illyria</groupId>
+                    <artifactId>SkyblockX</artifactId>
+                    <version>v1.4.1-alpha</version>
+                    <file>${basedir}/lib/SkyblockX.jar</file>
+                    <packaging>jar</packaging>
+                    <generatePom>false</generatePom>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>install-jar-lib</id>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <phase>validate</phase>
+                    </execution>
+                </executions>
+            </plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -184,11 +210,18 @@
             <version>2.1.2</version>
             <scope>provided</scope>
         </dependency>
-        <!-- dependency>
+        <!-- Using maven's validator (see above) -->
+        <dependency>
             <groupId>io.illyria</groupId>
             <artifactId>SkyblockX</artifactId>
             <version>v1.4.1-alpha</version>
             <scope>provided</scope>
-        </dependency -->
+        </dependency>
+        <dependency>
+            <groupId>com.iridium</groupId>
+            <artifactId>IridiumSkyblock</artifactId>
+            <version>2.3.5</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>
