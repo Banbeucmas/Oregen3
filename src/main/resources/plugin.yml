@@ -18,3 +18,5 @@ permissions:
     default: op
   oregen3.help:
     default: op
+  oregen3.check:
+    default: op
