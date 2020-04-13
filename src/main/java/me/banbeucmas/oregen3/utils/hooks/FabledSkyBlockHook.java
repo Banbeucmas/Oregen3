@@ -17,7 +17,7 @@ public class FabledSkyBlockHook implements SkyblockHook {
     }
 
     @Override
-    public long getIslandLevel(final UUID uuid, final Location loc) {
+    public double getIslandLevel(final UUID uuid, final Location loc) {
         final OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
         if (manager.getIsland(player) != null) {
             final Island is = manager.getIsland(player);

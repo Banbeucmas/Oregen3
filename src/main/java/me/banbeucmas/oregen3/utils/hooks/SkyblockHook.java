@@ -4,7 +4,6 @@ import org.bukkit.Location;
 
 import java.util.UUID;
 
-@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 public interface SkyblockHook {
 
     /**
@@ -15,7 +14,7 @@ public interface SkyblockHook {
      *
      * @return island level by player uuid, extra check with the location, or null (vaule of 0)
      */
-    long getIslandLevel(UUID uuid, Location loc);
+    double getIslandLevel(UUID uuid, Location loc);
 
     /**
      * Gets the island owner's uuid on this location.

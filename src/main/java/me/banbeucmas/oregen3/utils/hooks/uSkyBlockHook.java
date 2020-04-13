@@ -15,7 +15,7 @@ public class uSkyBlockHook implements SkyblockHook {
     }
 
     @Override
-    public long getIslandLevel(final UUID uuid, final Location loc) {
+    public double getIslandLevel(final UUID uuid, final Location loc) {
         return (long) usb.getIslandLevel(Bukkit.getPlayer(uuid));
     }
 

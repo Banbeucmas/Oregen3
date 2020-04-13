@@ -110,7 +110,7 @@ public class PluginUtils {
         return mc;
     }
 
-    private static long getLevel(final UUID id, final Location loc) {
+    private static double getLevel(final UUID id, final Location loc) {
         return Oregen3.getHook().getIslandLevel(id, loc);
     }
 }

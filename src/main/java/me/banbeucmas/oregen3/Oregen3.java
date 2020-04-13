@@ -186,6 +186,14 @@ public final class Oregen3 extends JavaPlugin {
             hook     = new uSkyBlockHook();
             hookName = "uSkyBlock";
         }
+        else if (manager.isPluginEnabled("IridiumSkyblock")) {
+            hook     = new IridiumSkyblockHook();
+            hookName = "IridiumSkyblock";
+        }
+        else if (manager.isPluginEnabled("SkyblockX")) {
+            hook     = new SkyblockXHook();
+            hookName = "SkyblockX";
+        }
         else {
             getLogger().warning(StringUtils.getPrefixString("Plugin dependency for Oregen3 not found! Turning enableDependency off...", null));
             hasDependency = false;

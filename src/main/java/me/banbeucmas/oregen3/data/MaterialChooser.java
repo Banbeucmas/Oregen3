@@ -14,7 +14,7 @@ import java.util.Map;
 public class MaterialChooser {
     private final String id;
     private final long priority;
-    private final long level;
+    private final double level;
     private final String permission;
     private final Map<Material, Double> chances = new EnumMap<>(Material.class);
     private final Material fallback;
@@ -35,7 +35,7 @@ public class MaterialChooser {
         fallback   = Material.matchMaterial(config.getString(path + "fallback", "COBBLESTONE"));
         permission = config.getString(path + "permission", "oregen3.generator." + id);
         priority   = config.getLong(path + "priority", 0);
-        level      = config.getLong(path + "level", 0);
+        level      = config.getDouble(path + "level", 0);
         if (config.isSet(path + "sound")) {
             soundEnabled = true;
             sound        = XSound.matchXSound(Oregen3.getPlugin().getConfig().getString(path + "sound.name", "BLOCK_FIRE_EXTINGUISH")).map(XSound::parseSound).orElse(XSound.BLOCK_FIRE_EXTINGUISH.parseSound());
@@ -64,7 +64,7 @@ public class MaterialChooser {
         return priority;
     }
 
-    public long getLevel() {
+    public double getLevel() {
         return level;
     }
 
