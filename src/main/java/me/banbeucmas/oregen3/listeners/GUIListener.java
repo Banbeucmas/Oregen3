@@ -1,25 +1,19 @@
 package me.banbeucmas.oregen3.listeners;
 
-import me.banbeucmas.oregen3.Oregen3;
-import me.banbeucmas.oregen3.utils.StringUtils;
+import me.banbeucmas.oregen3.gui.OreListGUI;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class GUIListener implements Listener {
-    private final FileConfiguration config = Oregen3.getPlugin().getConfig();
-
     @EventHandler
     public void onClick(final InventoryClickEvent e) {
         final ItemStack item = e.getCurrentItem();
-        if (!e.getView().getTitle().equals(StringUtils.getColoredString(config.getString("messages.gui.title"), null)) ||
-                item == null ||
-                item.getType() == Material.AIR) {
-            return;
+        if (item == null || item.getType() == Material.AIR) return;
+        if (e.getInventory().getHolder() instanceof OreListGUI) {
+            e.setCancelled(true);
         }
-        e.setCancelled(true);
     }
 }
