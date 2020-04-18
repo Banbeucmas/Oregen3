@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Commands implements CommandExecutor, TabCompleter {
-    private static final List<String> commands = Arrays.asList("reload", "help", "info", "debug", "check");
+    private static final List<String> commands = Arrays.asList("reload", "help", "info", "debug", "check", "edit");
 
     @Override
     public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
@@ -35,6 +35,8 @@ public class Commands implements CommandExecutor, TabCompleter {
                 break;
             case "check":
                 new CheckCommand(sender, args).execute();
+            case "edit":
+                new EditCommand(sender, args).execute();
         }
         return true;
     }

@@ -35,9 +35,8 @@ public class OreListGUI implements InventoryHolder {
 
         final FileConfiguration config = Oregen3.getPlugin().getConfig();
         inv = Bukkit.createInventory(this, size,
-                                     StringUtils.getColoredString(config.getString("messages.gui.title"), player));
+                StringUtils.getColoredString(config.getString("messages.gui.title"), player));
 
-        int slot = 0;
         for (final Map.Entry<Material, Double> entry : chances.entrySet()) {
             final ItemStack display = new ItemStack(entry.getKey());
             final ItemMeta meta = display.getItemMeta();
@@ -51,10 +50,8 @@ public class OreListGUI implements InventoryHolder {
             }
 
             meta.setLore(lore);
-            display.setItemMeta(meta);
 
-            inv.setItem(slot, display);
-            slot++;
+            inv.addItem(display);
         }
     }
 
@@ -68,9 +65,8 @@ public class OreListGUI implements InventoryHolder {
 
         final FileConfiguration config = Oregen3.getPlugin().getConfig();
         inv = Bukkit.createInventory(this, size,
-                                     StringUtils.getColoredString(config.getString("messages.gui.title"), player));
+                StringUtils.getColoredString(config.getString("messages.gui.title"), player));
 
-        int slot = 0;
         for (final Map.Entry<Material, Double> entry : chances.entrySet()) {
             final ItemStack display = new ItemStack(entry.getKey());
             final ItemMeta meta = display.getItemMeta();
@@ -84,13 +80,12 @@ public class OreListGUI implements InventoryHolder {
             }
 
             meta.setLore(lore);
-            display.setItemMeta(meta);
 
-            inv.setItem(slot, display);
-            slot++;
+            inv.addItem(display);
         }
     }
 
+    @Override
     public Inventory getInventory() {
         return inv;
     }

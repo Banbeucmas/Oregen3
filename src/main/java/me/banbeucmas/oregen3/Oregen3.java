@@ -2,9 +2,11 @@ package me.banbeucmas.oregen3;
 
 import me.banbeucmas.oregen3.commands.Commands;
 import me.banbeucmas.oregen3.data.DataManager;
-import me.banbeucmas.oregen3.data.permission.BentoBoxPermission;
+import me.banbeucmas.oregen3.data.permission.DefaultPermission;
+import me.banbeucmas.oregen3.data.permission.LuckPermsPermission;
 import me.banbeucmas.oregen3.data.permission.PermissionManager;
 import me.banbeucmas.oregen3.data.permission.VaultPermission;
+import me.banbeucmas.oregen3.gui.EditGUI;
 import me.banbeucmas.oregen3.listeners.BlockListener;
 import me.banbeucmas.oregen3.listeners.GUIListener;
 import me.banbeucmas.oregen3.utils.StringUtils;
@@ -152,6 +154,8 @@ public final class Oregen3 extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
         getServer().getPluginManager().registerEvents(new GUIListener(), this);
+
+        EditGUI.create();
     }
 
     private void checkDependency() {
@@ -170,9 +174,8 @@ public final class Oregen3 extends JavaPlugin {
             hookName = "AcidIsland";
         }
         else if (manager.isPluginEnabled("BentoBox")) {
-            hook              = new BentoBoxHook();
-            hookName          = "BentoBox";
-            permissionManager = new BentoBoxPermission();
+            hook     = new BentoBoxHook();
+            hookName = "BentoBox";
         }
         else if (manager.isPluginEnabled("SuperiorSkyblock2")) {
             hook     = new SuperiorSkyblockHook();
@@ -209,12 +212,18 @@ public final class Oregen3 extends JavaPlugin {
     }
 
     private void setupPermissions() {
-        final RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
-        if (rsp == null) {
-            getLogger().severe(StringUtils.getPrefixString("Vault not found! Disabling plugin...", null));
-            return;
+        final PluginManager manager = Bukkit.getServer().getPluginManager();
+        if (manager.isPluginEnabled("Vault")) {
+            final RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+            perm              = rsp.getProvider();
+            permissionManager = new VaultPermission();
         }
-        perm              = rsp.getProvider();
-        permissionManager = new VaultPermission();
+        else if (manager.isPluginEnabled("LuckPerms")) {
+            permissionManager = new LuckPermsPermission();
+        }
+        else {
+            getLogger().warning(StringUtils.getPrefixString("Permission dependency for Oregen3 not found! Using bukkit's provided one...", null));
+            permissionManager = new DefaultPermission();
+        }
     }
 }

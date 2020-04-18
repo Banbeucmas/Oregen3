@@ -10,7 +10,7 @@ public class DebugCommand extends AbstractCommand {
     }
 
     @Override
-    public ExecutionResult now() {
+    protected ExecutionResult now() {
         if (!getSender().hasPermission("oregen3.debug"))
             return ExecutionResult.NO_PERMISSION;
 
