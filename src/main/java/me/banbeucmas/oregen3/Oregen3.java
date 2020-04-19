@@ -213,13 +213,13 @@ public final class Oregen3 extends JavaPlugin {
 
     private void setupPermissions() {
         final PluginManager manager = Bukkit.getServer().getPluginManager();
-        if (manager.isPluginEnabled("Vault")) {
+        if (manager.isPluginEnabled("LuckPerms")) {
+            permissionManager = new LuckPermsPermission();
+        }
+        else if (manager.isPluginEnabled("Vault")) {
             final RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
             perm              = rsp.getProvider();
             permissionManager = new VaultPermission();
-        }
-        else if (manager.isPluginEnabled("LuckPerms")) {
-            permissionManager = new LuckPermsPermission();
         }
         else {
             getLogger().warning(StringUtils.getPrefixString("Permission dependency for Oregen3 not found! Using bukkit's provided one...", null));

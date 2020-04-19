@@ -1,5 +1,6 @@
 package me.banbeucmas.oregen3.listeners;
 
+import me.banbeucmas.oregen3.gui.EditGUI;
 import me.banbeucmas.oregen3.gui.OreListGUI;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -16,6 +17,9 @@ public class GUIListener implements Listener {
 
         final InventoryHolder inventoryHolder = e.getInventory().getHolder();
         if (inventoryHolder instanceof OreListGUI) {
+            e.setCancelled(true);
+        }
+        if (inventoryHolder instanceof EditGUI) {
             e.setCancelled(true);
         }
     }
