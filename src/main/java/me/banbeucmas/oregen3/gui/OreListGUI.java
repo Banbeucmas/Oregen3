@@ -30,7 +30,7 @@ public class OreListGUI implements InventoryHolder {
         final MaterialChooser mc = PluginUtils.getChooser(location);
         final Map<Material, Double> chances = mc.getChances();
         if (chances.size() > size) {
-            size *= (mc.getChances().size() / size) + 1;
+            size *= chances.size() / size + 1;
         }
 
         final FileConfiguration config = Oregen3.getPlugin().getConfig();
@@ -60,7 +60,7 @@ public class OreListGUI implements InventoryHolder {
         final MaterialChooser mc = PluginUtils.getChooser(uuid);
         final Map<Material, Double> chances = mc.getChances();
         if (chances.size() > size) {
-            size *= (mc.getChances().size() / size) + 1;
+            size *= chances.size() / size + 1;
         }
 
         final FileConfiguration config = Oregen3.getPlugin().getConfig();

@@ -2,6 +2,7 @@ package me.banbeucmas.oregen3.listeners;
 
 import me.banbeucmas.oregen3.gui.EditGUI;
 import me.banbeucmas.oregen3.gui.OreListGUI;
+import me.banbeucmas.oregen3.gui.editor.GeneratorGui;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,7 +20,13 @@ public class GUIListener implements Listener {
         if (inventoryHolder instanceof OreListGUI) {
             e.setCancelled(true);
         }
-        if (inventoryHolder instanceof EditGUI) {
+        else if (inventoryHolder instanceof EditGUI) {
+            e.setCancelled(true);
+            if (e.getSlot() == 0) {
+                e.getWhoClicked().openInventory(new GeneratorGui().getInventory());
+            }
+        }
+        else if (inventoryHolder instanceof GeneratorGui) {
             e.setCancelled(true);
         }
     }

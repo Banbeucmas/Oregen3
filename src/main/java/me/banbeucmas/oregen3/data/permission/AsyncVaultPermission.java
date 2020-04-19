@@ -4,12 +4,13 @@ import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.data.MaterialChooser;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-public class VaultPermission implements PermissionManager {
+public class AsyncVaultPermission implements PermissionManager {
     private static final Map<String, HashSet<String>> permlist = new HashMap<>();
 
     @Override
@@ -25,11 +26,15 @@ public class VaultPermission implements PermissionManager {
                 list.remove(permission);
         }
         else {
-            if (!list.contains(permission) && Oregen3.getPerm().playerHas(world, player, permission))
-                list.add(permission);
-            else if (list.contains(permission) && !Oregen3.getPerm().playerHas(world, player, permission))
-                list.remove(permission);
-
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if (!list.contains(permission) && Oregen3.getPerm().playerHas(world, player, permission))
+                        list.add(permission);
+                    else if (list.contains(permission) && !Oregen3.getPerm().playerHas(world, player, permission))
+                        list.remove(permission);
+                }
+            }.runTaskAsynchronously(Oregen3.getPlugin());
         }
 
         return list.contains(permission);
@@ -38,13 +43,18 @@ public class VaultPermission implements PermissionManager {
     @Override
     public void checkPerms(final OfflinePlayer player) {
         checkContains(player.getName());
-        final HashSet<String> list = permlist.get(player.getName());
-        list.clear();
-        for (final MaterialChooser chooser : DataManager.getChoosers().values()) {
-            if (checkPerm(null, player, chooser.getPermission())) {
-                list.add(chooser.getPermission());
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                final HashSet<String> list = permlist.get(player.getName());
+                list.clear();
+                for (final MaterialChooser chooser : DataManager.getChoosers().values()) {
+                    if (checkPerm(null, player, chooser.getPermission())) {
+                        list.add(chooser.getPermission());
+                    }
+                }
             }
-        }
+        }.runTaskAsynchronously(Oregen3.getPlugin());
     }
 
     private void checkContains(final String player) {

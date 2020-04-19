@@ -3,7 +3,7 @@ package me.banbeucmas.oregen3;
 import me.banbeucmas.oregen3.commands.Commands;
 import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.data.permission.DefaultPermission;
-import me.banbeucmas.oregen3.data.permission.LuckPermsPermission;
+import me.banbeucmas.oregen3.data.permission.AsyncVaultPermission;
 import me.banbeucmas.oregen3.data.permission.PermissionManager;
 import me.banbeucmas.oregen3.data.permission.VaultPermission;
 import me.banbeucmas.oregen3.gui.EditGUI;
@@ -213,16 +213,17 @@ public final class Oregen3 extends JavaPlugin {
 
     private void setupPermissions() {
         final PluginManager manager = Bukkit.getServer().getPluginManager();
-        if (manager.isPluginEnabled("LuckPerms")) {
-            permissionManager = new LuckPermsPermission();
-        }
-        else if (manager.isPluginEnabled("Vault")) {
+        if (manager.isPluginEnabled("Vault")) {
             final RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
             perm              = rsp.getProvider();
             permissionManager = new VaultPermission();
+
+            if (manager.isPluginEnabled("LuckPerms")) {
+                permissionManager = new AsyncVaultPermission();
+            }
         }
         else {
-            getLogger().warning(StringUtils.getPrefixString("Permission dependency for Oregen3 not found! Using bukkit's provided one...", null));
+            getLogger().warning(StringUtils.getPrefixString("Vault not found! Offline player's permission will not be checked! Using bukkit's provided one...", null));
             permissionManager = new DefaultPermission();
         }
     }
