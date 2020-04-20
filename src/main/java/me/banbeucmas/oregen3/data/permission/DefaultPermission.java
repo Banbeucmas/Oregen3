@@ -8,7 +8,4 @@ public class DefaultPermission implements PermissionManager {
         if (!player.isOnline()) return false;
         return player.getPlayer().hasPermission(permission);
     }
-
-    @Override
-    public void checkPerms(final OfflinePlayer player) { }
 }

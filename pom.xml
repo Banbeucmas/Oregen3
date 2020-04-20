@@ -6,7 +6,7 @@
 
     <groupId>me.banbeucmas</groupId>
     <artifactId>oregen3</artifactId>
-    <version>1.4.5.9</version>
+    <version>1.4.5.10</version>
     <packaging>jar</packaging>
 
     <name>Oregen3</name>
@@ -21,9 +21,8 @@
         <defaultGoal>clean package</defaultGoal>
         <finalName>${project.name}-${project.version}</finalName>
         <plugins>
-            <!--
-            Remove the comments, put the jar in /lib and do mvn validate to get the api
-            Oh and try to repeat with other plugins if thet don't provide any repo ;)
+            <!-- If you don't find any repo related to some jar files, you can use this method below.
+                 Remove the comments, put the jar in /lib and do mvn validate to get the api in local repo.
             -->
             <!-- plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -143,12 +142,12 @@
             <version>1.7</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
+        <!-- dependency>
             <groupId>net.luckperms</groupId>
             <artifactId>api</artifactId>
             <version>5.0</version>
             <scope>provided</scope>
-        </dependency>
+        </dependency -->
         <dependency>
             <groupId>com.github.cryptomorin</groupId>
             <artifactId>XSeries</artifactId>

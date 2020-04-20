@@ -2,7 +2,8 @@ name: Oregen3
 version: ${project.version}
 main: me.banbeucmas.oregen3.Oregen3
 authors: [Banbeucmas, xHexed]
-softdepend: [ASkyBlock, AcidIsland, BentoBox, uSkyBlock, SuperiorSkyblock2, FabledSkyBlock, IridiumSkyblock, SkyblockX, PlaceholderAPI, MVdWPlaceholderAPI, Vault, LuckPerms]
+depend: [Vault]
+softdepend: [ASkyBlock, AcidIsland, BentoBox, uSkyBlock, SuperiorSkyblock2, FabledSkyBlock, IridiumSkyblock, SkyblockX, PlaceholderAPI, MVdWPlaceholderAPI, LuckPerms]
 
 commands:
   oregen3:
@@ -18,5 +19,5 @@ permissions:
     default: op
   oregen3.help:
     default: op
-  oregen3.check:
+  oregen3.edit:
     default: op

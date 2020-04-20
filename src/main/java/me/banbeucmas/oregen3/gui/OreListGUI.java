@@ -14,12 +14,12 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class OreListGUI implements InventoryHolder {
     private static final Pattern CHANCE = Pattern.compile("%chance%", Pattern.LITERAL);
@@ -35,24 +35,24 @@ public class OreListGUI implements InventoryHolder {
 
         final FileConfiguration config = Oregen3.getPlugin().getConfig();
         inv = Bukkit.createInventory(this, size,
-                StringUtils.getColoredString(config.getString("messages.gui.title"), player));
+                                     StringUtils.getColoredString(config.getString("messages.gui.title"), player));
 
-        for (final Map.Entry<Material, Double> entry : chances.entrySet()) {
-            final ItemStack display = new ItemStack(entry.getKey());
+        chances.forEach((key, value) -> {
+            final ItemStack display = new ItemStack(key);
             final ItemMeta meta = display.getItemMeta();
-            final double chance = entry.getValue();
+            final double chance = value;
 
-            final List<String> lore = new ArrayList<>();
-            for (String s : config.getStringList("messages.gui.block.lore")) {
-                s = CHANCE.matcher(s).replaceAll(Matcher.quoteReplacement(Double.toString(chance)));
-                s = StringUtils.getColoredString(s, player);
-                lore.add(s);
-            }
+            final List<String> lore = config.getStringList("messages.gui.block.lore")
+                    .stream()
+                    .map(s -> CHANCE.matcher(s).replaceAll(Matcher.quoteReplacement(Double.toString(chance))))
+                    .map(s -> StringUtils.getColoredString(s, player))
+                    .collect(Collectors.toList());
 
             meta.setLore(lore);
+            display.setItemMeta(meta);
 
             inv.addItem(display);
-        }
+        });
     }
 
     public OreListGUI(final UUID uuid, final OfflinePlayer player) {
@@ -65,24 +65,23 @@ public class OreListGUI implements InventoryHolder {
 
         final FileConfiguration config = Oregen3.getPlugin().getConfig();
         inv = Bukkit.createInventory(this, size,
-                StringUtils.getColoredString(config.getString("messages.gui.title"), player));
+                                     StringUtils.getColoredString(config.getString("messages.gui.title"), player));
 
-        for (final Map.Entry<Material, Double> entry : chances.entrySet()) {
-            final ItemStack display = new ItemStack(entry.getKey());
+        chances.forEach((key, value) -> {
+            final ItemStack display = new ItemStack(key);
             final ItemMeta meta = display.getItemMeta();
-            final double chance = entry.getValue();
+            final double chance = value;
 
-            final List<String> lore = new ArrayList<>();
-            for (String s : config.getStringList("messages.gui.block.lore")) {
-                s = CHANCE.matcher(s).replaceAll(Matcher.quoteReplacement(Double.toString(chance)));
-                s = StringUtils.getColoredString(s, player);
-                lore.add(s);
-            }
+            final List<String> lore = config.getStringList("messages.gui.block.lore")
+                    .stream()
+                    .map(s -> CHANCE.matcher(s).replaceAll(Matcher.quoteReplacement(Double.toString(chance))))
+                    .map(s -> StringUtils.getColoredString(s, player))
+                    .collect(Collectors.toList());
 
             meta.setLore(lore);
 
             inv.addItem(display);
-        }
+        });
     }
 
     @Override

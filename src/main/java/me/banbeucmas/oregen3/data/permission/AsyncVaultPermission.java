@@ -3,22 +3,31 @@ package me.banbeucmas.oregen3.data.permission;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.data.MaterialChooser;
+import me.banbeucmas.oregen3.utils.PluginUtils;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockDamageEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-public class AsyncVaultPermission implements PermissionManager {
-    private static final Map<String, HashSet<String>> permlist = new HashMap<>();
+public class AsyncVaultPermission implements PermissionManager, Listener {
+    private final Map<String, HashSet<String>> permlist = new HashMap<>();
+
+    public AsyncVaultPermission() {
+        Oregen3.getPlugin().getServer().getPluginManager().registerEvents(this, Oregen3.getPlugin());
+    }
 
     @Override
     public boolean checkPerm(final String world, final OfflinePlayer player, final String permission) {
         checkContains(player.getName());
 
         final HashSet<String> list = permlist.get(player.getName());
-
         if (player.isOnline()) {
             if (!list.contains(permission) && Oregen3.getPerm().playerHas(player.getPlayer(), permission))
                 list.add(permission);
@@ -40,18 +49,13 @@ public class AsyncVaultPermission implements PermissionManager {
         return list.contains(permission);
     }
 
-    @Override
-    public void checkPerms(final OfflinePlayer player) {
+    private void checkPerms(final OfflinePlayer player) {
         checkContains(player.getName());
         new BukkitRunnable() {
             @Override
             public void run() {
-                final HashSet<String> list = permlist.get(player.getName());
-                list.clear();
                 for (final MaterialChooser chooser : DataManager.getChoosers().values()) {
-                    if (checkPerm(null, player, chooser.getPermission())) {
-                        list.add(chooser.getPermission());
-                    }
+                    checkPerm(null, player, chooser.getPermission());
                 }
             }
         }.runTaskAsynchronously(Oregen3.getPlugin());
@@ -61,5 +65,26 @@ public class AsyncVaultPermission implements PermissionManager {
         if (!permlist.containsKey(player)) {
             permlist.put(player, new HashSet<>());
         }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onBlock(final BlockDamageEvent e) {
+        final OfflinePlayer player = PluginUtils.getOwner(e.getPlayer().getUniqueId());
+        if (player == null) return;
+        checkPerms(player);
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onJoin(final PlayerJoinEvent e) {
+        final OfflinePlayer player = PluginUtils.getOwner(e.getPlayer().getUniqueId());
+        if (player == null) return;
+        checkPerms(player);
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onCommand(final PlayerCommandPreprocessEvent e) {
+        final OfflinePlayer player = PluginUtils.getOwner(e.getPlayer().getUniqueId());
+        if (player == null) return;
+        checkPerms(player);
     }
 }

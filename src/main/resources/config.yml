@@ -1,6 +1,6 @@
 # -------------------------------------
-# Configuration instruction is here
-# https://github.com/xHexed/Oregen3/blob/master/src/main/resources/config.yml
+# Configuration instruction link:
+#  https://github.com/xHexed/Oregen3/blob/master/src/main/resources/config.yml
 # Please click if you use the plugin the first time or updating
 # Notes:
 #  generator options:
@@ -26,6 +26,9 @@
 #  - messages:
 #     commands: %label% (First argument in command)
 #  hooks:
+#   Vault:
+#    forceAsync: will the plugin force to use the async permission lookup? Change to true if you have problems using the non-async one
+#    pluginAsyncList: plugin list that store the permission data async (using database, ...), or you can list other plugins (note that it sometimes won't load before this plugin)
 #   BentoBox:
 #    gamemodePriorities: (may be changed later)
 #     - This plugin will check for avalable gamemode by order. If which addon comes first then it will use that gamemode to check
@@ -39,7 +42,7 @@
 #  Also try not to put comment anywhere but the header (here), it'll get deleted if the config updates itselfs.
 # -------------------------------------
 # DO NOT TOUCH THIS
-version: 1.3.0.4
+version: 1.3.0.5
 debug: false
 
 prefix: '&f[&6OreGen&e3&f]'
@@ -64,6 +67,10 @@ randomFallback: false
 defaultGenerator: default
 
 hooks:
+  Vault:
+    forceAsync: false
+    pluginAsyncList:
+    - LuckPerms
   BentoBox:
     gamemodePriorities:
     - AcidIsland
@@ -143,18 +150,19 @@ generators:
 
 messages:
   commands:
-    help: '&6&o/%label% help &f» Open help pages'
-    reload: '&6&o/%label% reload &f» Reload config'
-    info: '&6&o/%label% info [player] &f» Getting ore spawning chance of the island you are standing on or the targetted player'
-    debug: '&6&o/%label% debug &f» Toggle debugging'
+    help: "&6&o/%label% help &f» Open help pages"
+    reload: "&6&o/%label% reload &f» Reload config"
+    info: "&6&o/%label% info [player] &f» Getting ore spawning chance of the island you are standing on or the targetted player"
+    debug: "&6&o/%label% debug &f» Toggle debugging"
+    edit: "&6&o/%label% debug &f» Edit generators in-game (comming soon...)"
   gui:
-    title: '&eChances'
+    title: "&eChances"
     block:
       lore:
-      - '&6Chances: &e%chance%&6%'
-  noIsland: '&cYou have to be on an island to view this.'
-  noIslandOthers: '&c%player% have to be on an island to view this.'
-  missingArgs: '&cFormat: &f %format%'
-  noPermission: '&4Missing Permission: &c %perm%'
-  noPlayer: "&4Player %player% isn't exist or online"
-  notPlayer: '&4Only player can use this command'
+      - "&6Chances: &e%chance%&6%"
+  noIsland: "&cYou have to be on an island to view this."
+  noIslandOthers: "&c%player% have to be on an island to view this."
+  missingArgs: "&cFormat: &f %format%"
+  noPermission: "&4Missing Permission: &c %perm%"
+  noPlayer: "&4Player %player% isn"t exist or online"
+  notPlayer: "&4Only player can use this command"

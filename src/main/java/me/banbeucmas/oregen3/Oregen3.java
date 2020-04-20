@@ -31,7 +31,6 @@ public final class Oregen3 extends JavaPlugin {
     private boolean mvdw;
     private static Oregen3 plugin;
     private static SkyblockHook hook;
-    private String hookName = "None";
     private static Permission perm;
     private static PermissionManager permissionManager;
     public static boolean DEBUG;
@@ -91,7 +90,11 @@ public final class Oregen3 extends JavaPlugin {
                 config.addDefault("global.generators.sound.volume", config.getDouble("sound.volume", 3));
                 config.addDefault("global.generators.sound.pitch", config.getDouble("sound.pitch", 2));
                 config.addDefault("updater.copyHeader", false);
-                config.set("version", "1.3.0.4");
+            case "1.3.0.4":
+                config.addDefault("hooks.Vault.forceAsync", false);
+                config.addDefault("hooks.Vault.pluginAsyncList", Collections.singletonList("LuckPerms"));
+                config.addDefault("messages.commands.edit", "&6&o/%label% debug &f» Edit generators in-game (comming soon...)");
+                config.set("version", "1.3.0.5");
                 saveConfig();
         }
         if (config.getBoolean("updater.copyHeader", false)) {
@@ -140,9 +143,8 @@ public final class Oregen3 extends JavaPlugin {
         //Send Message
         sender.sendMessage(StringUtils.getColoredString("&7&m-------------&f[Oregen3&f]&7-------------", null));
         sender.sendMessage("");
-        sender.sendMessage(StringUtils.getColoredString("       &fPlugin made by &e&oBanbeucmas&f, updated by &e&oxHexed", null));
-        sender.sendMessage(StringUtils.getColoredString("       &f&oVersion: &e" + getDescription().getVersion(), null));
-        sender.sendMessage(StringUtils.getColoredString("       &f&oHooked plugin: &e" + hookName, null));
+        sender.sendMessage(StringUtils.getColoredString("   &fPlugin made by &e&oBanbeucmas&f, updated by &e&oxHexed", null));
+        sender.sendMessage(StringUtils.getColoredString("   &f&oVersion: &e" + getDescription().getVersion(), null));
         sender.sendMessage("");
         sender.sendMessage(StringUtils.getColoredString("------------------------------------", null));
 
@@ -167,35 +169,27 @@ public final class Oregen3 extends JavaPlugin {
         final PluginManager manager = Bukkit.getServer().getPluginManager();
         if (manager.isPluginEnabled("ASkyBlock")) {
             hook     = new ASkyblockHook();
-            hookName = "ASkyBlock";
         }
         else if (manager.isPluginEnabled("AcidIsland")) {
             hook     = new AcidIslandHook();
-            hookName = "AcidIsland";
         }
         else if (manager.isPluginEnabled("BentoBox")) {
             hook     = new BentoBoxHook();
-            hookName = "BentoBox";
         }
         else if (manager.isPluginEnabled("SuperiorSkyblock2")) {
             hook     = new SuperiorSkyblockHook();
-            hookName = "SuperiorSkyblock2";
         }
         else if (manager.isPluginEnabled("FabledSkyBlock")) {
             hook     = new FabledSkyBlockHook();
-            hookName = "FabledSkyBlock";
         }
         else if (manager.isPluginEnabled("uSkyBlock")) {
             hook     = new uSkyBlockHook();
-            hookName = "uSkyBlock";
         }
         else if (manager.isPluginEnabled("IridiumSkyblock")) {
             hook     = new IridiumSkyblockHook();
-            hookName = "IridiumSkyblock";
         }
         else if (manager.isPluginEnabled("SkyblockX")) {
             hook     = new SkyblockXHook();
-            hookName = "SkyblockX";
         }
         else {
             getLogger().warning(StringUtils.getPrefixString("Plugin dependency for Oregen3 not found! Turning enableDependency off...", null));
@@ -218,8 +212,14 @@ public final class Oregen3 extends JavaPlugin {
             perm              = rsp.getProvider();
             permissionManager = new VaultPermission();
 
-            if (manager.isPluginEnabled("LuckPerms")) {
+            if (getConfig().getBoolean("hooks.Vault.forceAsync")) {
                 permissionManager = new AsyncVaultPermission();
+            }
+            else for (final String plugin : getConfig().getStringList("hooks.Vault.pluginAsyncList")) {
+                if (manager.isPluginEnabled(plugin)) {
+                    permissionManager = new AsyncVaultPermission();
+                    break;
+                }
             }
         }
         else {

@@ -13,11 +13,4 @@ public interface PermissionManager {
      * @return if the player has the permission or not
      */
     boolean checkPerm(final String world, final OfflinePlayer player, final String permission);
-
-    /**
-     * Check oregen-related permission for the player (to ensure permission checking)
-     *
-     * @param player the (offline) player
-     */
-    void checkPerms(final OfflinePlayer player);
 }
