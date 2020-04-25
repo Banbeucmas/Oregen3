@@ -154,7 +154,7 @@ messages:
     reload: "&6&o/%label% reload &f» Reload config"
     info: "&6&o/%label% info [player] &f» Getting ore spawning chance of the island you are standing on or the targetted player"
     debug: "&6&o/%label% debug &f» Toggle debugging"
-    edit: "&6&o/%label% debug &f» Edit generators in-game (comming soon...)"
+    edit: "&6&o/%label% edit &f» Edit generators in-game (comming soon...)"
   gui:
     title: "&eChances"
     block:
