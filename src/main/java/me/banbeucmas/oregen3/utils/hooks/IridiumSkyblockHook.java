@@ -3,16 +3,17 @@ package me.banbeucmas.oregen3.utils.hooks;
 import com.iridium.iridiumskyblock.IridiumSkyblock;
 import com.iridium.iridiumskyblock.IslandManager;
 import com.iridium.iridiumskyblock.User;
+import me.banbeucmas.oregen3.Oregen3;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import java.util.UUID;
 
 public class IridiumSkyblockHook implements SkyblockHook {
-    private final IslandManager manager;
+    private IslandManager manager;
 
     public IridiumSkyblockHook() {
-        manager = IridiumSkyblock.getIslandManager();
+        Bukkit.getScheduler().runTask(Oregen3.getPlugin(), () -> manager = IridiumSkyblock.getIslandManager());
     }
 
     @Override
