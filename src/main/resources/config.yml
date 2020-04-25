@@ -164,5 +164,5 @@ messages:
   noIslandOthers: "&c%player% have to be on an island to view this."
   missingArgs: "&cFormat: &f %format%"
   noPermission: "&4Missing Permission: &c %perm%"
-  noPlayer: "&4Player %player% isn"t exist or online"
+  noPlayer: "&4Player %player% isn't exist or online"
   notPlayer: "&4Only player can use this command"

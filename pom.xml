@@ -171,6 +171,10 @@
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
+                    <groupId>be.maximvdw</groupId>
+                    <artifactId>MVdWUpdater</artifactId>
+                </exclusion>
+                <exclusion>
                     <groupId>org.spigotmc</groupId>
                     <artifactId>spigot</artifactId>
                 </exclusion>
