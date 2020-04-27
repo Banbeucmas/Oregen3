@@ -3,6 +3,7 @@ package me.banbeucmas.oregen3.utils.hooks;
 import com.wasteofplastic.acidisland.ASkyBlockAPI;
 import org.bukkit.Location;
 
+import java.util.List;
 import java.util.UUID;
 
 public class AcidIslandHook implements SkyblockHook {
@@ -30,5 +31,10 @@ public class AcidIslandHook implements SkyblockHook {
     @Override
     public boolean isOnIsland(final Location loc) {
         return api.getIslandAt(loc) != null;
+    }
+
+    @Override
+    public List<UUID> getMembers(final UUID uuid) {
+        return api.getIslandOwnedBy(api.getTeamLeader(uuid)).getMembers();
     }
 }

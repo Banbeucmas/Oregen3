@@ -6,7 +6,9 @@ import net.savagelabs.skyblockx.core.Island;
 import net.savagelabs.skyblockx.core.IslandKt;
 import org.bukkit.Location;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class SkyblockXHook implements SkyblockHook {
     @Override
@@ -14,8 +16,7 @@ public class SkyblockXHook implements SkyblockHook {
         final IPlayer player = IPlayerKt.getIPlayerByUUID(uuid.toString());
         if (player == null) return 0;
         final Island island = player.getIsland();
-        if (island == null) return 0;
-        return island.getLevel();
+        return (island == null) ? 0 : island.getLevel();
     }
 
     @Override
@@ -37,5 +38,14 @@ public class SkyblockXHook implements SkyblockHook {
     @Override
     public boolean isOnIsland(final Location loc) {
         return IslandKt.getIslandFromLocation(loc) != null;
+    }
+
+    @Override
+    public List<UUID> getMembers(final UUID uuid) {
+        final IPlayer player = IPlayerKt.getIPlayerByUUID(uuid.toString());
+        if (player == null) return null;
+        final Island island = player.getIsland();
+        if (island == null) return null;
+        return island.getAllMemberUUIDs().stream().map(UUID::fromString).collect(Collectors.toList());
     }
 }

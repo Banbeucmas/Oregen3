@@ -12,6 +12,7 @@ import world.bentobox.bentobox.database.objects.Island;
 import world.bentobox.bentobox.managers.AddonsManager;
 import world.bentobox.bentobox.managers.IslandsManager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -91,5 +92,12 @@ public class BentoBoxHook implements SkyblockHook {
     @Override
     public boolean isOnIsland(final Location loc) {
         return manager.getIslandAt(loc).isPresent();
+    }
+
+    @Override
+    public List<UUID> getMembers(final UUID uuid) {
+        final Island island = manager.getIsland(world, uuid);
+        if (island == null) return null;
+        return new ArrayList<>(island.getMembers().keySet());
     }
 }

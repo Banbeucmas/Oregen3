@@ -2,9 +2,12 @@ package me.banbeucmas.oregen3.utils.hooks;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import us.talabrek.ultimateskyblock.api.uSkyBlockAPI;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 // "Stupid api only use for online players rip" - xHexed, 4/7/2020
 public class uSkyBlockHook implements SkyblockHook {
@@ -16,7 +19,9 @@ public class uSkyBlockHook implements SkyblockHook {
 
     @Override
     public double getIslandLevel(final UUID uuid, final Location loc) {
-        return (long) usb.getIslandLevel(Bukkit.getPlayer(uuid));
+        final OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
+        if (!player.isOnline()) return 0;
+        return (long) usb.getIslandLevel(player.getPlayer());
     }
 
     @SuppressWarnings("deprecation")
@@ -35,5 +40,13 @@ public class uSkyBlockHook implements SkyblockHook {
     @Override
     public boolean isOnIsland(final Location loc) {
         return usb.getIslandInfo(loc) != null;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public List<UUID> getMembers(final UUID uuid) {
+        final OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
+        if (!player.isOnline()) return null;
+        return usb.getIslandInfo(player.getPlayer()).getMembers().stream().map((s) -> Bukkit.getOfflinePlayer(s).getUniqueId()).collect(Collectors.toList());
     }
 }

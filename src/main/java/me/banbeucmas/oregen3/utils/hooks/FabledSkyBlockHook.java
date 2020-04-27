@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
+import java.util.List;
 import java.util.UUID;
 
 public class FabledSkyBlockHook implements SkyblockHook {
@@ -19,12 +20,9 @@ public class FabledSkyBlockHook implements SkyblockHook {
     @Override
     public double getIslandLevel(final UUID uuid, final Location loc) {
         final OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
-        if (manager.getIsland(player) != null) {
-            final Island is = manager.getIsland(player);
-            if (is.getLevel() != null)
-                return is.getLevel().getLevel();
-        }
-        return 0;
+        final Island is = manager.getIsland(player);
+        if (is == null || is.getLevel() == null) return 0;
+        return is.getLevel().getLevel();
     }
 
     @Override
@@ -34,11 +32,17 @@ public class FabledSkyBlockHook implements SkyblockHook {
 
     @Override
     public UUID getIslandOwner(final UUID uuid) {
-        return manager.getIslandByUUID(uuid).getOwnerUUID();
+        return manager.getIsland(Bukkit.getOfflinePlayer(uuid)).getOwnerUUID();
     }
 
     @Override
     public boolean isOnIsland(final Location loc) {
         return manager.getIslandAtLocation(loc) != null;
+    }
+
+    @Override
+    public List<UUID> getMembers(final UUID uuid) {
+        //TODO: Find a way to get member list
+        return null;
     }
 }

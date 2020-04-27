@@ -2,6 +2,7 @@ package me.banbeucmas.oregen3.utils.hooks;
 
 import org.bukkit.Location;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface SkyblockHook {
@@ -42,4 +43,6 @@ public interface SkyblockHook {
      * @return true if an island is found, false if none
      */
     boolean isOnIsland(Location loc);
+
+    List<UUID> getMembers(UUID uuid);
 }
