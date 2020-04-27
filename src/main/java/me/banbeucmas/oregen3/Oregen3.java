@@ -94,7 +94,9 @@ public final class Oregen3 extends JavaPlugin {
                 config.addDefault("hooks.Vault.forceAsync", false);
                 config.addDefault("hooks.Vault.pluginAsyncList", Collections.singletonList("LuckPerms"));
                 config.addDefault("messages.commands.edit", "&6&o/%label% edit &f» Edit generators in-game (comming soon...)");
-                config.set("version", "1.3.0.5");
+            case "1.3.0.5":
+                config.addDefault("hooks.skyblock.getLowestGenerator", false);
+                config.set("version", "1.3.0.1");
                 saveConfig();
         }
         if (config.getBoolean("updater.copyHeader", false)) {

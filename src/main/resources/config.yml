@@ -42,7 +42,7 @@
 #  Also try not to put comment anywhere but the header (here), it'll get deleted if the config updates itselfs.
 # -------------------------------------
 # DO NOT TOUCH THIS
-version: 1.3.0.5
+version: 1.3.0.5.1
 debug: false
 
 prefix: '&f[&6OreGen&e3&f]'
@@ -67,6 +67,8 @@ randomFallback: false
 defaultGenerator: default
 
 hooks:
+  skyblock:
+    getLowestGenerator: false
   Vault:
     forceAsync: false
     pluginAsyncList:
