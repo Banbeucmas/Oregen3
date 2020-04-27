@@ -18,8 +18,8 @@ public class GeneratorList implements InventoryHolder {
             final ItemStack display = new ItemStack(chooser.getFallback());
             final ItemMeta meta = display.getItemMeta();
 
-            meta.setDisplayName("§rGenerator: " + id);
-            meta.setLore(Collections.singletonList("§rClick to edit this generator (comming soon...)"));
+            meta.setDisplayName("§r" + id);
+            meta.setLore(Collections.singletonList("§rClick to edit this generator."));
             display.setItemMeta(meta);
 
             inv.addItem(display);
