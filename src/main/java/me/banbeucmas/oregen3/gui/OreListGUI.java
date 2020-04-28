@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -21,7 +22,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class OreListGUI implements InventoryHolder {
+public class OreListGUI implements InventoryHolder, InventoryClickHandler {
     private static final Pattern CHANCE = Pattern.compile("%chance%", Pattern.LITERAL);
     private final Inventory inv;
 
@@ -87,5 +88,10 @@ public class OreListGUI implements InventoryHolder {
     @Override
     public Inventory getInventory() {
         return inv;
+    }
+
+    @Override
+    public void onClickHandle(final InventoryClickEvent event) {
+
     }
 }
