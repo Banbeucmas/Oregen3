@@ -1,7 +1,7 @@
 package me.banbeucmas.oregen3.commands;
 
 import me.banbeucmas.oregen3.Oregen3;
-import me.banbeucmas.oregen3.gui.OreListGUI;
+import me.banbeucmas.oregen3.gui.GeneratorMaterialList;
 import me.banbeucmas.oregen3.utils.PluginUtils;
 import me.banbeucmas.oregen3.utils.StringUtils;
 import org.bukkit.Bukkit;
@@ -47,7 +47,7 @@ public class InformationCommand extends AbstractCommand {
                 return ExecutionResult.DONT_CARE;
             }
 
-            p.openInventory(new OreListGUI(uuid, p).getInventory());
+            p.openInventory(new GeneratorMaterialList(uuid, p).getInventory());
             return ExecutionResult.DONT_CARE;
         }
 
@@ -57,7 +57,7 @@ public class InformationCommand extends AbstractCommand {
             p.sendMessage(StringUtils.getPrefixString(config.getString("messages.noIsland"), getPlayer()));
             return ExecutionResult.DONT_CARE;
         }
-        p.openInventory(new OreListGUI(p.getLocation(), p).getInventory());
+        p.openInventory(new GeneratorMaterialList(p.getLocation(), p).getInventory());
 
         return ExecutionResult.DONT_CARE;
     }

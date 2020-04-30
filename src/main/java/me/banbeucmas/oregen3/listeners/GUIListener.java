@@ -1,6 +1,6 @@
 package me.banbeucmas.oregen3.listeners;
 
-import me.banbeucmas.oregen3.gui.InventoryClickHandler;
+import me.banbeucmas.oregen3.gui.InventoryHandler;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,9 +15,9 @@ public class GUIListener implements Listener {
         if (item == null || item.getType() == Material.AIR) return;
 
         final InventoryHolder inventoryHolder = e.getInventory().getHolder();
-        if (inventoryHolder instanceof InventoryClickHandler) {
+        if (inventoryHolder instanceof InventoryHandler) {
             e.setCancelled(true);
-            ((InventoryClickHandler) inventoryHolder).onClickHandle(e);
+            ((InventoryHandler) inventoryHolder).onClickHandle(e);
         }
     }
 }

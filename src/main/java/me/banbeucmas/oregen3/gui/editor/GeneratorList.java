@@ -1,9 +1,12 @@
 package me.banbeucmas.oregen3.gui.editor;
 
 import me.banbeucmas.oregen3.data.DataManager;
-import me.banbeucmas.oregen3.gui.InventoryClickHandler;
+import me.banbeucmas.oregen3.data.MaterialChooser;
+import me.banbeucmas.oregen3.gui.EditGUI;
+import me.banbeucmas.oregen3.gui.InventoryHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -11,13 +14,42 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Collections;
+import java.util.Map;
 
-public class GeneratorList implements InventoryHolder, InventoryClickHandler {
+public class GeneratorList implements InventoryHolder, InventoryHandler {
     private final Inventory inv;
+    private final long page;
 
-    public GeneratorList() {
-        inv = Bukkit.createInventory(this, 9 * ((DataManager.getChoosers().size() - 1) / 9 + 1), "Generators");
-        DataManager.getChoosers().forEach((id, chooser) -> {
+    public GeneratorList(final long page) {
+        this.page = page;
+        final int size = 9 * ((DataManager.getChoosers().size() - 1) / 9 + 1);
+        final Map<String, MaterialChooser> choosers = DataManager.getChoosers();
+
+        inv = Bukkit.createInventory(this, size, "Generators");
+
+        final ItemStack exitItem = new ItemStack(Material.BARRIER);
+        final ItemMeta exitItemMeta = exitItem.getItemMeta();
+        exitItemMeta.setDisplayName("§rBack");
+        exitItem.setItemMeta(exitItemMeta);
+        inv.setItem(size - 2, exitItem);
+
+        if (page != 1) {
+            final ItemStack lastPage = new ItemStack(Material.ARROW);
+            final ItemMeta lastPageMeta = lastPage.getItemMeta();
+            lastPageMeta.setDisplayName("§rPage " + (page + 1));
+            lastPage.setItemMeta(lastPageMeta);
+            inv.setItem(size - 3, lastPage);
+        }
+
+        if (choosers.size() / 52 > 0) {
+            final ItemStack nextPage = new ItemStack(Material.ARROW);
+            final ItemMeta nextPageMeta = nextPage.getItemMeta();
+            nextPageMeta.setDisplayName("§rPage " + (page + 1));
+            nextPage.setItemMeta(nextPageMeta);
+            inv.setItem(size - 1, nextPage);
+        }
+
+        choosers.forEach((id, chooser) -> {
             final ItemStack display = new ItemStack(chooser.getFallback());
             final ItemMeta meta = display.getItemMeta();
 
@@ -36,8 +68,21 @@ public class GeneratorList implements InventoryHolder, InventoryClickHandler {
 
     @Override
     public void onClickHandle(final InventoryClickEvent event) {
-        event.getWhoClicked().openInventory(new Generator(DataManager.getChoosers().get(
-                        ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName())))
-                        .getInventory());
+        final int slot = event.getSlot();
+        final int size = event.getInventory().getSize();
+        if (slot == size - 3) {
+            event.getWhoClicked().openInventory(new GeneratorList(page - 1).inv);
+        }
+        else if (slot == size - 1) {
+            event.getWhoClicked().openInventory(new GeneratorList(page + 1).inv);
+        }
+        else if (slot == size - 2) {
+            event.getWhoClicked().openInventory(new EditGUI().getInventory());
+        }
+        else {
+            event.getWhoClicked().openInventory(new Generator(DataManager.getChoosers().get(
+                    ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName())))
+                                                        .getInventory());
+        }
     }
 }

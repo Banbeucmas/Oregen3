@@ -22,11 +22,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class OreListGUI implements InventoryHolder, InventoryClickHandler {
+public class GeneratorMaterialList implements InventoryHolder, InventoryHandler {
     private static final Pattern CHANCE = Pattern.compile("%chance%", Pattern.LITERAL);
     private final Inventory inv;
 
-    public OreListGUI(final Location location, final OfflinePlayer player) {
+    public GeneratorMaterialList(final Location location, final OfflinePlayer player) {
         int size = 9;
         final MaterialChooser mc = PluginUtils.getChooser(location);
         final Map<Material, Double> chances = mc.getChances();
@@ -56,7 +56,7 @@ public class OreListGUI implements InventoryHolder, InventoryClickHandler {
         });
     }
 
-    public OreListGUI(final UUID uuid, final OfflinePlayer player) {
+    public GeneratorMaterialList(final UUID uuid, final OfflinePlayer player) {
         int size = 9;
         final MaterialChooser mc = PluginUtils.getChooser(uuid);
         final Map<Material, Double> chances = mc.getChances();
