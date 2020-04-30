@@ -3,6 +3,8 @@ package me.banbeucmas.oregen3.gui.editor;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.MaterialChooser;
 import me.banbeucmas.oregen3.gui.InventoryHandler;
+import me.banbeucmas.oregen3.gui.editor.options.Fallback;
+import me.banbeucmas.oregen3.gui.editor.options.RandomBlockList;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -16,9 +18,12 @@ import java.util.Collections;
 
 public class Generator implements InventoryHolder, InventoryHandler {
     private final Inventory inventory;
+    private final MaterialChooser chooser;
 
     public Generator(final MaterialChooser chooser) {
-        inventory = Bukkit.createInventory(this, 9, "Generator: " + chooser.getId());
+        this.chooser = chooser;
+        final String id = chooser.getId();
+        inventory = Bukkit.createInventory(this, 9, "Generator: " + id);
 
         final ItemStack randomItem = new ItemStack(Material.STONE);
         final ItemMeta randomItemMeta = randomItem.getItemMeta();
@@ -30,6 +35,16 @@ public class Generator implements InventoryHolder, InventoryHandler {
 
         //TODO: Add other generator options
         final FileConfiguration config = Oregen3.getPlugin().getConfig();
+        final String prefix = "generators." + id + '.';
+        if (config.isSet(prefix + "fallback")) {
+            final ItemStack fallbackItem = new ItemStack(Material.STONE);
+            final ItemMeta fallbackMeta = fallbackItem.getItemMeta();
+            fallbackMeta.setDisplayName("§rEdit fallback block");
+            fallbackMeta.setLore(Collections.singletonList("§rClick to edit fallback block"));
+            fallbackItem.setItemMeta(fallbackMeta);
+
+            inventory.setItem(1, fallbackItem);
+        }
     }
 
     @Override
@@ -42,7 +57,12 @@ public class Generator implements InventoryHolder, InventoryHandler {
         final int slot = event.getSlot();
         switch (slot) {
             case 0: {
-                //TODO: Edit random blocks
+                event.getWhoClicked().openInventory(new RandomBlockList(
+                        ((Generator) event.getInventory().getHolder()).chooser).getInventory());
+            }
+            case 1: {
+                event.getWhoClicked().openInventory(new Fallback(
+                        ((Generator) event.getInventory().getHolder()).chooser).getInventory());
             }
         }
     }

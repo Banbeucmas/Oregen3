@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
@@ -18,6 +19,14 @@ public class GUIListener implements Listener {
         if (inventoryHolder instanceof InventoryHandler) {
             e.setCancelled(true);
             ((InventoryHandler) inventoryHolder).onClickHandle(e);
+        }
+    }
+
+    @EventHandler
+    public void onClose(final InventoryCloseEvent e) {
+        final InventoryHolder inventoryHolder = e.getInventory().getHolder();
+        if (inventoryHolder instanceof InventoryHandler) {
+            ((InventoryHandler) inventoryHolder).onCloseHandle(e);
         }
     }
 }
