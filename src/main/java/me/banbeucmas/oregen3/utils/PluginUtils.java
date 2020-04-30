@@ -20,7 +20,7 @@ public class PluginUtils {
         if (uuid == null) {
             return null;
         }
-        debug("UUID: " + uuid);
+        debugln("UUID: " + uuid);
 
         return Bukkit.getServer().getOfflinePlayer(uuid);
     }
@@ -30,7 +30,7 @@ public class PluginUtils {
         if (p == null) {
             return null;
         }
-        debug("UUID: " + p);
+        debugln("UUID: " + p);
         return Bukkit.getServer().getOfflinePlayer(p);
     }
 
@@ -51,12 +51,12 @@ public class PluginUtils {
         if (plugin.hasDependency()) {
             final OfflinePlayer p = getOwner(loc);
             if (p == null) {
-                debug("Null UUID...");
+                debugln("Null UUID...");
                 return mc;
             }
             mc = getMaterialChooser(loc, mc, p);
         }
-        debug("Gennerator id: " + mc.getId());
+        debugln("Gennerator id: " + mc.getId());
         return mc;
     }
 
@@ -66,24 +66,24 @@ public class PluginUtils {
         if (plugin.hasDependency()) {
             final UUID p = Oregen3.getHook().getIslandOwner(uuid);
             if (p == null) {
-                debug("Null UUID...");
+                debugln("Null UUID...");
                 return mc;
             }
             for (final MaterialChooser chooser : DataManager.getChoosers().values()) {
-                debug("Checking generator type " + chooser.getId() + " for " + Bukkit.getOfflinePlayer(uuid).getName() + ":");
-                debug(" - Has perm: " + Oregen3.getPermissionManager().checkPerm(null, Bukkit.getOfflinePlayer(uuid), chooser.getPermission()));
-                debug(" - Priority check: " + chooser.getPriority() + " " + mc.getPriority());
-                debug(" - Level check: " + getLevel(p, null) + " " + chooser.getLevel());
+                debugln("Checking generator type " + chooser.getId() + " for " + Bukkit.getOfflinePlayer(uuid).getName() + ":");
+                debugln(" - Has perm: " + Oregen3.getPermissionManager().checkPerm(null, Bukkit.getOfflinePlayer(uuid), chooser.getPermission()));
+                debugln(" - Priority check: " + chooser.getPriority() + " " + mc.getPriority());
+                debugln(" - Level check: " + getLevel(p, null) + " " + chooser.getLevel());
                 //TODO: Support island-only world?
                 if (Oregen3.getPermissionManager().checkPerm(null, Bukkit.getOfflinePlayer(p), chooser.getPermission())
                         && chooser.getPriority() >= mc.getPriority()
                         && getLevel(p, null) >= chooser.getLevel()) {
-                    debug("Changed gennerator id to " + chooser.getId());
+                    debugln("Changed gennerator id to " + chooser.getId());
                     mc = chooser;
                 }
             }
         }
-        debug("Gennerator id: " + mc.getId());
+        debugln("Gennerator id: " + mc.getId());
         return mc;
     }
 
@@ -91,25 +91,23 @@ public class PluginUtils {
         return Oregen3.getHook().getIslandLevel(id, loc);
     }
 
-    public static void debug(final String message) {
-        if (Oregen3.DEBUG) {
-            System.out.println(message);
-        }
-    }
-
     private static MaterialChooser getMaterialChooser(final Location loc, MaterialChooser mc, final OfflinePlayer p) {
         for (final MaterialChooser chooser : DataManager.getChoosers().values()) {
-            debug("Checking generator type " + chooser.getId() + " for " + p.getName() + ":");
-            debug(" - Has perms: " + Oregen3.getPermissionManager().checkPerm(null, p, chooser.getPermission()));
-            debug(" - Priority check: " + chooser.getPriority() + " " + mc.getPriority());
-            debug(" - Level check: " + getLevel(p.getUniqueId(), loc) + " " + chooser.getLevel());
+            debugln("Checking generator type " + chooser.getId() + " for " + p.getName() + ":");
+            debugln(" - Has perms: " + Oregen3.getPermissionManager().checkPerm(null, p, chooser.getPermission()));
+            debugln(" - Priority check: " + chooser.getPriority() + " " + mc.getPriority());
+            debugln(" - Level check: " + getLevel(p.getUniqueId(), loc) + " " + chooser.getLevel());
             if (Oregen3.getPermissionManager().checkPerm(null, p, chooser.getPermission())
                     && chooser.getPriority() >= mc.getPriority()
                     && getLevel(p.getUniqueId(), loc) >= chooser.getLevel()) {
-                debug("Changed gennerator id to " + chooser.getId());
+                debugln("Changed gennerator id to " + chooser.getId());
                 mc = chooser;
             }
         }
         return mc;
     }
+
+    public static void debug(final String message)   { if (Oregen3.DEBUG) System.out.print(message); }
+
+    public static void debugln(final String message) { if (Oregen3.DEBUG) System.out.println(message); }
 }
