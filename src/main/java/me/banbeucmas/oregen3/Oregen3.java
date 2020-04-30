@@ -137,7 +137,7 @@ public final class Oregen3 extends JavaPlugin {
         checkDependency();
         setupPermissions();
 
-        if (getConfig().getBoolean("debug")) {
+        if (getConfig().getBoolean("debug", false)) {
             DEBUG = true;
         }
 
@@ -145,8 +145,8 @@ public final class Oregen3 extends JavaPlugin {
         //Send Message
         sender.sendMessage(StringUtils.getColoredString("&7&m-------------&f[Oregen3&f]&7-------------", null));
         sender.sendMessage("");
-        sender.sendMessage(StringUtils.getColoredString("   &fPlugin made by &e&oBanbeucmas&f, updated by &e&oxHexed", null));
-        sender.sendMessage(StringUtils.getColoredString("   &f&oVersion: &e" + getDescription().getVersion(), null));
+        sender.sendMessage(StringUtils.getColoredString("   &fPlugin made by &eBanbeucmas&f, updated by &exHexed", null));
+        sender.sendMessage(StringUtils.getColoredString("   &fVersion: &e" + getDescription().getVersion(), null));
         sender.sendMessage("");
         sender.sendMessage(StringUtils.getColoredString("------------------------------------", null));
 
@@ -168,7 +168,7 @@ public final class Oregen3 extends JavaPlugin {
             return;
         }
 
-        final PluginManager manager = Bukkit.getServer().getPluginManager();
+        final PluginManager manager = getServer().getPluginManager();
         if (manager.isPluginEnabled("ASkyBlock")) {
             hook     = new ASkyblockHook();
         }
@@ -208,7 +208,7 @@ public final class Oregen3 extends JavaPlugin {
     }
 
     private void setupPermissions() {
-        final PluginManager manager = Bukkit.getServer().getPluginManager();
+        final PluginManager manager = getServer().getPluginManager();
         if (manager.isPluginEnabled("Vault")) {
             final RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
             perm              = rsp.getProvider();

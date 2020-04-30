@@ -4,6 +4,7 @@ import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.data.MaterialChooser;
 import me.banbeucmas.oregen3.utils.PluginUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,14 +21,14 @@ public class AsyncVaultPermission implements PermissionManager, Listener {
     private final Map<String, HashSet<String>> permlist = new HashMap<>();
 
     public AsyncVaultPermission() {
-        Oregen3.getPlugin().getServer().getPluginManager().registerEvents(this, Oregen3.getPlugin());
+        Bukkit.getPluginManager().registerEvents(this, Oregen3.getPlugin());
     }
 
     @Override
     public boolean checkPerm(final String world, final OfflinePlayer player, final String permission) {
         checkContains(player.getName());
-
         final HashSet<String> list = permlist.get(player.getName());
+
         if (player.isOnline()) {
             if (!list.contains(permission) && Oregen3.getPerm().playerHas(player.getPlayer(), permission))
                 list.add(permission);
