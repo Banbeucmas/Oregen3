@@ -8,7 +8,6 @@ import me.banbeucmas.oregen3.Oregen3;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -17,7 +16,7 @@ public class IridiumSkyblockHook implements SkyblockHook {
     private IslandManager manager;
 
     public IridiumSkyblockHook() {
-        Bukkit.getScheduler().runTask(Oregen3.getPlugin(), () -> manager = IridiumSkyblock.getIslandManager());
+        Bukkit.getScheduler().runTaskLater(Oregen3.getPlugin(), () -> manager = IridiumSkyblock.getIslandManager(), 2);
     }
 
     @Override
