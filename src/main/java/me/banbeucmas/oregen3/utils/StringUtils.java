@@ -14,9 +14,9 @@ public class StringUtils {
     public static final Pattern LABEL = Pattern.compile("%label%", Pattern.LITERAL);
 
     public static String getColoredString(String s, final OfflinePlayer player) {
-        if (Oregen3.getPlugin().hasPlaceholderAPI())
+        if (Oregen3.getPlugin().papi)
             s = me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(player, s);
-        if (Oregen3.getPlugin().hasMVDWPlaceholderAPI())
+        if (Oregen3.getPlugin().mvdw)
             s = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(player, s);
         return ChatColor.translateAlternateColorCodes('&', s);
     }

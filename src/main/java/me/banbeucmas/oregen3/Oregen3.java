@@ -27,8 +27,8 @@ import java.util.Objects;
 
 public final class Oregen3 extends JavaPlugin {
     private boolean hasDependency = true;
-    private boolean papi;
-    private boolean mvdw;
+    public boolean papi;
+    public boolean mvdw;
     private static Oregen3 plugin;
     private static SkyblockHook hook;
     private static Permission perm;
@@ -39,15 +39,8 @@ public final class Oregen3 extends JavaPlugin {
         return hasDependency;
     }
 
-    public boolean hasPlaceholderAPI() {
-        return papi;
-    }
-
-    public boolean hasMVDWPlaceholderAPI() {
-        return mvdw;
-    }
-
     public void updateConfig() {
+        saveDefaultConfig();
         final FileConfiguration config = getConfig();
         switch (config.getString("version", "none")) {
             case "none":
@@ -132,7 +125,6 @@ public final class Oregen3 extends JavaPlugin {
 
         new MetricsLite(this, 3052);
 
-        saveDefaultConfig();
         updateConfig();
         checkDependency();
         setupPermissions();

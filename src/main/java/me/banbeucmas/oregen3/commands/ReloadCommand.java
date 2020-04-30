@@ -19,7 +19,6 @@ public class ReloadCommand extends AbstractCommand {
             return ExecutionResult.NO_PERMISSION;
         }
 
-        Oregen3.getPlugin().reloadConfig();
         Oregen3.getPlugin().updateConfig();
         DataManager.loadData();
 

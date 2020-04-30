@@ -22,8 +22,8 @@ public class GeneratorList implements InventoryHolder, InventoryHandler {
 
     public GeneratorList(final long page) {
         this.page = page;
-        final int size = 9 * ((DataManager.getChoosers().size() - 1) / 9 + 1);
         final Map<String, MaterialChooser> choosers = DataManager.getChoosers();
+        final int size = 9 * (choosers.size() / 9 + 1);
 
         inv = Bukkit.createInventory(this, size, "Generators");
 
@@ -31,7 +31,7 @@ public class GeneratorList implements InventoryHolder, InventoryHandler {
         final ItemMeta exitItemMeta = exitItem.getItemMeta();
         exitItemMeta.setDisplayName("§rBack");
         exitItem.setItemMeta(exitItemMeta);
-        inv.setItem(size - 2, exitItem);
+        inv.setItem(size - 1, exitItem);
 
         if (page != 1) {
             final ItemStack lastPage = new ItemStack(Material.ARROW);
@@ -46,14 +46,14 @@ public class GeneratorList implements InventoryHolder, InventoryHandler {
             final ItemMeta nextPageMeta = nextPage.getItemMeta();
             nextPageMeta.setDisplayName("§rPage " + (page + 1));
             nextPage.setItemMeta(nextPageMeta);
-            inv.setItem(size - 1, nextPage);
+            inv.setItem(size - 2, nextPage);
         }
 
         choosers.forEach((id, chooser) -> {
             final ItemStack display = new ItemStack(chooser.getFallback());
             final ItemMeta meta = display.getItemMeta();
 
-            meta.setDisplayName("§r" + id);
+            meta.setDisplayName("§rGenerator " + id);
             meta.setLore(Collections.singletonList("§rClick to edit this generator."));
             display.setItemMeta(meta);
 
@@ -73,10 +73,10 @@ public class GeneratorList implements InventoryHolder, InventoryHandler {
         if (slot == size - 3) {
             event.getWhoClicked().openInventory(new GeneratorList(page - 1).inv);
         }
-        else if (slot == size - 1) {
+        else if (slot == size - 2) {
             event.getWhoClicked().openInventory(new GeneratorList(page + 1).inv);
         }
-        else if (slot == size - 2) {
+        else if (slot == size - 1) {
             event.getWhoClicked().openInventory(new EditGUI().getInventory());
         }
         else {

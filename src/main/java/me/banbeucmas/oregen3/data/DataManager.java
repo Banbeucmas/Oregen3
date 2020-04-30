@@ -20,12 +20,10 @@ public class DataManager {
     }
 
     public static void loadData() {
+        unregisterAll();
         debug("Loaded generators: ");
         for (final String id : Oregen3.getPlugin().getConfig().getConfigurationSection("generators").getKeys(false)) {
             debug(id + ", ");
-            if (Oregen3.DEBUG) {
-                System.out.print(id + ", ");
-            }
             choosers.put(id, new MaterialChooser(id));
         }
         debugln("");

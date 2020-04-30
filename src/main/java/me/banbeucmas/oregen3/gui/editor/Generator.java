@@ -37,7 +37,7 @@ public class Generator implements InventoryHolder, InventoryHandler {
         final FileConfiguration config = Oregen3.getPlugin().getConfig();
         final String prefix = "generators." + id + '.';
         if (config.isSet(prefix + "fallback")) {
-            final ItemStack fallbackItem = new ItemStack(Material.STONE);
+            final ItemStack fallbackItem = new ItemStack(Material.COBBLESTONE);
             final ItemMeta fallbackMeta = fallbackItem.getItemMeta();
             fallbackMeta.setDisplayName("§rEdit fallback block");
             fallbackMeta.setLore(Collections.singletonList("§rClick to edit fallback block"));
@@ -56,14 +56,14 @@ public class Generator implements InventoryHolder, InventoryHandler {
     public void onClickHandle(final InventoryClickEvent event) {
         final int slot = event.getSlot();
         switch (slot) {
-            case 0: {
+            case 0:
                 event.getWhoClicked().openInventory(new RandomBlockList(
                         ((Generator) event.getInventory().getHolder()).chooser).getInventory());
-            }
-            case 1: {
+                break;
+            case 1:
                 event.getWhoClicked().openInventory(new Fallback(
                         ((Generator) event.getInventory().getHolder()).chooser).getInventory());
-            }
+                break;
         }
     }
 }
