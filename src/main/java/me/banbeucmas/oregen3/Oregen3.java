@@ -40,7 +40,7 @@ public final class Oregen3 extends JavaPlugin {
     }
 
     public void updateConfig() {
-        saveDefaultConfig();
+        reloadConfig();
         final FileConfiguration config = getConfig();
         switch (config.getString("version", "none")) {
             case "none":
@@ -125,6 +125,7 @@ public final class Oregen3 extends JavaPlugin {
 
         new MetricsLite(this, 3052);
 
+        saveDefaultConfig();
         updateConfig();
         checkDependency();
         setupPermissions();
