@@ -32,7 +32,7 @@ abstract class AbstractCommand {
 	/**
 	 * @return an {@link ExecutionResult}, should never be null
 	 */
-	protected abstract ExecutionResult now();
+	abstract ExecutionResult now();
 
 	void execute() {
 		switch (now()) {

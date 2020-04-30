@@ -1,6 +1,6 @@
 package me.banbeucmas.oregen3;
 
-import me.banbeucmas.oregen3.commands.Commands;
+import me.banbeucmas.oregen3.commands.CommandHandler;
 import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.data.permission.DefaultPermission;
 import me.banbeucmas.oregen3.data.permission.AsyncVaultPermission;
@@ -153,8 +153,8 @@ public final class Oregen3 extends JavaPlugin {
         DataManager.loadData();
 
         final PluginCommand command = Objects.requireNonNull(getCommand("oregen3"));
-        command.setExecutor(new Commands());
-        command.setTabCompleter(new Commands());
+        command.setExecutor(new CommandHandler());
+        command.setTabCompleter(new CommandHandler());
 
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
         getServer().getPluginManager().registerEvents(new GUIListener(), this);

@@ -11,9 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class Commands implements CommandExecutor, TabCompleter {
-    private static final List<String> commands = Arrays.asList("reload", "help", "info", "debug", "edit");
-
+public class CommandHandler implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
         if (args.length == 0) {
@@ -45,7 +43,7 @@ public class Commands implements CommandExecutor, TabCompleter {
             return null;
         }
         final List<String> completions = new ArrayList<>();
-        StringUtil.copyPartialMatches(args[0], commands, completions);
+        StringUtil.copyPartialMatches(args[0], Arrays.asList("reload", "help", "info", "debug", "edit"), completions);
         Collections.sort(completions);
         return completions;
     }
