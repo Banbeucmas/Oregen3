@@ -15,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFromToEvent;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -150,12 +151,8 @@ public class BlockListener implements Listener {
                 world.getBlockAt(fromLoc.getBlockX(), fromLoc.getBlockY(), fromLoc.getBlockZ() + 1),
                 world.getBlockAt(fromLoc.getBlockX(), fromLoc.getBlockY(), fromLoc.getBlockZ() - 1)};
 
-        for (final Block b : blocks) {
-            if (b.getType() == Material.WATER || b.getType() == Material.STATIONARY_WATER) {
-                return true;
-            }
-        }
-        return false;
+        return Arrays.stream(blocks)
+                .anyMatch(b -> b.getType() == Material.WATER || b.getType() == Material.STATIONARY_WATER);
 
     }
 
