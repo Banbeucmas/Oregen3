@@ -1,7 +1,6 @@
 package me.banbeucmas.oregen3.commands;
 
 import me.banbeucmas.oregen3.Oregen3;
-import me.banbeucmas.oregen3.utils.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -38,17 +37,17 @@ abstract class AbstractCommand {
 		switch (now()) {
 			case MISSING_ARGS:
 				if (getFormat() != null) {
-					sender.sendMessage(StringUtils.getPrefixString(FORMAT.matcher(Oregen3.getPlugin().getConfig().getString("messages.missingArgs")).replaceAll(Matcher.quoteReplacement(getFormat())), player));
+					sender.sendMessage(getPrefixString(FORMAT.matcher(Oregen3.getPlugin().getConfig().getString("messages.missingArgs")).replaceAll(Matcher.quoteReplacement(getFormat())), player));
 				}
 				break;
 			case NO_PERMISSION:
-				sender.sendMessage(StringUtils.getPrefixString(PERM.matcher(Oregen3.getPlugin().getConfig().getString("messages.noPermission")).replaceAll(Matcher.quoteReplacement(permission)), player));
+				sender.sendMessage(getPrefixString(PERM.matcher(Oregen3.getPlugin().getConfig().getString("messages.noPermission")).replaceAll(Matcher.quoteReplacement(permission)), player));
 				break;
 			case NO_PLAYER:
-				sender.sendMessage(StringUtils.getPrefixString(PLAYER.matcher(Oregen3.getPlugin().getConfig().getString("messages.noPlayer")).replaceAll(Matcher.quoteReplacement(player != null ? player.getName() : "")), player));
+				sender.sendMessage(getPrefixString(PLAYER.matcher(Oregen3.getPlugin().getConfig().getString("messages.noPlayer")).replaceAll(Matcher.quoteReplacement(player != null ? player.getName() : "")), player));
 				break;
 			case NOT_PLAYER:
-				sender.sendMessage(StringUtils.getPrefixString(Oregen3.getPlugin().getConfig().getString("messages.notPlayer"), player));
+				sender.sendMessage(getPrefixString(Oregen3.getPlugin().getConfig().getString("messages.notPlayer"), player));
 		}
 	}
 

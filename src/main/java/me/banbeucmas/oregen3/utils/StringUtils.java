@@ -22,7 +22,7 @@ public class StringUtils {
     }
 
     public static String getPrefix() {
-        return StringUtils.getColoredString(Oregen3.getPlugin().getConfig().getString("prefix"), null);
+        return getColoredString(Oregen3.getPlugin().getConfig().getString("prefix"), null);
     }
 
     public static String getPrefixString(final String s, final OfflinePlayer p) {
