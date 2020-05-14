@@ -1,10 +1,7 @@
 package me.banbeucmas.oregen3.utils.hooks;
 
-import com.iridium.iridiumskyblock.IridiumSkyblock;
 import com.iridium.iridiumskyblock.Island;
-import com.iridium.iridiumskyblock.IslandManager;
 import com.iridium.iridiumskyblock.User;
-import me.banbeucmas.oregen3.Oregen3;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -12,12 +9,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class IridiumSkyblockHook implements SkyblockHook {
-    private IslandManager manager;
+import static com.iridium.iridiumskyblock.IridiumSkyblock.getIslandManager;
 
-    public IridiumSkyblockHook() {
-        Bukkit.getScheduler().runTaskLater(Oregen3.getPlugin(), () -> manager = IridiumSkyblock.getIslandManager(), 2);
-    }
+public class IridiumSkyblockHook implements SkyblockHook {
 
     @Override
     public double getIslandLevel(final UUID uuid, final Location loc) {
@@ -27,7 +21,7 @@ public class IridiumSkyblockHook implements SkyblockHook {
     @SuppressWarnings("deprecation")
     @Override
     public UUID getIslandOwner(final Location loc) {
-        return Bukkit.getOfflinePlayer(manager.getIslandViaLocation(loc).getOwner()).getUniqueId();
+        return Bukkit.getOfflinePlayer(getIslandManager().getIslandViaLocation(loc).getOwner()).getUniqueId();
     }
 
     @SuppressWarnings("deprecation")
@@ -38,7 +32,7 @@ public class IridiumSkyblockHook implements SkyblockHook {
 
     @Override
     public boolean isOnIsland(final Location loc) {
-        return manager.getIslandViaLocation(loc) != null;
+        return getIslandManager().getIslandViaLocation(loc) != null;
     }
 
     @SuppressWarnings("deprecation")
