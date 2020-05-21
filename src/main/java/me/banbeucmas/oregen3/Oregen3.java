@@ -8,6 +8,8 @@ import me.banbeucmas.oregen3.data.permission.DefaultPermission;
 import me.banbeucmas.oregen3.data.permission.PermissionManager;
 import me.banbeucmas.oregen3.data.permission.VaultPermission;
 import me.banbeucmas.oregen3.gui.EditGUI;
+import me.banbeucmas.oregen3.gui.editor.GeneratorList;
+import me.banbeucmas.oregen3.gui.editor.options.Fallback;
 import me.banbeucmas.oregen3.listeners.BlockListener;
 import me.banbeucmas.oregen3.listeners.GUIListener;
 import me.banbeucmas.oregen3.utils.StringUtils;
@@ -109,6 +111,8 @@ public final class Oregen3 extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new GUIListener(), this);
 
         EditGUI.create();
+        GeneratorList.create();
+        Fallback.create();
     }
 
     private void checkDependency() {

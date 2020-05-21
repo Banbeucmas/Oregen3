@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.Map;
 
 public class GeneratorList implements InventoryHolder, InventoryHandler {
+    private static ItemStack exitItem;
     private final Inventory inv;
     private final long page;
 
@@ -27,10 +28,6 @@ public class GeneratorList implements InventoryHolder, InventoryHandler {
 
         inv = Bukkit.createInventory(this, size, "Generators");
 
-        final ItemStack exitItem = new ItemStack(Material.BARRIER);
-        final ItemMeta exitItemMeta = exitItem.getItemMeta();
-        exitItemMeta.setDisplayName("§rBack");
-        exitItem.setItemMeta(exitItemMeta);
         inv.setItem(size - 1, exitItem);
 
         if (page != 1) {
@@ -84,5 +81,12 @@ public class GeneratorList implements InventoryHolder, InventoryHandler {
                     ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName())))
                                                         .getInventory());
         }
+    }
+
+    public static void create() {
+        exitItem = new ItemStack(Material.BARRIER);
+        final ItemMeta exitItemMeta = exitItem.getItemMeta();
+        exitItemMeta.setDisplayName("§rBack");
+        exitItem.setItemMeta(exitItemMeta);
     }
 }

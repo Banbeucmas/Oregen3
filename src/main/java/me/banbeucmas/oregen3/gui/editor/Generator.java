@@ -30,8 +30,15 @@ public class Generator implements InventoryHolder, InventoryHandler {
         randomItemMeta.setDisplayName("§rEdit random blocks");
         randomItemMeta.setLore(Collections.singletonList("§rClick to edit random blocks"));
         randomItem.setItemMeta(randomItemMeta);
-
         inventory.setItem(0, randomItem);
+
+        final ItemStack backItem = new ItemStack(Material.ARROW);
+        final ItemMeta backItemMeta = backItem.getItemMeta();
+        backItemMeta.setDisplayName("§rBack");
+        backItemMeta.setLore(Collections.singletonList("§rClick to go back to generator list"));
+        backItem.setItemMeta(backItemMeta);
+        inventory.setItem(8, backItem);
+
 
         //TODO: Add other generator options
         final FileConfiguration config = Oregen3.getPlugin().getConfig();
@@ -64,6 +71,8 @@ public class Generator implements InventoryHolder, InventoryHandler {
                 event.getWhoClicked().openInventory(new Fallback(
                         ((Generator) event.getInventory().getHolder()).chooser).getInventory());
                 break;
+            case 8:
+                event.getWhoClicked().openInventory(new GeneratorList(1).getInventory());
         }
     }
 }
