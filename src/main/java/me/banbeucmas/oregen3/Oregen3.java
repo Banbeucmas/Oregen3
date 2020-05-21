@@ -1,9 +1,10 @@
 package me.banbeucmas.oregen3;
 
+import com.tchristofferson.configupdater.ConfigUpdater;
 import me.banbeucmas.oregen3.commands.CommandHandler;
 import me.banbeucmas.oregen3.data.DataManager;
-import me.banbeucmas.oregen3.data.permission.DefaultPermission;
 import me.banbeucmas.oregen3.data.permission.AsyncVaultPermission;
+import me.banbeucmas.oregen3.data.permission.DefaultPermission;
 import me.banbeucmas.oregen3.data.permission.PermissionManager;
 import me.banbeucmas.oregen3.data.permission.VaultPermission;
 import me.banbeucmas.oregen3.gui.EditGUI;
@@ -21,8 +22,9 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public final class Oregen3 extends JavaPlugin {
@@ -40,62 +42,16 @@ public final class Oregen3 extends JavaPlugin {
     }
 
     public void updateConfig() {
-        reloadConfig();
         final FileConfiguration config = getConfig();
-        switch (config.getString("version", "none")) {
-            case "none":
-                config.addDefault("blocks", Arrays.asList("FENCE", "ACACIA_FENCE", "BIRCH_FENCE", "DARK_OAK_FENCE", "IRON_FENCE"));
-                config.addDefault("mode.lavaBlock", false);
-                config.addDefault("mode.waterBlock", true);
-                config.set("mode.lavaFence", null);
-                config.set("mode.waterFence", null);
-            case "1.1.0":
-                config.addDefault("enableDependency", true);
-            case "1.2.0":
-                config.addDefault("messages.gui.title", "&eChances");
-                config.addDefault("messages.gui.block.displayName", "&6%name%");
-                config.addDefault("messages.gui.block.lore", Collections.singletonList("&6Chances: &e%chance%&6%"));
-            case "1.3.0":
-                config.addDefault("debug", true);
-                config.addDefault("messages.noIsland", "&cYou have to be on an island to view this.");
-                config.addDefault("sound.enabled", true);
-                config.addDefault("sound.created", "BLOCK_FIRE_EXTINGUISH");
-                config.addDefault("sound.volume", 3);
-                config.addDefault("sound.pitch", 2);
-            case "1.3.0.1":
-                config.addDefault("messages.noIsland", "&cYou have to be on an island to view this.");
-                config.addDefault("messages.missingArgs", "&cFormat: &f + getFormat()");
-                config.addDefault("messages.noPermission", "&4Missing Permission: &c + permission");
-                config.addDefault("messages.noPlayer", "&4Player is not exist or isn't online");
-                config.addDefault("messages.notPlayer", "&4Only player can use this command");
-            case "1.3.0.2":
-                config.addDefault("hooks.BentoBox.gamemodePriorities", Arrays.asList("AcidIsland", "BSkyBlock", "CaveBlock", "SkyGrid"));
-                config.addDefault("messages.commands.help", "&6&o/%label% help &f» Open help pages");
-                config.addDefault("messages.commands.reload", "&6&o/%label% reload &f» Reload config");
-                config.addDefault("messages.commands.info", "&6&o/%label% info [player] &f» Getting ore spawning chance of the island you are standing on or the targetted player");
-                config.addDefault("messages.commands.debug", "&6&o/%label% debug &f» Toggle debugging");
-            case "1.3.0.3":
-                config.addDefault("global.generators.world.enabled", false);
-                config.addDefault("global.generators.world.blacklist", false);
-                config.addDefault("global.generators.world.list", config.getStringList("disabledWorlds"));
-                config.addDefault("global.generators.sound.enabled", config.getBoolean("sound.enabled", false));
-                config.addDefault("global.generators.sound.name", config.getString("sound.created", "BLOCK_FIRE_EXTINGUISH"));
-                config.addDefault("global.generators.sound.volume", config.getDouble("sound.volume", 3));
-                config.addDefault("global.generators.sound.pitch", config.getDouble("sound.pitch", 2));
-                config.addDefault("updater.copyHeader", false);
-            case "1.3.0.4":
-                config.addDefault("hooks.Vault.forceAsync", false);
-                config.addDefault("hooks.Vault.pluginAsyncList", Collections.singletonList("LuckPerms"));
-                config.addDefault("messages.commands.edit", "&6&o/%label% edit &f» Edit generators in-game (comming soon...)");
-            case "1.3.0.5":
-                config.addDefault("hooks.skyblock.getLowestGenerator", false);
-                config.set("version", "1.3.0.1");
-                saveConfig();
+        if (config.getBoolean("auto-update", true)) {
+            try {
+                ConfigUpdater.update(this, "config.yml", new File(getDataFolder(), "config.yml"), new ArrayList<>());
+            }
+            catch (final IOException e) {
+                e.printStackTrace();
+            }
         }
-        if (config.getBoolean("updater.copyHeader", false)) {
-            config.options().copyHeader(false);
-            saveConfig();
-        }
+        reloadConfig();
     }
 
     public void onDisable() {
@@ -206,11 +162,11 @@ public final class Oregen3 extends JavaPlugin {
             final RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
             perm              = rsp.getProvider();
             permissionManager = new VaultPermission();
-
-            if (getConfig().getBoolean("hooks.Vault.forceAsync")) {
+            final FileConfiguration config = getConfig();
+            if (config.getBoolean("hooks.Vault.forceAsync")) {
                 permissionManager = new AsyncVaultPermission();
             }
-            else if (getConfig().getStringList("hooks.Vault.pluginAsyncList").stream().anyMatch(manager::isPluginEnabled)) {
+            else if (config.getStringList("hooks.Vault.pluginAsyncList").stream().anyMatch(manager::isPluginEnabled)) {
                 permissionManager = new AsyncVaultPermission();
             }
         }
