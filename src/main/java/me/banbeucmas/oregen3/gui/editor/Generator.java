@@ -61,8 +61,7 @@ public class Generator implements InventoryHolder, InventoryHandler {
 
     @Override
     public void onClickHandle(final InventoryClickEvent event) {
-        final int slot = event.getSlot();
-        switch (slot) {
+        switch (event.getSlot()) {
             case 0:
                 event.getWhoClicked().openInventory(new RandomBlockList(
                         ((Generator) event.getInventory().getHolder()).chooser).getInventory());
