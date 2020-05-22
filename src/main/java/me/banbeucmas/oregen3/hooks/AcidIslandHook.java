@@ -1,4 +1,4 @@
-package me.banbeucmas.oregen3.utils.hooks;
+package me.banbeucmas.oregen3.hooks;
 
 import com.wasteofplastic.acidisland.ASkyBlockAPI;
 import org.bukkit.Location;

@@ -7,7 +7,6 @@ import org.bukkit.OfflinePlayer;
 import java.text.DecimalFormat;
 import java.util.regex.Pattern;
 
-@SuppressWarnings("WeakerAccess")
 public class StringUtils {
     public static final Pattern FORMAT = Pattern.compile("%format%", Pattern.LITERAL);
     public static final Pattern PERM = Pattern.compile("%perm%", Pattern.LITERAL);
@@ -23,11 +22,7 @@ public class StringUtils {
         return ChatColor.translateAlternateColorCodes('&', s);
     }
 
-    public static String getPrefix() {
-        return getColoredString(Oregen3.getPlugin().getConfig().getString("prefix"), null);
-    }
-
     public static String getPrefixString(final String s, final OfflinePlayer p) {
-        return getPrefix() + " " + getColoredString(s, p);
+        return getColoredString(Oregen3.getPlugin().getConfig().getString("prefix"), null) + " " + getColoredString(s, p);
     }
 }

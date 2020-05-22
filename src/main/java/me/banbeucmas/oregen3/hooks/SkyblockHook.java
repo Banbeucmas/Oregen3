@@ -1,4 +1,4 @@
-package me.banbeucmas.oregen3.utils.hooks;
+package me.banbeucmas.oregen3.hooks;
 
 import org.bukkit.Location;
 

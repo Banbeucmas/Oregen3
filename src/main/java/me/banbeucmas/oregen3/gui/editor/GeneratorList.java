@@ -1,5 +1,6 @@
 package me.banbeucmas.oregen3.gui.editor;
 
+import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.data.MaterialChooser;
 import me.banbeucmas.oregen3.gui.EditGUI;
@@ -68,18 +69,18 @@ public class GeneratorList implements InventoryHolder, InventoryHandler {
         final int slot = event.getSlot();
         final int size = event.getInventory().getSize();
         if (slot == size - 3) {
-            event.getWhoClicked().openInventory(new GeneratorList(page - 1).inv);
+            Bukkit.getScheduler().runTask(Oregen3.getPlugin(), () -> event.getWhoClicked().openInventory(new GeneratorList(page - 1).inv));
         }
         else if (slot == size - 2) {
-            event.getWhoClicked().openInventory(new GeneratorList(page + 1).inv);
+            Bukkit.getScheduler().runTask(Oregen3.getPlugin(), () -> event.getWhoClicked().openInventory(new GeneratorList(page + 1).inv));
         }
         else if (slot == size - 1) {
-            event.getWhoClicked().openInventory(new EditGUI().getInventory());
+            Bukkit.getScheduler().runTask(Oregen3.getPlugin(), () -> event.getWhoClicked().openInventory(new EditGUI().getInventory()));
         }
         else {
-            event.getWhoClicked().openInventory(new Generator(DataManager.getChoosers().get(
+            Bukkit.getScheduler().runTask(Oregen3.getPlugin(), () -> event.getWhoClicked().openInventory(new Generator(DataManager.getChoosers().get(
                     ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName())))
-                                                        .getInventory());
+                                                                                                                 .getInventory()));
         }
     }
 

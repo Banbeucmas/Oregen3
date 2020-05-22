@@ -1,4 +1,4 @@
-package me.banbeucmas.oregen3.utils.hooks;
+package me.banbeucmas.oregen3.hooks;
 
 import com.iridium.iridiumskyblock.Island;
 import com.iridium.iridiumskyblock.User;

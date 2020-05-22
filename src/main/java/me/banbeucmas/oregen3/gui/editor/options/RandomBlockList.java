@@ -1,5 +1,6 @@
 package me.banbeucmas.oregen3.gui.editor.options;
 
+import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.MaterialChooser;
 import me.banbeucmas.oregen3.gui.InventoryHandler;
 import me.banbeucmas.oregen3.gui.editor.Generator;
@@ -43,7 +44,6 @@ public class RandomBlockList implements InventoryHolder, InventoryHandler {
 
     @Override
     public void onCloseHandle(final InventoryCloseEvent event) {
-        event.getPlayer().openInventory(new Generator(
-                ((RandomBlockList) event.getInventory().getHolder()).chooser).getInventory());
+        Bukkit.getScheduler().runTask(Oregen3.getPlugin(), () -> event.getPlayer().openInventory(new Generator(chooser).getInventory()));
     }
 }

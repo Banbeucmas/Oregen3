@@ -66,7 +66,6 @@ public class PluginUtils {
         if (plugin.hasDependency()) {
             final UUID p = Oregen3.getHook().getIslandOwner(uuid);
             if (p == null) {
-                debugln("Null UUID...");
                 return mc;
             }
             for (final MaterialChooser chooser : DataManager.getChoosers().values()) {

@@ -1,4 +1,4 @@
-package me.banbeucmas.oregen3.utils.hooks;
+package me.banbeucmas.oregen3.hooks;
 
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.utils.StringUtils;

@@ -1,5 +1,6 @@
 package me.banbeucmas.oregen3.gui;
 
+import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.gui.editor.GeneratorList;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -32,7 +33,7 @@ public class EditGUI implements InventoryHolder, InventoryHandler {
     @Override
     public void onClickHandle(final InventoryClickEvent event) {
         if (event.getSlot() == 0) {
-            event.getWhoClicked().openInventory(new GeneratorList(1).getInventory());
+            Bukkit.getScheduler().runTask(Oregen3.getPlugin(), () -> event.getWhoClicked().openInventory(new GeneratorList(1).getInventory()));
         }
     }
 }

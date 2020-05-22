@@ -10,16 +10,18 @@ import me.banbeucmas.oregen3.data.permission.VaultPermission;
 import me.banbeucmas.oregen3.gui.EditGUI;
 import me.banbeucmas.oregen3.gui.editor.GeneratorList;
 import me.banbeucmas.oregen3.gui.editor.options.Fallback;
+import me.banbeucmas.oregen3.hooks.*;
 import me.banbeucmas.oregen3.listeners.BlockListener;
 import me.banbeucmas.oregen3.listeners.GUIListener;
 import me.banbeucmas.oregen3.utils.StringUtils;
-import me.banbeucmas.oregen3.utils.hooks.*;
 import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.MetricsLite;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public final class Oregen3 extends JavaPlugin {
+    private static FileConfiguration config;
     private boolean hasDependency = true;
     public boolean papi;
     public boolean mvdw;
@@ -44,16 +47,31 @@ public final class Oregen3 extends JavaPlugin {
     }
 
     public void updateConfig() {
-        final FileConfiguration config = getConfig();
+        final File configFile = new File(getDataFolder(), "config.yml");
+        final FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
         if (config.getBoolean("auto-update", true)) {
             try {
-                ConfigUpdater.update(this, "config.yml", new File(getDataFolder(), "config.yml"), new ArrayList<>());
+                ConfigUpdater.update(this, "config.yml", configFile, new ArrayList<>());
             }
             catch (final IOException e) {
                 e.printStackTrace();
             }
         }
         reloadConfig();
+
+        Oregen3.config = config;
+        Oregen3.config.set("prefix", ChatColor.translateAlternateColorCodes('&', config.getString("prefix", "")));
+        config.getConfigurationSection("messages").getKeys(true).forEach((s) -> {
+            final Object string = Oregen3.config.get(s);
+            if (string instanceof String) {
+                Oregen3.config.set(s, ChatColor.translateAlternateColorCodes('&', (String) string));
+            }
+        });
+    }
+
+    @Override
+    public FileConfiguration getConfig() {
+        return config;
     }
 
     public void onDisable() {
@@ -88,7 +106,7 @@ public final class Oregen3 extends JavaPlugin {
         checkDependency();
         setupPermissions();
 
-        if (getConfig().getBoolean("debug", false)) {
+        if (config.getBoolean("debug", false)) {
             DEBUG = true;
         }
 
@@ -116,7 +134,7 @@ public final class Oregen3 extends JavaPlugin {
     }
 
     private void checkDependency() {
-        if (!plugin.getConfig().getBoolean("enableDependency")) {
+        if (!config.getBoolean("enableDependency")) {
             hasDependency = false;
             return;
         }
@@ -166,7 +184,7 @@ public final class Oregen3 extends JavaPlugin {
             final RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
             perm              = rsp.getProvider();
             permissionManager = new VaultPermission();
-            final FileConfiguration config = getConfig();
+            final FileConfiguration config = Oregen3.config;
             if (config.getBoolean("hooks.Vault.forceAsync")) {
                 permissionManager = new AsyncVaultPermission();
             }
