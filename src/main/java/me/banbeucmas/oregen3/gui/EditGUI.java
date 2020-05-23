@@ -32,6 +32,7 @@ public class EditGUI implements InventoryHolder, InventoryHandler {
 
     @Override
     public void onClickHandle(final InventoryClickEvent event) {
+        event.setCancelled(true);
         if (event.getSlot() == 0) {
             Bukkit.getScheduler().runTask(Oregen3.getPlugin(), () -> event.getWhoClicked().openInventory(new GeneratorList(1).getInventory()));
         }

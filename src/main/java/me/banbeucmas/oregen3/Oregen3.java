@@ -49,6 +49,7 @@ public final class Oregen3 extends JavaPlugin {
     public void updateConfig() {
         final File configFile = new File(getDataFolder(), "config.yml");
         final FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+        DEBUG = config.getBoolean("debug", false);
         if (config.getBoolean("auto-update", true)) {
             try {
                 ConfigUpdater.update(this, "config.yml", configFile, new ArrayList<>());
@@ -105,10 +106,6 @@ public final class Oregen3 extends JavaPlugin {
         updateConfig();
         checkDependency();
         setupPermissions();
-
-        if (config.getBoolean("debug", false)) {
-            DEBUG = true;
-        }
 
         final CommandSender sender = Bukkit.getConsoleSender();
         //Send Message

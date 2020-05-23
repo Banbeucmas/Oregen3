@@ -39,7 +39,7 @@ public class RandomBlockList implements InventoryHolder, InventoryHandler {
 
     @Override
     public void onClickHandle(final InventoryClickEvent event) {
-
+        event.setCancelled(true);
     }
 
     @Override

@@ -17,7 +17,6 @@ public class GUIListener implements Listener {
 
         final InventoryHolder inventoryHolder = e.getInventory().getHolder();
         if (inventoryHolder instanceof InventoryHandler) {
-            e.setCancelled(true);
             ((InventoryHandler) inventoryHolder).onClickHandle(e);
         }
     }

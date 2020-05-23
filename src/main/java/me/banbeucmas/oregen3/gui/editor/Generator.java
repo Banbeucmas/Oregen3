@@ -61,6 +61,7 @@ public class Generator implements InventoryHolder, InventoryHandler {
 
     @Override
     public void onClickHandle(final InventoryClickEvent event) {
+        event.setCancelled(true);
         switch (event.getSlot()) {
             case 0:
                 event.getWhoClicked().openInventory(new RandomBlockList(
