@@ -91,7 +91,7 @@ public class GeneratorMaterialList implements InventoryHolder, InventoryHandler 
     }
 
     @Override
-    public void onClickHandle(final InventoryClickEvent event) {
+    public void onClick(final InventoryClickEvent event) {
 
     }
 }

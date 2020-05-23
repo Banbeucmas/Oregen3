@@ -65,7 +65,7 @@ public class GeneratorList implements InventoryHolder, InventoryHandler {
     }
 
     @Override
-    public void onClickHandle(final InventoryClickEvent event) {
+    public void onClick(final InventoryClickEvent event) {
         event.setCancelled(true);
         final int slot = event.getSlot();
         final int size = event.getInventory().getSize();

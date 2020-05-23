@@ -38,12 +38,12 @@ public class RandomBlockList implements InventoryHolder, InventoryHandler {
     }
 
     @Override
-    public void onClickHandle(final InventoryClickEvent event) {
+    public void onClick(final InventoryClickEvent event) {
         event.setCancelled(true);
     }
 
     @Override
-    public void onCloseHandle(final InventoryCloseEvent event) {
+    public void onClose(final InventoryCloseEvent event) {
         Bukkit.getScheduler().runTask(Oregen3.getPlugin(), () -> event.getPlayer().openInventory(new Generator(chooser).getInventory()));
     }
 }

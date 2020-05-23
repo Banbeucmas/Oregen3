@@ -4,7 +4,9 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 
 public interface InventoryHandler {
-    default void onClickHandle(final InventoryClickEvent event) { }
+    default void onClick(final InventoryClickEvent event)                { }
 
-    default void onCloseHandle(final InventoryCloseEvent event) { }
+    default void onPlayerInventoryClick(final InventoryClickEvent event) { }
+
+    default void onClose(final InventoryCloseEvent event)                { }
 }

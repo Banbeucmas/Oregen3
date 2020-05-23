@@ -21,10 +21,10 @@ public class InformationCommand extends AbstractCommand {
     }
 
     @Override
-    protected ExecutionResult now() {
+    protected ExecutionResult run() {
         final CommandSender sender = getSender();
         if (!(sender instanceof Player)) {
-            return ExecutionResult.NOT_PLAYER;
+            return ExecutionResult.NON_PLAYER;
         }
 
         if (!sender.hasPermission(getPermission())) {
@@ -44,21 +44,21 @@ public class InformationCommand extends AbstractCommand {
 
             if (!Oregen3.getPlugin().hasDependency() || PluginUtils.getOwner(uuid) == null) {
                 sender.sendMessage(PLAYER.matcher(StringUtils.getPrefixString(config.getString("messages.noIslandOthers"), getPlayer())).replaceAll(Matcher.quoteReplacement(player.getName())));
-                return ExecutionResult.DONT_CARE;
+                return ExecutionResult.SUCCESS;
             }
 
             p.openInventory(new GeneratorMaterialList(uuid, p).getInventory());
-            return ExecutionResult.DONT_CARE;
+            return ExecutionResult.SUCCESS;
         }
 
         if (!Oregen3.getPlugin().hasDependency()
                 || !Oregen3.getHook().isOnIsland(p.getLocation())
                 || PluginUtils.getOwner(p.getLocation()) == null) {
             p.sendMessage(StringUtils.getPrefixString(config.getString("messages.noIsland"), getPlayer()));
-            return ExecutionResult.DONT_CARE;
+            return ExecutionResult.SUCCESS;
         }
         p.openInventory(new GeneratorMaterialList(p.getLocation(), p).getInventory());
 
-        return ExecutionResult.DONT_CARE;
+        return ExecutionResult.SUCCESS;
     }
 }

@@ -1,13 +1,9 @@
 package me.banbeucmas.oregen3.commands;
 
 public enum ExecutionResult {
-    /**
-     * Can be used either the command is successful or failed
-     */
-    DONT_CARE, // Could be null, but that would throw a NPE if it wasn't checked
+    SUCCESS,
     MISSING_ARGS,
     NO_PERMISSION,
     NO_PLAYER,
-    NOT_PLAYER
-
+    NON_PLAYER
 }

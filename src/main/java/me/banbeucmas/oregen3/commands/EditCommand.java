@@ -10,7 +10,7 @@ public class EditCommand extends AbstractCommand {
     }
 
     @Override
-    protected ExecutionResult now() {
+    protected ExecutionResult run() {
         final CommandSender sender = getSender();
 
         if (!sender.hasPermission(getPermission())) {
@@ -23,15 +23,15 @@ public class EditCommand extends AbstractCommand {
 
         if (length == 1) {
             if (!(sender instanceof Player)) {
-                return ExecutionResult.NOT_PLAYER;
+                return ExecutionResult.NON_PLAYER;
             }
 
             p.openInventory(new EditGUI().getInventory());
         } else if (length > 1) {
             //TODO: Edit generators using commands
-            return ExecutionResult.DONT_CARE;
+            return ExecutionResult.SUCCESS;
         }
 
-        return ExecutionResult.DONT_CARE;
+        return ExecutionResult.SUCCESS;
     }
 }

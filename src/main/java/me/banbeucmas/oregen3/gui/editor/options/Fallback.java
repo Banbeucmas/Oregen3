@@ -5,6 +5,7 @@ import me.banbeucmas.oregen3.data.MaterialChooser;
 import me.banbeucmas.oregen3.gui.InventoryHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -13,7 +14,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 public class Fallback implements InventoryHolder, InventoryHandler {
     private final Inventory inventory;
@@ -35,21 +36,28 @@ public class Fallback implements InventoryHolder, InventoryHandler {
         item = new ItemStack(Material.PAPER);
         final ItemMeta itemMeta = item.getItemMeta();
         itemMeta.setDisplayName("§rSet fallback item");
-        itemMeta.setLore(Arrays.asList("§rPut the item on the first slot (the left of this paper) to set the block,", "§ror click the required item in your inventory to set the item."));
+        itemMeta.setLore(Collections.singletonList("§rClick the required item in your inventory to set the fallback item."));
         item.setItemMeta(itemMeta);
     }
 
     @Override
-    public void onClickHandle(final InventoryClickEvent event) {
-        if (event.getClickedInventory().getHolder() instanceof Fallback && event.getSlot() == 1) {
-            event.setCancelled(true);
-        }
+    public void onClick(final InventoryClickEvent event) {
+        event.setCancelled(true);
     }
 
     @Override
-    public void onCloseHandle(final InventoryCloseEvent event) {
+    public void onPlayerInventoryClick(final InventoryClickEvent event) {
+        event.setCancelled(true);
+        inventory.setItem(0, event.getCurrentItem());
+        ((Player) event.getWhoClicked()).updateInventory();
+    }
+
+    @Override
+    public void onClose(final InventoryCloseEvent event) {
         final ItemStack item = event.getInventory().getItem(0);
         if (item == null) return;
-        Oregen3.getPlugin().getConfig().set("generators." + chooser.getId() + ".fallback", item.getType().name());
+        final Oregen3 plugin = Oregen3.getPlugin();
+        plugin.getConfig().set("generators." + chooser.getId() + ".fallback", item.getType().name());
+        plugin.updateConfig();
     }
 }

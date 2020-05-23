@@ -17,7 +17,7 @@ public class EditGUI implements InventoryHolder, InventoryHandler {
     private static final Inventory inv = Bukkit.createInventory(new EditGUI(), InventoryType.HOPPER, "Oregen3 editor");
 
     public static void create() {
-        final ItemStack generator = new ItemStack(Material.STONE);
+        final ItemStack generator = new ItemStack(Material.FURNACE);
         final ItemMeta generatorMeta = generator.getItemMeta();
         generatorMeta.setDisplayName("§rEdit generators");
         generatorMeta.setLore(Collections.singletonList("§rClick to edit generators"));
@@ -31,7 +31,7 @@ public class EditGUI implements InventoryHolder, InventoryHandler {
     }
 
     @Override
-    public void onClickHandle(final InventoryClickEvent event) {
+    public void onClick(final InventoryClickEvent event) {
         event.setCancelled(true);
         if (event.getSlot() == 0) {
             Bukkit.getScheduler().runTask(Oregen3.getPlugin(), () -> event.getWhoClicked().openInventory(new GeneratorList(1).getInventory()));

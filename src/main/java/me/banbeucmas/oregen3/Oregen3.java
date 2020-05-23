@@ -8,6 +8,7 @@ import me.banbeucmas.oregen3.data.permission.DefaultPermission;
 import me.banbeucmas.oregen3.data.permission.PermissionManager;
 import me.banbeucmas.oregen3.data.permission.VaultPermission;
 import me.banbeucmas.oregen3.gui.EditGUI;
+import me.banbeucmas.oregen3.gui.editor.Generator;
 import me.banbeucmas.oregen3.gui.editor.GeneratorList;
 import me.banbeucmas.oregen3.gui.editor.options.Fallback;
 import me.banbeucmas.oregen3.hooks.*;
@@ -33,20 +34,21 @@ import java.util.Objects;
 
 public final class Oregen3 extends JavaPlugin {
     private static FileConfiguration config;
-    private boolean hasDependency = true;
-    public boolean papi;
-    public boolean mvdw;
     private static Oregen3 plugin;
     private static SkyblockHook hook;
     private static Permission perm;
     private static PermissionManager permissionManager;
     public static boolean DEBUG;
+    public boolean papi;
+    public boolean mvdw;
+    private boolean hasDependency = true;
 
     public boolean hasDependency() {
         return hasDependency;
     }
 
     public void updateConfig() {
+        saveConfig();
         final File configFile = new File(getDataFolder(), "config.yml");
         final FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
         DEBUG = config.getBoolean("debug", false);
@@ -59,13 +61,14 @@ public final class Oregen3 extends JavaPlugin {
             }
         }
         reloadConfig();
-
         Oregen3.config = config;
-        Oregen3.config.set("prefix", ChatColor.translateAlternateColorCodes('&', config.getString("prefix", "")));
+    }
+
+    public void updateMessages() {
         config.getConfigurationSection("messages").getKeys(true).forEach((s) -> {
-            final Object string = Oregen3.config.get(s);
+            final Object string = config.get(s);
             if (string instanceof String) {
-                Oregen3.config.set(s, ChatColor.translateAlternateColorCodes('&', (String) string));
+                config.set(s, ChatColor.translateAlternateColorCodes('&', (String) string));
             }
         });
     }
@@ -102,8 +105,8 @@ public final class Oregen3 extends JavaPlugin {
 
         new MetricsLite(this, 3052);
 
-        saveDefaultConfig();
         updateConfig();
+        updateMessages();
         checkDependency();
         setupPermissions();
 
@@ -128,6 +131,7 @@ public final class Oregen3 extends JavaPlugin {
         EditGUI.create();
         GeneratorList.create();
         Fallback.create();
+        Generator.create();
     }
 
     private void checkDependency() {

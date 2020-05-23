@@ -9,18 +9,16 @@ public class UsageCommand extends AbstractCommand {
         super(null, sender, label, null);
     }
 
-    //Copied from old Project lol
     @Override
-    protected ExecutionResult now() {
+    protected ExecutionResult run() {
         final CommandSender sender = getSender();
-        sender.sendMessage(StringUtils.getColoredString("&7&m-------------&f[Oregen3&f]&7-------------", getPlayer()));
+        sender.sendMessage(StringUtils.getString("§7§m-------------§f[Oregen3§f]§7-------------", getPlayer()));
         sender.sendMessage("");
-        sender.sendMessage(StringUtils.getColoredString("       &fPlugin made by &e&oBanbeucmas&f, updated by &e&oxHexed", getPlayer()));
-        sender.sendMessage(StringUtils.getColoredString("       &f&oVersion: &e" + Oregen3.getPlugin().getDescription().getVersion(), getPlayer()));
-        sender.sendMessage(StringUtils.getColoredString("       &f&o/" + getLabel() + " help &efor more info", getPlayer()));
+        sender.sendMessage(StringUtils.getString("       §fPlugin made by §e§oBanbeucmas§f, updated by §e§oxHexed", getPlayer()));
+        sender.sendMessage(StringUtils.getString("       §f§oVersion: §e" + Oregen3.getPlugin().getDescription().getVersion(), getPlayer()));
+        sender.sendMessage(StringUtils.getString("       §f§o/" + getLabel() + " help §efor more info", getPlayer()));
         sender.sendMessage("");
-        sender.sendMessage(StringUtils.getColoredString("------------------------------------", getPlayer()));
-
-        return ExecutionResult.DONT_CARE;
+        sender.sendMessage(StringUtils.getString("------------------------------------", getPlayer()));
+        return ExecutionResult.SUCCESS;
     }
 }

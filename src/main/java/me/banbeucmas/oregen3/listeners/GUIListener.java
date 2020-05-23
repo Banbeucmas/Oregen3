@@ -2,6 +2,7 @@ package me.banbeucmas.oregen3.listeners;
 
 import me.banbeucmas.oregen3.gui.InventoryHandler;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -17,7 +18,13 @@ public class GUIListener implements Listener {
 
         final InventoryHolder inventoryHolder = e.getInventory().getHolder();
         if (inventoryHolder instanceof InventoryHandler) {
-            ((InventoryHandler) inventoryHolder).onClickHandle(e);
+            ((InventoryHandler) inventoryHolder).onClick(e);
+            return;
+        }
+
+        final InventoryHolder topInventory = e.getView().getTopInventory().getHolder();
+        if (inventoryHolder instanceof Player && topInventory instanceof InventoryHandler) {
+            ((InventoryHandler) topInventory).onPlayerInventoryClick(e);
         }
     }
 
@@ -25,7 +32,7 @@ public class GUIListener implements Listener {
     public void onClose(final InventoryCloseEvent e) {
         final InventoryHolder inventoryHolder = e.getInventory().getHolder();
         if (inventoryHolder instanceof InventoryHandler) {
-            ((InventoryHandler) inventoryHolder).onCloseHandle(e);
+            ((InventoryHandler) inventoryHolder).onClose(e);
         }
     }
 }

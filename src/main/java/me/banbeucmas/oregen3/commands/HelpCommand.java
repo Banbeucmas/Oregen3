@@ -13,16 +13,12 @@ public class HelpCommand extends AbstractCommand {
     }
 
     @Override
-    protected ExecutionResult now() {
+    protected ExecutionResult run() {
         if (!(getSender() instanceof Player)) {
-            return ExecutionResult.NOT_PLAYER;
+            return ExecutionResult.NON_PLAYER;
         }
 
-        sendHelp(getSender());
-        return ExecutionResult.DONT_CARE;
-    }
-
-    private void sendHelp(final CommandSender sender) {
+        final CommandSender sender = getSender();
         sender.sendMessage(StringUtils.getPrefixString(LABEL.matcher(Oregen3.getPlugin().getConfig().getString("messages.commands.help")).replaceAll(getLabel()), getPlayer()));
         if (sender.hasPermission("oregen3.reload")) {
             sender.sendMessage(StringUtils.getPrefixString(LABEL.matcher(Oregen3.getPlugin().getConfig().getString("messages.commands.reload")).replaceAll(getLabel()), getPlayer()));
@@ -36,5 +32,6 @@ public class HelpCommand extends AbstractCommand {
         if (sender.hasPermission("oregen3.edit")) {
             sender.sendMessage(StringUtils.getPrefixString(LABEL.matcher(Oregen3.getPlugin().getConfig().getString("messages.commands.edit")).replaceAll(getLabel()), getPlayer()));
         }
+        return ExecutionResult.SUCCESS;
     }
 }

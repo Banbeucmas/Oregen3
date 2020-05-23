@@ -31,14 +31,12 @@ abstract class AbstractCommand {
 	/**
 	 * @return an {@link ExecutionResult}, should never be null
 	 */
-	abstract ExecutionResult now();
+	abstract ExecutionResult run();
 
 	void execute() {
-		switch (now()) {
+		switch (run()) {
 			case MISSING_ARGS:
-				if (getFormat() != null) {
-					sender.sendMessage(getPrefixString(FORMAT.matcher(Oregen3.getPlugin().getConfig().getString("messages.missingArgs")).replaceAll(Matcher.quoteReplacement(getFormat())), player));
-				}
+				sender.sendMessage(getPrefixString(Oregen3.getPlugin().getConfig().getString("messages.missingArgs"), player));
 				break;
 			case NO_PERMISSION:
 				sender.sendMessage(getPrefixString(PERM.matcher(Oregen3.getPlugin().getConfig().getString("messages.noPermission")).replaceAll(Matcher.quoteReplacement(permission)), player));
@@ -46,7 +44,7 @@ abstract class AbstractCommand {
 			case NO_PLAYER:
 				sender.sendMessage(getPrefixString(PLAYER.matcher(Oregen3.getPlugin().getConfig().getString("messages.noPlayer")).replaceAll(Matcher.quoteReplacement(player != null ? player.getName() : "")), player));
 				break;
-			case NOT_PLAYER:
+			case NON_PLAYER:
 				sender.sendMessage(getPrefixString(Oregen3.getPlugin().getConfig().getString("messages.notPlayer"), player));
 		}
 	}
@@ -62,10 +60,6 @@ abstract class AbstractCommand {
 
 	String getLabel() {
 		return label;
-	}
-
-	private String getFormat() {
-		return null;
 	}
 
 	CommandSender getSender() {
