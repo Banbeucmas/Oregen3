@@ -4,6 +4,7 @@ import com.cryptomorin.xseries.XMaterial;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.MaterialChooser;
 import me.banbeucmas.oregen3.gui.InventoryHandler;
+import me.banbeucmas.oregen3.gui.editor.Generator;
 import me.banbeucmas.oregen3.utils.BlockUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -55,6 +56,7 @@ public class Fallback implements InventoryHolder, InventoryHandler {
             final Oregen3 plugin = Oregen3.getPlugin();
             plugin.getConfig().set("generators." + chooser.getId() + ".fallback", item.getType().name());
             plugin.updateConfig();
+            Bukkit.getScheduler().runTask(Oregen3.getPlugin(), () -> event.getWhoClicked().openInventory(new Generator(chooser).getInventory()));
         }
     }
 
