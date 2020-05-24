@@ -21,7 +21,6 @@ public class ReloadCommand extends AbstractCommand {
         }
 
         getPlugin().updateConfig();
-        getPlugin().updateMessages();
         DataManager.loadData();
 
         getSender().sendMessage(StringUtils.getPrefixString("Config reloaded", getPlayer()));

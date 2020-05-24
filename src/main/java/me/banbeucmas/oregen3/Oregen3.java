@@ -18,7 +18,6 @@ import me.banbeucmas.oregen3.utils.StringUtils;
 import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.MetricsLite;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -33,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public final class Oregen3 extends JavaPlugin {
-    private static FileConfiguration config;
     private static Oregen3 plugin;
     private static SkyblockHook hook;
     private static Permission perm;
@@ -61,21 +59,6 @@ public final class Oregen3 extends JavaPlugin {
             }
         }
         reloadConfig();
-        Oregen3.config = config;
-    }
-
-    public void updateMessages() {
-        config.getConfigurationSection("messages").getKeys(true).forEach((s) -> {
-            final Object string = config.get(s);
-            if (string instanceof String) {
-                config.set(s, ChatColor.translateAlternateColorCodes('&', (String) string));
-            }
-        });
-    }
-
-    @Override
-    public FileConfiguration getConfig() {
-        return config;
     }
 
     public void onDisable() {
@@ -106,18 +89,16 @@ public final class Oregen3 extends JavaPlugin {
         new MetricsLite(this, 3052);
 
         updateConfig();
-        updateMessages();
         checkDependency();
         setupPermissions();
 
         final CommandSender sender = Bukkit.getConsoleSender();
-        //Send Message
-        sender.sendMessage(StringUtils.getColoredString("&7&m-------------&f[Oregen3&f]&7-------------", null));
+        sender.sendMessage("§7§m-------------§f[Oregen3§f]§7-------------");
         sender.sendMessage("");
-        sender.sendMessage(StringUtils.getColoredString("   &fPlugin made by &eBanbeucmas&f, updated by &exHexed", null));
-        sender.sendMessage(StringUtils.getColoredString("   &fVersion: &e" + getDescription().getVersion(), null));
+        sender.sendMessage("   §fPlugin made by §eBanbeucmas§f, updated by §exHexed");
+        sender.sendMessage("   §fVersion: §e" + getDescription().getVersion());
         sender.sendMessage("");
-        sender.sendMessage(StringUtils.getColoredString("------------------------------------", null));
+        sender.sendMessage("------------------------------------");
 
         DataManager.loadData();
 
@@ -135,7 +116,7 @@ public final class Oregen3 extends JavaPlugin {
     }
 
     private void checkDependency() {
-        if (!config.getBoolean("enableDependency")) {
+        if (!getConfig().getBoolean("enableDependency")) {
             hasDependency = false;
             return;
         }
@@ -185,7 +166,7 @@ public final class Oregen3 extends JavaPlugin {
             final RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
             perm              = rsp.getProvider();
             permissionManager = new VaultPermission();
-            final FileConfiguration config = Oregen3.config;
+            final FileConfiguration config = getConfig();
             if (config.getBoolean("hooks.Vault.forceAsync")) {
                 permissionManager = new AsyncVaultPermission();
             }
