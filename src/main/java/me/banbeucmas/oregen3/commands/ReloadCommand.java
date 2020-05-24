@@ -22,9 +22,7 @@ public class ReloadCommand extends AbstractCommand {
 
         getPlugin().updateConfig();
         DataManager.loadData();
-
         getSender().sendMessage(StringUtils.getPrefixString("Config reloaded", getPlayer()));
-
         return ExecutionResult.SUCCESS;
     }
 }

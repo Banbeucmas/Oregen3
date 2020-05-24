@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.Map;
 
 public class GeneratorList implements InventoryHolder, InventoryHandler {
-    private static ItemStack exitItem;
+    private static final ItemStack exitItem = new ItemStack(Material.BARRIER);
     private final Inventory inv;
     private final long page;
 
@@ -86,7 +86,6 @@ public class GeneratorList implements InventoryHolder, InventoryHandler {
     }
 
     public static void create() {
-        exitItem = new ItemStack(Material.BARRIER);
         final ItemMeta exitItemMeta = exitItem.getItemMeta();
         exitItemMeta.setDisplayName("§rBack");
         exitItem.setItemMeta(exitItemMeta);

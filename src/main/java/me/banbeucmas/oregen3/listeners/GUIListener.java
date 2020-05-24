@@ -1,30 +1,24 @@
 package me.banbeucmas.oregen3.listeners;
 
 import me.banbeucmas.oregen3.gui.InventoryHandler;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
+import me.banbeucmas.oregen3.utils.BlockUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.inventory.ItemStack;
 
 public class GUIListener implements Listener {
     @EventHandler
     public void onClick(final InventoryClickEvent e) {
-        final ItemStack item = e.getCurrentItem();
-        if (item == null || item.getType() == Material.AIR) return;
-
-        final InventoryHolder inventoryHolder = e.getInventory().getHolder();
-        if (inventoryHolder instanceof InventoryHandler) {
-            ((InventoryHandler) inventoryHolder).onClick(e);
-            return;
-        }
-
+        if (!BlockUtils.isItem(e.getCurrentItem())) return;
         final InventoryHolder topInventory = e.getView().getTopInventory().getHolder();
-        if (inventoryHolder instanceof Player && topInventory instanceof InventoryHandler) {
-            ((InventoryHandler) topInventory).onPlayerInventoryClick(e);
+        if (topInventory instanceof InventoryHandler) {
+            if (e.getInventory().equals(topInventory))
+                ((InventoryHandler) topInventory).onClick(e);
+            else {
+                ((InventoryHandler) topInventory).onPlayerInventoryClick(e);
+            }
         }
     }
 

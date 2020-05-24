@@ -30,8 +30,7 @@ public class MaterialChooser {
         this.id = id;
         final String path = "generators." + id + ".";
 
-        final Oregen3 plugin = Oregen3.getPlugin();
-        final FileConfiguration config = plugin.getConfig();
+        final FileConfiguration config = Oregen3.getPlugin().getConfig();
         fallback   = Material.matchMaterial(config.getString(path + "fallback", "COBBLESTONE"));
         permission = config.getString(path + "permission", "oregen3.generator." + id);
         priority   = config.getLong(path + "priority", 0);
