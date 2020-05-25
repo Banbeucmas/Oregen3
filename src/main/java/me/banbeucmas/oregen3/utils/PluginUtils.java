@@ -8,29 +8,33 @@ import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
 import java.util.Objects;
+import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
+
+import static me.banbeucmas.oregen3.Oregen3.getHook;
 
 public class PluginUtils {
+    public static final Random RANDOM = ThreadLocalRandom.current();
+
     public static OfflinePlayer getOwner(final Location loc) {
-        if (!Oregen3.getHook().isOnIsland(loc)) {
+        if (!getHook().isOnIsland(loc)) {
             return null;
         }
 
-        final UUID uuid = Oregen3.getHook().getIslandOwner(loc);
+        final UUID uuid = getHook().getIslandOwner(loc);
         if (uuid == null) {
             return null;
         }
-        debugln("UUID: " + uuid);
 
         return Bukkit.getServer().getOfflinePlayer(uuid);
     }
 
     public static OfflinePlayer getOwner(final UUID uuid) {
-        final UUID p = Oregen3.getHook().getIslandOwner(uuid);
+        final UUID p = getHook().getIslandOwner(uuid);
         if (p == null) {
             return null;
         }
-        debugln("UUID: " + p);
         return Bukkit.getServer().getOfflinePlayer(p);
     }
 
@@ -39,7 +43,7 @@ public class PluginUtils {
         MaterialChooser mc = DataManager.getChoosers().get(plugin.getConfig().getString("defaultGenerator", ""));
         if (plugin.getConfig().getBoolean("hooks.skyblock.getLowestGenerator", false)) {
             MaterialChooser lowestChooser = null;
-            for (final UUID uuid : Oregen3.getHook().getMembers(Objects.requireNonNull(getOwner(loc)).getUniqueId())) {
+            for (final UUID uuid : getHook().getMembers(Objects.requireNonNull(getOwner(loc)).getUniqueId())) {
                 final OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
                 final MaterialChooser chooser = getMaterialChooser(loc, mc, p);
                 if (lowestChooser == null || lowestChooser.getPriority() > chooser.getPriority()) {
@@ -51,12 +55,10 @@ public class PluginUtils {
         if (plugin.hasDependency()) {
             final OfflinePlayer p = getOwner(loc);
             if (p == null) {
-                debugln("Null UUID...");
                 return mc;
             }
             mc = getMaterialChooser(loc, mc, p);
         }
-        debugln("Gennerator id: " + mc.getId());
         return mc;
     }
 
@@ -64,49 +66,30 @@ public class PluginUtils {
         final Oregen3 plugin = Oregen3.getPlugin();
         MaterialChooser mc = DataManager.getChoosers().get(plugin.getConfig().getString("defaultGenerator"));
         if (plugin.hasDependency()) {
-            final UUID p = Oregen3.getHook().getIslandOwner(uuid);
+            final UUID p = getHook().getIslandOwner(uuid);
             if (p == null) {
                 return mc;
             }
             for (final MaterialChooser chooser : DataManager.getChoosers().values()) {
-                debugln("Checking generator type " + chooser.getId() + " for " + Bukkit.getOfflinePlayer(uuid).getName() + ":");
-                debugln(" - Has perm: " + Oregen3.getPermissionManager().checkPerm(null, Bukkit.getOfflinePlayer(uuid), chooser.getPermission()));
-                debugln(" - Priority check: " + chooser.getPriority() + " " + mc.getPriority());
-                debugln(" - Level check: " + getLevel(p, null) + " " + chooser.getLevel());
                 //TODO: Support island-only world?
                 if (Oregen3.getPermissionManager().checkPerm(null, Bukkit.getOfflinePlayer(p), chooser.getPermission())
                         && chooser.getPriority() >= mc.getPriority()
-                        && getLevel(p, null) >= chooser.getLevel()) {
-                    debugln("Changed gennerator id to " + chooser.getId());
+                        && getHook().getIslandLevel(p, null) >= chooser.getLevel()) {
                     mc = chooser;
                 }
             }
         }
-        debugln("Gennerator id: " + mc.getId());
         return mc;
-    }
-
-    private static double getLevel(final UUID id, final Location loc) {
-        return Oregen3.getHook().getIslandLevel(id, loc);
     }
 
     private static MaterialChooser getMaterialChooser(final Location loc, MaterialChooser mc, final OfflinePlayer p) {
         for (final MaterialChooser chooser : DataManager.getChoosers().values()) {
-            debugln("Checking generator type " + chooser.getId() + " for " + p.getName() + ":");
-            debugln(" - Has perms: " + Oregen3.getPermissionManager().checkPerm(null, p, chooser.getPermission()));
-            debugln(" - Priority check: " + chooser.getPriority() + " " + mc.getPriority());
-            debugln(" - Level check: " + getLevel(p.getUniqueId(), loc) + " " + chooser.getLevel());
             if (Oregen3.getPermissionManager().checkPerm(null, p, chooser.getPermission())
                     && chooser.getPriority() >= mc.getPriority()
-                    && getLevel(p.getUniqueId(), loc) >= chooser.getLevel()) {
-                debugln("Changed gennerator id to " + chooser.getId());
+                    && getHook().getIslandLevel(p.getUniqueId(), loc) >= chooser.getLevel()) {
                 mc = chooser;
             }
         }
         return mc;
     }
-
-    public static void debug(final String message)   { if (Oregen3.DEBUG) System.out.print(message); }
-
-    public static void debugln(final String message) { if (Oregen3.DEBUG) System.out.println(message); }
 }

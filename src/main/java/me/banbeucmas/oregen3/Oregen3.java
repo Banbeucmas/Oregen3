@@ -13,7 +13,7 @@ import me.banbeucmas.oregen3.gui.editor.GeneratorList;
 import me.banbeucmas.oregen3.gui.editor.options.Fallback;
 import me.banbeucmas.oregen3.hooks.*;
 import me.banbeucmas.oregen3.listeners.BlockListener;
-import me.banbeucmas.oregen3.listeners.GUIListener;
+import me.banbeucmas.oregen3.listeners.InventoryListener;
 import me.banbeucmas.oregen3.utils.StringUtils;
 import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.MetricsLite;
@@ -21,7 +21,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -36,7 +35,6 @@ public final class Oregen3 extends JavaPlugin {
     private static SkyblockHook hook;
     private static Permission perm;
     private static PermissionManager permissionManager;
-    public static boolean DEBUG;
     public boolean papi;
     public boolean mvdw;
     private boolean hasDependency = true;
@@ -48,9 +46,7 @@ public final class Oregen3 extends JavaPlugin {
     public void updateConfig() {
         saveConfig();
         final File configFile = new File(getDataFolder(), "config.yml");
-        final FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
-        DEBUG = config.getBoolean("debug", false);
-        if (config.getBoolean("auto-update", true)) {
+        if (getConfig().getBoolean("auto-update", true)) {
             try {
                 ConfigUpdater.update(this, "config.yml", configFile, new ArrayList<>());
             }
@@ -107,7 +103,7 @@ public final class Oregen3 extends JavaPlugin {
         command.setTabCompleter(new CommandHandler());
 
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
-        getServer().getPluginManager().registerEvents(new GUIListener(), this);
+        getServer().getPluginManager().registerEvents(new InventoryListener(), this);
 
         EditGUI.create();
         GeneratorList.create();

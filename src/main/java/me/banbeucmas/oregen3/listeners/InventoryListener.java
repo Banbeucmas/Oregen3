@@ -9,7 +9,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
-public class GUIListener implements Listener {
+public class InventoryListener implements Listener {
     @EventHandler
     public void onClick(final InventoryClickEvent e) {
         if (!BlockUtils.isItem(e.getCurrentItem())) return;

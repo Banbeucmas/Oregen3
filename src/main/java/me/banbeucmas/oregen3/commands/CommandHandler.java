@@ -28,9 +28,6 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
             case "info":
                 new InformationCommand(sender, label, args).execute();
                 break;
-            case "debug":
-                new DebugCommand(sender).execute();
-                break;
             case "edit":
                 new EditCommand(sender, args).execute();
         }
@@ -43,7 +40,7 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
             return null;
         }
         final List<String> completions = new ArrayList<>();
-        StringUtil.copyPartialMatches(args[0], Arrays.asList("reload", "help", "info", "debug", "edit"), completions);
+        StringUtil.copyPartialMatches(args[0], Arrays.asList("reload", "help", "info", "edit"), completions);
         Collections.sort(completions);
         return completions;
     }

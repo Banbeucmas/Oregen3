@@ -3,9 +3,7 @@ package me.banbeucmas.oregen3.listeners;
 import com.cryptomorin.xseries.XSound;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.MaterialChooser;
-import me.banbeucmas.oregen3.utils.BlockUtils;
 import me.banbeucmas.oregen3.utils.PluginUtils;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -15,14 +13,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFromToEvent;
 
-import java.util.Arrays;
 import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
+
+import static me.banbeucmas.oregen3.utils.BlockUtils.*;
 
 public class BlockListener implements Listener {
     private final FileConfiguration config = Oregen3.getPlugin().getConfig();
-    private static final Random r = ThreadLocalRandom.current();
 
     @EventHandler
     public void onOre(final BlockFromToEvent e) {
@@ -43,24 +39,19 @@ public class BlockListener implements Listener {
         final Material sourceMaterial = source.getType();
         final Material toMaterial = to.getType();
 
-        if ((sourceMaterial == Material.WATER
-                || sourceMaterial == Material.STATIONARY_LAVA
-                || sourceMaterial == Material.STATIONARY_WATER
-                || sourceMaterial == Material.LAVA)) {
-
-            if ((toMaterial == Material.AIR
-                    || toMaterial == Material.WATER
-                    || toMaterial == Material.STATIONARY_WATER)
+        if (isWater(sourceMaterial) || isLava(sourceMaterial)) {
+            if ((toMaterial == Material.AIR || isWater(toMaterial))
                     && sourceMaterial != Material.STATIONARY_WATER
-                    && canGenerateCobble(sourceMaterial, to)
+                    && canGenerate(sourceMaterial, to)
                     && e.getFace() != BlockFace.DOWN) {
-                if (sourceMaterial == Material.LAVA || sourceMaterial == Material.STATIONARY_LAVA) {
+                if (isLava(sourceMaterial)) {
                     if (!isSurroundedByWater(to.getLocation())) {
                         return;
                     }
                 }
                 generateBlock(world, source, to);
-            } else if (canGenerateCobbleBlock(source, to)) {
+            }
+            else if (canGenerateBlock(source, to)) {
                 generateBlock(world, source, to);
             }
         }
@@ -82,18 +73,17 @@ public class BlockListener implements Listener {
         }
     }
 
-    private boolean canGenerateCobbleBlock(final Block src, final Block to) {
+    private boolean canGenerateBlock(final Block src, final Block to) {
         final Material material = src.getType();
-        for (final BlockFace face : BlockUtils.FACES) {
+        for (final BlockFace face : FACES) {
             final Block check = to.getRelative(face);
-            if (BlockUtils.isBlock(check)
-                    && (material == Material.WATER
-                    || material == Material.STATIONARY_WATER)
+            if (isBlock(check)
+                    && (isWater(material))
                     && config.getBoolean("mode.waterBlock")) {
                 return true;
-            } else if (BlockUtils.isBlock(check)
-                    && (material == Material.LAVA
-                    || material == Material.STATIONARY_LAVA)
+            }
+            else if (isBlock(check)
+                    && (isLava(material))
                     && config.getBoolean("mode.lavaBlock")) {
                 return true;
             }
@@ -104,15 +94,12 @@ public class BlockListener implements Listener {
     /*
     Checks for Water + Lava, block will use another method to prevent confusion
      */
-    private boolean canGenerateCobble(final Material material, final Block b) {
-        final Material mirMat1 = material == Material.WATER || material == Material.STATIONARY_WATER
-                ? Material.LAVA : Material.WATER;
-        final Material mirMat2 = material == Material.WATER || material == Material.STATIONARY_WATER
-                ? Material.STATIONARY_LAVA : Material.STATIONARY_WATER;
-
-        for (final BlockFace face : BlockUtils.FACES) {
+    private boolean canGenerate(final Material material, final Block b) {
+        final Material liquid = isWater(material) ? Material.LAVA : Material.WATER;
+        final Material stationaryLiquid = isWater(material) ? Material.STATIONARY_LAVA : Material.STATIONARY_WATER;
+        for (final BlockFace face : FACES) {
             final Block check = b.getRelative(face, 1);
-            if ((check.getType() == mirMat1 || check.getType() == mirMat2)
+            if ((check.getType() == liquid || check.getType() == stationaryLiquid)
                     && config.getBoolean("mode.waterLava")) {
                 return true;
             }
@@ -122,9 +109,7 @@ public class BlockListener implements Listener {
 
     private Material randomChance(final MaterialChooser mc) {
         final Map<Material, Double> chances = mc.getChances();
-
-        double chance = 100 * r.nextDouble();
-
+        double chance = 100 * PluginUtils.RANDOM.nextDouble();
         if (!config.getBoolean("randomFallback")) {
             for (final Map.Entry<Material, Double> entry : chances.entrySet()) {
                 chance -= entry.getValue();
@@ -134,7 +119,7 @@ public class BlockListener implements Listener {
             }
         }
         else {
-            final int id = r.nextInt(chances.size());
+            final int id = PluginUtils.RANDOM.nextInt(chances.size());
             final Material mat = (Material) chances.keySet().toArray()[id];
             if (chance <= mc.getChances().get(mat)) {
                 return mat;
@@ -142,18 +127,4 @@ public class BlockListener implements Listener {
         }
         return mc.getFallback();
     }
-
-    private boolean isSurroundedByWater(final Location fromLoc) {
-        final World world = fromLoc.getWorld();
-        final Block[] blocks = {
-                world.getBlockAt(fromLoc.getBlockX() + 1, fromLoc.getBlockY(), fromLoc.getBlockZ()),
-                world.getBlockAt(fromLoc.getBlockX() - 1, fromLoc.getBlockY(), fromLoc.getBlockZ()),
-                world.getBlockAt(fromLoc.getBlockX(), fromLoc.getBlockY(), fromLoc.getBlockZ() + 1),
-                world.getBlockAt(fromLoc.getBlockX(), fromLoc.getBlockY(), fromLoc.getBlockZ() - 1)};
-
-        return Arrays.stream(blocks)
-                .anyMatch(b -> b.getType() == Material.WATER || b.getType() == Material.STATIONARY_WATER);
-
-    }
-
 }
