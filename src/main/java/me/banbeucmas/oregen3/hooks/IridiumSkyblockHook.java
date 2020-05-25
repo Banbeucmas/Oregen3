@@ -21,18 +21,14 @@ public class IridiumSkyblockHook implements SkyblockHook {
     @SuppressWarnings("deprecation")
     @Override
     public UUID getIslandOwner(final Location loc) {
-        return Bukkit.getOfflinePlayer(getIslandManager().getIslandViaLocation(loc).getOwner()).getUniqueId();
+        final Island island = getIslandManager().getIslandViaLocation(loc);
+        return island == null ? null : Bukkit.getOfflinePlayer(getIslandManager().getIslandViaLocation(loc).getOwner()).getUniqueId();
     }
 
     @SuppressWarnings("deprecation")
     @Override
     public UUID getIslandOwner(final UUID uuid) {
         return Bukkit.getOfflinePlayer(User.getUser(Bukkit.getOfflinePlayer(uuid)).getIsland().getOwner()).getUniqueId();
-    }
-
-    @Override
-    public boolean isOnIsland(final Location loc) {
-        return getIslandManager().getIslandViaLocation(loc) != null;
     }
 
     @SuppressWarnings("deprecation")

@@ -1,6 +1,7 @@
 package me.banbeucmas.oregen3.hooks;
 
 import com.wasteofplastic.acidisland.ASkyBlockAPI;
+import com.wasteofplastic.acidisland.Island;
 import org.bukkit.Location;
 
 import java.util.List;
@@ -20,17 +21,13 @@ public class AcidIslandHook implements SkyblockHook {
 
     @Override
     public UUID getIslandOwner(final Location loc) {
-        return api.getIslandAt(loc).getOwner();
+        final Island island = api.getIslandAt(loc);
+        return island == null ? null : api.getIslandAt(loc).getOwner();
     }
 
     @Override
     public UUID getIslandOwner(final UUID uuid) {
         return api.getTeamLeader(uuid);
-    }
-
-    @Override
-    public boolean isOnIsland(final Location loc) {
-        return api.getIslandAt(loc) != null;
     }
 
     @Override

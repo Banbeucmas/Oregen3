@@ -90,11 +90,6 @@ public class BentoBoxHook implements SkyblockHook {
     }
 
     @Override
-    public boolean isOnIsland(final Location loc) {
-        return manager.getIslandAt(loc).isPresent();
-    }
-
-    @Override
     public List<UUID> getMembers(final UUID uuid) {
         final Island island = manager.getIsland(world, uuid);
         if (island == null) return null;

@@ -16,14 +16,13 @@ public class SkyblockXHook implements SkyblockHook {
         final IPlayer player = IPlayerKt.getIPlayerByUUID(uuid.toString());
         if (player == null) return 0;
         final Island island = player.getIsland();
-        return (island == null) ? 0 : island.getLevel();
+        return island == null ? 0 : island.getLevel();
     }
 
     @Override
     public UUID getIslandOwner(final Location loc) {
         final Island island = IslandKt.getIslandFromLocation(loc);
-        if (island == null) return null;
-        return UUID.fromString(island.getOwnerUUID());
+        return island == null ? null : UUID.fromString(island.getOwnerUUID());
     }
 
     @Override
@@ -33,11 +32,6 @@ public class SkyblockXHook implements SkyblockHook {
         final Island island = player.getIsland();
         if (island == null) return null;
         return UUID.fromString(island.getOwnerUUID());
-    }
-
-    @Override
-    public boolean isOnIsland(final Location loc) {
-        return IslandKt.getIslandFromLocation(loc) != null;
     }
 
     @Override

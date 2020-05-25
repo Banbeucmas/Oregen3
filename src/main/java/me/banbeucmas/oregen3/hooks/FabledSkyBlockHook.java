@@ -27,17 +27,13 @@ public class FabledSkyBlockHook implements SkyblockHook {
 
     @Override
     public UUID getIslandOwner(final Location loc) {
-        return manager.getIslandAtLocation(loc).getOwnerUUID();
+        final Island island = manager.getIslandAtLocation(loc);
+        return island == null ? null : manager.getIslandAtLocation(loc).getOwnerUUID();
     }
 
     @Override
     public UUID getIslandOwner(final UUID uuid) {
         return manager.getIsland(Bukkit.getOfflinePlayer(uuid)).getOwnerUUID();
-    }
-
-    @Override
-    public boolean isOnIsland(final Location loc) {
-        return manager.getIslandAtLocation(loc) != null;
     }
 
     @Override

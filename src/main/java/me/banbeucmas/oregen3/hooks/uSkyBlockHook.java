@@ -3,6 +3,7 @@ package me.banbeucmas.oregen3.hooks;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import us.talabrek.ultimateskyblock.api.IslandInfo;
 import us.talabrek.ultimateskyblock.api.uSkyBlockAPI;
 
 import java.util.List;
@@ -27,19 +28,15 @@ public class uSkyBlockHook implements SkyblockHook {
     @SuppressWarnings("deprecation")
     @Override
     public UUID getIslandOwner(final Location loc) {
+        final IslandInfo info = usb.getIslandInfo(loc);
         // We don't have other choice but to use the deprecated method because the api only return the leader's name :(
-        return Bukkit.getOfflinePlayer(usb.getIslandInfo(loc).getLeader()).getUniqueId();
+        return info == null ? null : Bukkit.getOfflinePlayer(usb.getIslandInfo(loc).getLeader()).getUniqueId();
     }
 
     @Override
     public UUID getIslandOwner(final UUID uuid) {
         // Couldn't find any method related to this...
         return null;
-    }
-
-    @Override
-    public boolean isOnIsland(final Location loc) {
-        return usb.getIslandInfo(loc) != null;
     }
 
     @SuppressWarnings("deprecation")

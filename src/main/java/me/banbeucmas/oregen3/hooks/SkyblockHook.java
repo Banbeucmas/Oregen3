@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface SkyblockHook {
-
     /**
      * Gets the island level for this player's uuid. A player location is provided if the plugin requires a location
      *
@@ -36,13 +35,11 @@ public interface SkyblockHook {
     UUID getIslandOwner(UUID uuid);
 
     /**
-     * Check whether the island is found on this location.
+     * Gets the uuid list of island members
      *
-     * @param loc the current location
+     * @param uuid the player's uuid
      *
-     * @return true if an island is found, false if none
+     * @return the uuid list of island members
      */
-    boolean isOnIsland(Location loc);
-
     List<UUID> getMembers(UUID uuid);
 }

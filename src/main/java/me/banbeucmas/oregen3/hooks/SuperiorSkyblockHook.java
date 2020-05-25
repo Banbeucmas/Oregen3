@@ -1,6 +1,7 @@
 package me.banbeucmas.oregen3.hooks;
 
 import com.bgsoftware.superiorskyblock.api.SuperiorSkyblockAPI;
+import com.bgsoftware.superiorskyblock.api.island.Island;
 import com.bgsoftware.superiorskyblock.api.wrappers.SuperiorPlayer;
 import org.bukkit.Location;
 
@@ -17,17 +18,13 @@ public class SuperiorSkyblockHook implements SkyblockHook {
 
     @Override
     public UUID getIslandOwner(final Location loc) {
-        return SuperiorSkyblockAPI.getIslandAt(loc).getOwner().getUniqueId();
+        final Island island = SuperiorSkyblockAPI.getIslandAt(loc);
+        return island == null ? null : SuperiorSkyblockAPI.getIslandAt(loc).getOwner().getUniqueId();
     }
 
     @Override
     public UUID getIslandOwner(final UUID uuid) {
         return SuperiorSkyblockAPI.getPlayer(uuid).getIslandLeader().getUniqueId();
-    }
-
-    @Override
-    public boolean isOnIsland(final Location loc) {
-        return SuperiorSkyblockAPI.getIslandAt(loc) != null;
     }
 
     @Override

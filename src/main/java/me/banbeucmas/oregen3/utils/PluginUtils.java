@@ -18,15 +18,10 @@ public class PluginUtils {
     public static final Random RANDOM = ThreadLocalRandom.current();
 
     public static OfflinePlayer getOwner(final Location loc) {
-        if (!getHook().isOnIsland(loc)) {
-            return null;
-        }
-
         final UUID uuid = getHook().getIslandOwner(loc);
         if (uuid == null) {
             return null;
         }
-
         return Bukkit.getServer().getOfflinePlayer(uuid);
     }
 
