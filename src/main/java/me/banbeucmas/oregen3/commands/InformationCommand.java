@@ -51,9 +51,7 @@ public class InformationCommand extends AbstractCommand {
             return ExecutionResult.SUCCESS;
         }
 
-        if (!Oregen3.getPlugin().hasDependency()
-                || !Oregen3.getHook().isOnIsland(p.getLocation())
-                || PluginUtils.getOwner(p.getLocation()) == null) {
+        if (!Oregen3.getPlugin().hasDependency() || PluginUtils.getOwner(p.getLocation()) == null) {
             p.sendMessage(StringUtils.getPrefixString(config.getString("messages.noIsland"), getPlayer()));
             return ExecutionResult.SUCCESS;
         }
