@@ -22,13 +22,14 @@ public class BlockListener implements Listener {
 
     @EventHandler
     public void onOre(final BlockFromToEvent e) {
-        final World world = e.getBlock().getLocation().getWorld();
-
-        if (world == null || e.getBlock().getType() == Material.AIR)
-            return;
-
         final Block source = e.getBlock();
         final Block to = e.getToBlock();
+        final Material sourceMaterial = source.getType();
+        final Material toMaterial = to.getType();
+        final World world = source.getWorld();
+
+        if (world == null || sourceMaterial == Material.AIR)
+            return;
 
         if (config.getBoolean("global.generators.world.enabled", false)
                 && config.getBoolean("global.generators.world.blacklist", true)
@@ -36,18 +37,13 @@ public class BlockListener implements Listener {
             return;
         }
 
-        final Material sourceMaterial = source.getType();
-        final Material toMaterial = to.getType();
-
         if (isWater(sourceMaterial) || isLava(sourceMaterial)) {
             if ((toMaterial == Material.AIR || isWater(toMaterial))
                     && sourceMaterial != Material.STATIONARY_WATER
                     && canGenerate(sourceMaterial, to)
                     && e.getFace() != BlockFace.DOWN) {
-                if (isLava(sourceMaterial)) {
-                    if (!isSurroundedByWater(to.getLocation())) {
-                        return;
-                    }
+                if (isLava(sourceMaterial) && !isSurroundedByWater(to.getLocation())) {
+                    return;
                 }
                 generateBlock(world, source, to);
             }
@@ -95,11 +91,10 @@ public class BlockListener implements Listener {
     Checks for Water + Lava, block will use another method to prevent confusion
      */
     private boolean canGenerate(final Material material, final Block b) {
-        final Material liquid = isWater(material) ? Material.LAVA : Material.WATER;
-        final Material stationaryLiquid = isWater(material) ? Material.STATIONARY_LAVA : Material.STATIONARY_WATER;
+        final boolean check = isWater(material);
         for (final BlockFace face : FACES) {
-            final Block check = b.getRelative(face, 1);
-            if ((check.getType() == liquid || check.getType() == stationaryLiquid)
+            final Material type = b.getRelative(face, 1).getType();
+            if (((check && isLava(type)) || (!check && isWater(type)))
                     && config.getBoolean("mode.waterLava")) {
                 return true;
             }
