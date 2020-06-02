@@ -13,13 +13,13 @@ public class SuperiorSkyblockHook implements SkyblockHook {
 
     @Override
     public double getIslandLevel(final UUID uuid, final Location loc) {
-        return SuperiorSkyblockAPI.getPlayer(uuid).getIsland().getIslandLevel().intValue();
+        return SuperiorSkyblockAPI.getPlayer(uuid).getIsland().getIslandLevel().doubleValue();
     }
 
     @Override
     public UUID getIslandOwner(final Location loc) {
         final Island island = SuperiorSkyblockAPI.getIslandAt(loc);
-        return island == null ? null : SuperiorSkyblockAPI.getIslandAt(loc).getOwner().getUniqueId();
+        return island == null ? null : island.getOwner().getUniqueId();
     }
 
     @Override
