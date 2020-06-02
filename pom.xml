@@ -6,7 +6,7 @@
 
     <groupId>me.banbeucmas</groupId>
     <artifactId>oregen3</artifactId>
-    <version>1.4.5.10.3</version>
+    <version>1.4.5.10.4</version>
     <packaging>jar</packaging>
 
     <name>Oregen3</name>
