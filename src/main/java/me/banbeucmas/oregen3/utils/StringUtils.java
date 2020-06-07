@@ -21,8 +21,12 @@ public class StringUtils {
         return parsePlaceholder(s, player);
     }
 
-    public static String getPrefixString(final String s, final OfflinePlayer p) {
+    public static String getColoredPrefixString(final String s, final OfflinePlayer p) {
         return getColoredString(Oregen3.getPlugin().getConfig().getString("messages.prefix", ""), null) + " " + getColoredString(s, p);
+    }
+
+    public static String getPrefixString(final String s, final OfflinePlayer p) {
+        return getColoredString(Oregen3.getPlugin().getConfig().getString("messages.prefix", ""), null) + " " + getString(s, p);
     }
 
     private static String parsePlaceholder(String s, final OfflinePlayer player) {

@@ -43,7 +43,7 @@ public class InformationCommand extends AbstractCommand {
             final UUID uuid = player.getUniqueId();
 
             if (!Oregen3.getPlugin().hasDependency() || PluginUtils.getOwner(uuid) == null) {
-                sender.sendMessage(PLAYER.matcher(StringUtils.getPrefixString(config.getString("messages.noIslandOthers"), getPlayer())).replaceAll(Matcher.quoteReplacement(player.getName())));
+                sender.sendMessage(PLAYER.matcher(StringUtils.getColoredPrefixString(config.getString("messages.noIslandOthers"), getPlayer())).replaceAll(Matcher.quoteReplacement(player.getName())));
                 return ExecutionResult.SUCCESS;
             }
 
@@ -52,7 +52,7 @@ public class InformationCommand extends AbstractCommand {
         }
 
         if (!Oregen3.getPlugin().hasDependency() || PluginUtils.getOwner(p.getLocation()) == null) {
-            p.sendMessage(StringUtils.getPrefixString(config.getString("messages.noIsland"), getPlayer()));
+            p.sendMessage(StringUtils.getColoredPrefixString(config.getString("messages.noIsland"), getPlayer()));
             return ExecutionResult.SUCCESS;
         }
         p.openInventory(new GeneratorMaterialList(p.getLocation(), p).getInventory());

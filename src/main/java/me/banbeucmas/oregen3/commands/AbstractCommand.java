@@ -36,16 +36,16 @@ abstract class AbstractCommand {
 	void execute() {
 		switch (run()) {
 			case MISSING_ARGS:
-				sender.sendMessage(getPrefixString(Oregen3.getPlugin().getConfig().getString("messages.missingArgs"), player));
+				sender.sendMessage(getColoredPrefixString(Oregen3.getPlugin().getConfig().getString("messages.missingArgs"), player));
 				break;
 			case NO_PERMISSION:
-				sender.sendMessage(getPrefixString(PERM.matcher(Oregen3.getPlugin().getConfig().getString("messages.noPermission")).replaceAll(Matcher.quoteReplacement(permission)), player));
+				sender.sendMessage(getColoredPrefixString(PERM.matcher(Oregen3.getPlugin().getConfig().getString("messages.noPermission")).replaceAll(Matcher.quoteReplacement(permission)), player));
 				break;
 			case NO_PLAYER:
-				sender.sendMessage(getPrefixString(PLAYER.matcher(Oregen3.getPlugin().getConfig().getString("messages.noPlayer")).replaceAll(Matcher.quoteReplacement(player != null ? player.getName() : "")), player));
+				sender.sendMessage(getColoredPrefixString(PLAYER.matcher(Oregen3.getPlugin().getConfig().getString("messages.noPlayer")).replaceAll(Matcher.quoteReplacement(player != null ? player.getName() : "")), player));
 				break;
 			case NON_PLAYER:
-				sender.sendMessage(getPrefixString(Oregen3.getPlugin().getConfig().getString("messages.notPlayer"), player));
+				sender.sendMessage(getColoredPrefixString(Oregen3.getPlugin().getConfig().getString("messages.notPlayer"), player));
 		}
 	}
 
