@@ -22,7 +22,7 @@ public class StringUtils {
     }
 
     public static String getPrefixString(final String s, final OfflinePlayer p) {
-        return getColoredString(Oregen3.getPlugin().getConfig().getString("prefix"), null) + " " + getColoredString(s, p);
+        return getColoredString(Oregen3.getPlugin().getConfig().getString("messages.prefix", ""), null) + " " + getColoredString(s, p);
     }
 
     private static String parsePlaceholder(String s, final OfflinePlayer player) {
