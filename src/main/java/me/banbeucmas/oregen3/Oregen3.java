@@ -12,8 +12,7 @@ import me.banbeucmas.oregen3.gui.editor.Generator;
 import me.banbeucmas.oregen3.gui.editor.GeneratorList;
 import me.banbeucmas.oregen3.gui.editor.options.Fallback;
 import me.banbeucmas.oregen3.hooks.*;
-import me.banbeucmas.oregen3.listeners.BlockListener;
-import me.banbeucmas.oregen3.listeners.InventoryListener;
+import me.banbeucmas.oregen3.listeners.*;
 import me.banbeucmas.oregen3.utils.StringUtils;
 import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.MetricsLite;
@@ -35,6 +34,7 @@ public final class Oregen3 extends JavaPlugin {
     private static SkyblockHook hook;
     private static Permission perm;
     private static PermissionManager permissionManager;
+    private static BlockEventHandler eventHandler;
     public boolean papi;
     public boolean mvdw;
     private boolean hasDependency = true;
@@ -43,18 +43,8 @@ public final class Oregen3 extends JavaPlugin {
         return hasDependency;
     }
 
-    public void updateConfig() {
-        saveConfig();
-        final File configFile = new File(getDataFolder(), "config.yml");
-        if (getConfig().getBoolean("auto-update", true)) {
-            try {
-                ConfigUpdater.update(this, "config.yml", configFile, new ArrayList<>());
-            }
-            catch (final IOException e) {
-                e.printStackTrace();
-            }
-        }
-        reloadConfig();
+    public static BlockEventHandler getEventHandler() {
+        return eventHandler;
     }
 
     public void onDisable() {
@@ -76,6 +66,23 @@ public final class Oregen3 extends JavaPlugin {
 
     public static PermissionManager getPermissionManager() {
         return permissionManager;
+    }
+
+    public void updateConfig() {
+        saveConfig();
+        final File configFile = new File(getDataFolder(), "config.yml");
+        final FileConfiguration config = getConfig();
+        eventHandler = config.getBoolean("global.listener.asyncListener", false) ?
+                new AsyncBlockEventHandler() : new SyncBlockEventHandler();
+        if (config.getBoolean("auto-update", true)) {
+            try {
+                ConfigUpdater.update(this, "config.yml", configFile, new ArrayList<>());
+            }
+            catch (final IOException e) {
+                e.printStackTrace();
+            }
+        }
+        reloadConfig();
     }
 
     @Override

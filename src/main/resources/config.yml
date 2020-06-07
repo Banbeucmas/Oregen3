@@ -76,6 +76,9 @@ hooks:
     - SkyGrid
 
 global:
+  listener:
+    #Will the plugin attempt to generate blocks async? Turn this on if you experience lag while generating blocks
+    asyncListener: false
   generators:
     world:
       enabled: false
