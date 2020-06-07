@@ -16,7 +16,6 @@
 #      world: world-related options
 #        blacklist: if the world list provided below are blacklist (non-whitelist), default to true if missing
 #        list: list of world that the generator are consider of, default to an empty list if missing
-#  enableDependency: it will try to find a skyblock plugin to enable the owner permission feature
 #  sound: you can use the old enum sound, as long as it playable in your version (ex: 1.8 sound for 1.12 server)
 #  Avalable placeholder for messages:
 #  - noPermission: %perm%
@@ -24,27 +23,9 @@
 #  - noIslandOthers: %player%
 #  - messages:
 #     commands: %label% (First argument in command)
-#  hooks:
-#   Vault:
-#    forceAsync: will the plugin force to use the async permission lookup? Change to true if you have problems using the non-async one
-#    pluginAsyncList: plugin list that store the permission data async (using database, ...), or you can list other plugins (note that it sometimes won't load before this plugin)
-#   BentoBox:
-#    gamemodePriorities: (may be changed later)
-#     - This plugin will check for avalable gamemode by order. If which addon comes first then it will use that gamemode to check
-#       for player's island (who knows someone would use 2 gamemode at a time....)
-#     - Since BentoBox lets you install many Gamemodes, this check is required due to the fact this plugin only hooks into one
-#       gamemode (may be fixed later).
-#     - If an invaild gamemode is found, the plugin will skip it.
-# Tips:
 #  You can use PlaceholderAPI or MVDWPlaceholderAPI placeholders
 #   in every messages (execpt some that requires a player but the message can't get the player's name)
 # -------------------------------------
-# DO NOT TOUCH THIS
-version: 1.3.0.5.1
-
-updater:
-  copyHeader: false
-
 mode:
   waterBlock: true
   lavaBlock: false
@@ -57,6 +38,7 @@ blocks:
 - DARK_OAK_FENCE
 - IRON_FENCE
 
+#Will the plugin try to find a skyblock plugin to enable the owner permission feature?
 enableDependency: true
 randomFallback: false
 defaultGenerator: default
@@ -65,10 +47,17 @@ hooks:
   skyblock:
     getLowestGenerator: false
   Vault:
+    #Will the plugin force to use the async permission lookup? Change to true if you have problems using the non-async one
     forceAsync: false
+    #Plugin list that store the permission data async (using database, ...), or you can list other plugins (note that it sometimes won't load before this plugin)
     pluginAsyncList:
     - LuckPerms
   BentoBox:
+    #This plugin will check for avalable gamemode by order. If which addon comes first then it will use that gamemode to check
+    # for player's island (who knows someone would use 2 gamemode at a time....)
+    #Since BentoBox lets you install many Gamemodes, this check is required due to the fact this plugin only hooks into one
+    # gamemode (may be fixed later).
+    #If an invaild gamemode is found, the plugin will skip it.
     gamemodePriorities:
     - AcidIsland
     - BSkyBlock
