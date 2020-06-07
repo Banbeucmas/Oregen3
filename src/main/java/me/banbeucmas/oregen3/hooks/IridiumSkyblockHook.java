@@ -5,9 +5,9 @@ import com.iridium.iridiumskyblock.User;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static com.iridium.iridiumskyblock.IridiumSkyblock.getIslandManager;
 
@@ -36,6 +36,10 @@ public class IridiumSkyblockHook implements SkyblockHook {
     public List<UUID> getMembers(final UUID uuid) {
         final Island island = User.getUser(Bukkit.getOfflinePlayer(uuid)).getIsland();
         if (island == null) return null;
-        return island.getMembers().stream().map(s -> Bukkit.getOfflinePlayer(s).getUniqueId()).collect(Collectors.toList());
+        final List<UUID> list = new ArrayList<>();
+        for (final String s : island.getMembers()) {
+            list.add(Bukkit.getOfflinePlayer(s).getUniqueId());
+        }
+        return list;
     }
 }

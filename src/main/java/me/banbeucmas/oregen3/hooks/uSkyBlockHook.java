@@ -6,9 +6,9 @@ import org.bukkit.OfflinePlayer;
 import us.talabrek.ultimateskyblock.api.IslandInfo;
 import us.talabrek.ultimateskyblock.api.uSkyBlockAPI;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 // "Stupid api only use for online players rip" - xHexed, 4/7/2020
 public class uSkyBlockHook implements SkyblockHook {
@@ -44,6 +44,10 @@ public class uSkyBlockHook implements SkyblockHook {
     public List<UUID> getMembers(final UUID uuid) {
         final OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
         if (!player.isOnline()) return null;
-        return usb.getIslandInfo(player.getPlayer()).getMembers().stream().map((s) -> Bukkit.getOfflinePlayer(s).getUniqueId()).collect(Collectors.toList());
+        final List<UUID> list = new ArrayList<>();
+        for (final String s : usb.getIslandInfo(player.getPlayer()).getMembers()) {
+            list.add(Bukkit.getOfflinePlayer(s).getUniqueId());
+        }
+        return list;
     }
 }

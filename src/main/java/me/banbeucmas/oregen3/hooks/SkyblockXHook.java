@@ -6,9 +6,9 @@ import net.savagelabs.skyblockx.core.Island;
 import net.savagelabs.skyblockx.core.IslandKt;
 import org.bukkit.Location;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class SkyblockXHook implements SkyblockHook {
     @Override
@@ -40,6 +40,10 @@ public class SkyblockXHook implements SkyblockHook {
         if (player == null) return null;
         final Island island = player.getIsland();
         if (island == null) return null;
-        return island.getAllMemberUUIDs().stream().map(UUID::fromString).collect(Collectors.toList());
+        final List<UUID> list = new ArrayList<>();
+        for (final String s : island.getAllMemberUUIDs()) {
+            list.add(UUID.fromString(s));
+        }
+        return list;
     }
 }

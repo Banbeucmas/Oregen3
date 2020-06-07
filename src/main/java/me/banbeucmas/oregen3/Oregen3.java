@@ -164,8 +164,13 @@ public final class Oregen3 extends JavaPlugin {
             if (config.getBoolean("hooks.Vault.forceAsync")) {
                 permissionManager = new AsyncVaultPermission();
             }
-            else if (config.getStringList("hooks.Vault.pluginAsyncList").stream().anyMatch(manager::isPluginEnabled)) {
-                permissionManager = new AsyncVaultPermission();
+            else {
+                for (final String s : config.getStringList("hooks.Vault.pluginAsyncList")) {
+                    if (manager.isPluginEnabled(s)) {
+                        permissionManager = new AsyncVaultPermission();
+                        break;
+                    }
+                }
             }
         }
         else {

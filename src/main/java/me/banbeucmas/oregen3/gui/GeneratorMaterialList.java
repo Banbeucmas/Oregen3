@@ -15,12 +15,12 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class GeneratorMaterialList implements InventoryHolder, InventoryHandler {
     private static final Pattern CHANCE = Pattern.compile("%chance%", Pattern.LITERAL);
@@ -43,11 +43,11 @@ public class GeneratorMaterialList implements InventoryHolder, InventoryHandler 
             final ItemMeta meta = display.getItemMeta();
             final double chance = value;
 
-            final List<String> lore = config.getStringList("messages.gui.block.lore")
-                    .stream()
-                    .map(s -> CHANCE.matcher(s).replaceAll(Matcher.quoteReplacement(Double.toString(chance))))
-                    .map(s -> StringUtils.getColoredString(s, player))
-                    .collect(Collectors.toList());
+            final List<String> lore = new ArrayList<>();
+            for (final String s : config.getStringList("messages.gui.block.lore")) {
+                lore.add(StringUtils.getColoredString(
+                        CHANCE.matcher(s).replaceAll(Matcher.quoteReplacement(Double.toString(chance))), player));
+            }
 
             meta.setLore(lore);
             display.setItemMeta(meta);
@@ -73,11 +73,11 @@ public class GeneratorMaterialList implements InventoryHolder, InventoryHandler 
             final ItemMeta meta = display.getItemMeta();
             final double chance = value;
 
-            final List<String> lore = config.getStringList("messages.gui.block.lore")
-                    .stream()
-                    .map(s -> CHANCE.matcher(s).replaceAll(Matcher.quoteReplacement(Double.toString(chance))))
-                    .map(s -> StringUtils.getColoredString(s, player))
-                    .collect(Collectors.toList());
+            final List<String> lore = new ArrayList<>();
+            for (final String s : config.getStringList("messages.gui.block.lore")) {
+                lore.add(StringUtils.getColoredString(
+                        CHANCE.matcher(s).replaceAll(Matcher.quoteReplacement(Double.toString(chance))), player));
+            }
 
             meta.setLore(lore);
 
