@@ -16,7 +16,7 @@ import java.util.Collections;
 public class EditGUI implements InventoryHolder, InventoryHandler {
     private static final Inventory inv = Bukkit.createInventory(new EditGUI(), InventoryType.HOPPER, "Oregen3 editor");
 
-    public static void create() {
+    static {
         final ItemStack generator = new ItemStack(Material.FURNACE);
         final ItemMeta generatorMeta = generator.getItemMeta();
         generatorMeta.setDisplayName("§rEdit generators");

@@ -22,6 +22,12 @@ public class GeneratorList implements InventoryHolder, InventoryHandler {
     private final Inventory inv;
     private final long page;
 
+    static {
+        final ItemMeta exitItemMeta = exitItem.getItemMeta();
+        exitItemMeta.setDisplayName("§rBack");
+        exitItem.setItemMeta(exitItemMeta);
+    }
+
     public GeneratorList(final long page) {
         this.page = page;
         final Map<String, MaterialChooser> choosers = DataManager.getChoosers();
@@ -83,11 +89,5 @@ public class GeneratorList implements InventoryHolder, InventoryHandler {
                     ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName())))
                                                                                                                  .getInventory()));
         }
-    }
-
-    public static void create() {
-        final ItemMeta exitItemMeta = exitItem.getItemMeta();
-        exitItemMeta.setDisplayName("§rBack");
-        exitItem.setItemMeta(exitItemMeta);
     }
 }

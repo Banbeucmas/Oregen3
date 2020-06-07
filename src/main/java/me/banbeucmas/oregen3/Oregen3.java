@@ -7,10 +7,6 @@ import me.banbeucmas.oregen3.data.permission.AsyncVaultPermission;
 import me.banbeucmas.oregen3.data.permission.DefaultPermission;
 import me.banbeucmas.oregen3.data.permission.PermissionManager;
 import me.banbeucmas.oregen3.data.permission.VaultPermission;
-import me.banbeucmas.oregen3.gui.EditGUI;
-import me.banbeucmas.oregen3.gui.editor.Generator;
-import me.banbeucmas.oregen3.gui.editor.GeneratorList;
-import me.banbeucmas.oregen3.gui.editor.options.Fallback;
 import me.banbeucmas.oregen3.hooks.*;
 import me.banbeucmas.oregen3.listeners.*;
 import me.banbeucmas.oregen3.utils.StringUtils;
@@ -111,11 +107,6 @@ public final class Oregen3 extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
         getServer().getPluginManager().registerEvents(new InventoryListener(), this);
-
-        EditGUI.create();
-        GeneratorList.create();
-        Fallback.create();
-        Generator.create();
     }
 
     private void checkDependency() {

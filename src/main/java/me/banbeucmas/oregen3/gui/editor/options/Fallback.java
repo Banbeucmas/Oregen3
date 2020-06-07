@@ -23,6 +23,13 @@ public class Fallback implements InventoryHolder, InventoryHandler {
     private final MaterialChooser chooser;
     private static final ItemStack confirmItem = XMaterial.GREEN_STAINED_GLASS_PANE.parseItem();
 
+    static {
+        final ItemMeta confirmItemMeta = Objects.requireNonNull(confirmItem).getItemMeta();
+        confirmItemMeta.setDisplayName("§aConfirm selection");
+        confirmItemMeta.setLore(Arrays.asList("§rClick here to confirm your block", "§rand update the config"));
+        confirmItem.setItemMeta(confirmItemMeta);
+    }
+
     public Fallback(final MaterialChooser chooser) {
         this.chooser = chooser;
         inventory    = Bukkit.createInventory(this, InventoryType.HOPPER, "Edit fallback block (" + chooser.getId() + ')');
@@ -39,13 +46,6 @@ public class Fallback implements InventoryHolder, InventoryHandler {
     @Override
     public Inventory getInventory() {
         return inventory;
-    }
-
-    public static void create() {
-        final ItemMeta confirmItemMeta = Objects.requireNonNull(confirmItem).getItemMeta();
-        confirmItemMeta.setDisplayName("§aConfirm selection");
-        confirmItemMeta.setLore(Arrays.asList("§rClick here to confirm your block", "§rand update the config"));
-        confirmItem.setItemMeta(confirmItemMeta);
     }
 
     @Override
