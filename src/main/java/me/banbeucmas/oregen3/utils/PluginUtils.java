@@ -78,10 +78,11 @@ public class PluginUtils {
     }
 
     private static MaterialChooser getMaterialChooser(final Location loc, MaterialChooser mc, final OfflinePlayer p) {
+        final double level = getHook().getIslandLevel(p.getUniqueId(), loc);
         for (final MaterialChooser chooser : DataManager.getChoosers().values()) {
             if (Oregen3.getPermissionManager().checkPerm(null, p, chooser.getPermission())
                     && chooser.getPriority() >= mc.getPriority()
-                    && getHook().getIslandLevel(p.getUniqueId(), loc) >= chooser.getLevel()) {
+                    && level >= chooser.getLevel()) {
                 mc = chooser;
             }
         }
