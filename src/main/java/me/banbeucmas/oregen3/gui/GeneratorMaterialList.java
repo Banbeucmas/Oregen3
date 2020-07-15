@@ -80,7 +80,7 @@ public class GeneratorMaterialList implements InventoryHolder, InventoryHandler 
             }
 
             meta.setLore(lore);
-
+            display.setItemMeta(meta);
             inv.addItem(display);
         });
     }
