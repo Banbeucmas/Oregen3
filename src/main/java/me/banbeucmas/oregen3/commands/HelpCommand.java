@@ -26,9 +26,6 @@ public class HelpCommand extends AbstractCommand {
         if (sender.hasPermission("oregen3.information")) {
             sender.sendMessage(StringUtils.getColoredPrefixString(LABEL.matcher(Oregen3.getPlugin().getConfig().getString("messages.commands.info")).replaceAll(getLabel()), getPlayer()));
         }
-        if (sender.hasPermission("oregen3.debug")) {
-            sender.sendMessage(StringUtils.getColoredPrefixString(LABEL.matcher(Oregen3.getPlugin().getConfig().getString("messages.commands.debug")).replaceAll(getLabel()), getPlayer()));
-        }
         if (sender.hasPermission("oregen3.edit")) {
             sender.sendMessage(StringUtils.getColoredPrefixString(LABEL.matcher(Oregen3.getPlugin().getConfig().getString("messages.commands.edit")).replaceAll(getLabel()), getPlayer()));
         }
