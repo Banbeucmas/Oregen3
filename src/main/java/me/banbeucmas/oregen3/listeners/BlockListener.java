@@ -34,7 +34,7 @@ public class BlockListener implements Listener {
         }
     }
 
-    private static boolean canGenerateBlock(final Block src, final Block to, final ConfigurationSection config) {
+    private boolean canGenerateBlock(final Block src, final Block to, final ConfigurationSection config) {
         final Material material = src.getType();
         for (final BlockFace face : FACES) {
             final Block check = to.getRelative(face);
@@ -55,7 +55,7 @@ public class BlockListener implements Listener {
     /*
     Checks for Water + Lava, block will use another method to prevent confusion
      */
-    private static boolean canGenerate(final Material material, final Block b, final ConfigurationSection config) {
+    private boolean canGenerate(final Material material, final Block b, final ConfigurationSection config) {
         final boolean check = isWater(material);
         for (final BlockFace face : FACES) {
             final Material type = b.getRelative(face, 1).getType();
@@ -104,18 +104,19 @@ public class BlockListener implements Listener {
                 == config.getStringList("global.generators.world.list").contains(to.getWorld().getName())) {
             return;
         }
-
         if (isWater(sourceMaterial) || isLava(sourceMaterial)) {
             if ((toMaterial == Material.AIR || isWater(toMaterial))
                     && sourceMaterial != Material.STATIONARY_WATER
-                    && BlockListener.canGenerate(sourceMaterial, to, config)
+                    && canGenerate(sourceMaterial, to, config)
                     && event.getFace() != BlockFace.DOWN) {
                 if (isLava(sourceMaterial) && !isSurroundedByWater(to.getLocation())) {
                     return;
                 }
+                event.setCancelled(true);
                 eventHandler.generateBlock(world, source, to, config);
             }
-            else if (BlockListener.canGenerateBlock(source, to, config)) {
+            else if (canGenerateBlock(source, to, config)) {
+                event.setCancelled(true);
                 eventHandler.generateBlock(world, source, to, config);
             }
         }
