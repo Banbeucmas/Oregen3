@@ -1,6 +1,5 @@
 package me.banbeucmas.oregen3;
 
-import com.tchristofferson.configupdater.ConfigUpdater;
 import me.banbeucmas.oregen3.commands.CommandHandler;
 import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.data.permission.AsyncVaultPermission;
@@ -20,9 +19,6 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public final class Oregen3 extends JavaPlugin {
@@ -65,20 +61,10 @@ public final class Oregen3 extends JavaPlugin {
     }
 
     public void updateConfig() {
-        saveConfig();
-        final File configFile = new File(getDataFolder(), "config.yml");
+        reloadConfig();
         final FileConfiguration config = getConfig();
         eventHandler = config.getBoolean("global.listener.asyncListener", false) ?
                 new AsyncBlockEventHandler() : new SyncBlockEventHandler();
-        if (config.getBoolean("auto-update", true)) {
-            try {
-                ConfigUpdater.update(this, "config.yml", configFile, new ArrayList<>());
-            }
-            catch (final IOException e) {
-                e.printStackTrace();
-            }
-        }
-        reloadConfig();
     }
 
     @Override
