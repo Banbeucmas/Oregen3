@@ -64,15 +64,15 @@ public class BentoBoxHook implements SkyblockHook {
                     .label("island-level")
                     .addMetaData("player", uuid);
             if (loc != null) {
-                num = (double) builder
+                num = ((Long) builder
                         .addMetaData("world-name", loc.getWorld())
-                        .request();
+                        .request()).doubleValue();
             }
             if (num == 0) {
                 for (final World world : worlds) {
-                    num = (double) builder
+                    num = ((Long) builder
                             .addMetaData("world-name", world.getName())
-                            .request();
+                            .request()).doubleValue();
                     if (num != 0) break;
                 }
             }
