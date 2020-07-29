@@ -6,7 +6,7 @@ import me.banbeucmas.oregen3.data.permission.AsyncVaultPermission;
 import me.banbeucmas.oregen3.data.permission.DefaultPermission;
 import me.banbeucmas.oregen3.data.permission.PermissionManager;
 import me.banbeucmas.oregen3.data.permission.VaultPermission;
-import me.banbeucmas.oregen3.hooks.*;
+import me.banbeucmas.oregen3.hooks.skyblock.*;
 import me.banbeucmas.oregen3.listeners.*;
 import me.banbeucmas.oregen3.utils.StringUtils;
 import net.milkbowl.vault.permission.Permission;
@@ -73,6 +73,7 @@ public final class Oregen3 extends JavaPlugin {
 
         new MetricsLite(this, 3052);
 
+        saveDefaultConfig();
         updateConfig();
         checkDependency();
         setupPermissions();
