@@ -4,12 +4,9 @@ import com.cryptomorin.xseries.XSound;
 import me.banbeucmas.oregen3.Oregen3;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MaterialChooser {
     private final String id;
@@ -24,30 +21,29 @@ public class MaterialChooser {
     private float soundPitch;
     private boolean worldEnabled;
     private boolean worldBlacklist;
-    private List<String> worldList = new ArrayList<>();
+    private Set<String> worldList;
 
     MaterialChooser(final String id) {
         this.id = id;
-        final String path = "generators." + id + ".";
+        final ConfigurationSection path = Oregen3.getPlugin().getConfig().getConfigurationSection("generators." + id);
 
-        final FileConfiguration config = Oregen3.getPlugin().getConfig();
-        fallback   = Material.matchMaterial(config.getString(path + "fallback", "COBBLESTONE"));
-        permission = config.getString(path + "permission", "oregen3.generator." + id);
-        priority   = config.getLong(path + "priority", 0);
-        level      = config.getDouble(path + "level", 0);
-        if (config.isSet(path + "sound")) {
+        fallback   = Material.matchMaterial(path.getString("fallback", "COBBLESTONE"));
+        permission = path.getString("permission", "oregen3.generator." + id);
+        priority   = path.getLong("priority", 0);
+        level      = path.getDouble("level", 0);
+        if (path.isSet("sound")) {
             soundEnabled = true;
-            sound        = XSound.matchXSound(Oregen3.getPlugin().getConfig().getString(path + "sound.name", "BLOCK_FIRE_EXTINGUISH")).map(XSound::parseSound).orElse(XSound.BLOCK_FIRE_EXTINGUISH.parseSound());
-            soundVolume  = (float) config.getDouble(path + "sound.volume", 1);
-            soundPitch   = (float) config.getDouble(path + "sound.pitch", 1);
+            sound        = XSound.matchXSound(path.getString("sound.name", "BLOCK_FIRE_EXTINGUISH")).map(XSound::parseSound).orElse(XSound.BLOCK_FIRE_EXTINGUISH.parseSound());
+            soundVolume  = (float) path.getDouble("sound.volume", 1);
+            soundPitch   = (float) path.getDouble("sound.pitch", 1);
         }
-        if (config.isSet(path + "world")) {
+        if (path.isSet("world")) {
             worldEnabled   = true;
-            worldBlacklist = config.getBoolean(path + "world.blacklist", true);
-            worldList      = config.getStringList(path + "world.list");
+            worldBlacklist = path.getBoolean("world.blacklist", true);
+            worldList      = new HashSet<>(path.getStringList("world.list"));
         }
-        for (final String mat : config.getConfigurationSection(path + "random").getKeys(false)) {
-            chances.put(Material.matchMaterial(mat), config.getDouble(path + "random." + mat));
+        for (final String mat : path.getConfigurationSection("random").getKeys(false)) {
+            chances.put(Material.matchMaterial(mat), path.getDouble("random." + mat));
         }
     }
 
@@ -99,7 +95,7 @@ public class MaterialChooser {
         return worldBlacklist;
     }
 
-    public List<String> getWorldList() {
+    public Set<String> getWorldList() {
         return worldList;
     }
 }
