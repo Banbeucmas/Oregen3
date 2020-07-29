@@ -26,10 +26,10 @@
                 <artifactId>maven-install-plugin</artifactId>
                 <version>3.0.0-M1</version>
                 <configuration>
-                    <groupId>net.savagelabs</groupId>
-                    <artifactId>SkyblockX</artifactId>
-                    <version>v1.4.2-alpha</version>
-                    <file>${basedir}/lib/SkyblockX.jar</file>
+                    <groupId>com.iridium</groupId>
+                    <artifactId>IridiumSkyblock</artifactId>
+                    <version>2.4.6</version>
+                    <file>${basedir}/lib/IridiumSkyblock-2.4.6.jar</file>
                     <packaging>jar</packaging>
                     <generatePom>true</generatePom>
                 </configuration>
@@ -109,16 +109,8 @@
             <url>http://repo.songoda.com/artifactory/public/</url>
         </repository>
         <repository>
-            <id>savagelabs</id>
-            <url>https://nexus.savagelabs.net/repository/maven-public/</url>
-        </repository>
-        <repository>
-            <id>CodeMC</id>
-            <url>https://repo.codemc.org/repository/maven-public</url>
-        </repository>
-        <repository>
             <id>placeholderapi</id>
-            <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
         <repository>
             <id>mvdw-software</id>
@@ -151,8 +143,8 @@
         </dependency>
         <dependency>
             <groupId>me.clip</groupId>
-            <artifactId>placeholderapi</artifactId>
-            <version>2.10.5</version>
+            <artifactId>PlaceholderAPI</artifactId>
+            <version>2.10.7</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -192,7 +184,7 @@
         <dependency>
             <groupId>world.bentobox</groupId>
             <artifactId>bentobox</artifactId>
-            <version>1.12.0</version>
+            <version>1.14.2</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -204,20 +196,14 @@
         <dependency>
             <groupId>com.songoda</groupId>
             <artifactId>skyblock</artifactId>
-            <version>2.1.2</version>
+            <version>2.2.13</version>
             <scope>provided</scope>
         </dependency>
         <!-- Using maven's validator (see above) -->
         <dependency>
-            <groupId>io.illyria</groupId>
-            <artifactId>SkyblockX</artifactId>
-            <version>v1.4.1-alpha</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>com.iridium</groupId>
             <artifactId>IridiumSkyblock</artifactId>
-            <version>2.4.0</version>
+            <version>2.4.6</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
