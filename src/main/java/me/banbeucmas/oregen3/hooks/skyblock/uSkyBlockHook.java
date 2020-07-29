@@ -1,4 +1,4 @@
-package me.banbeucmas.oregen3.hooks;
+package me.banbeucmas.oregen3.hooks.skyblock;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

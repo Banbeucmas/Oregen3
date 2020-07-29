@@ -1,4 +1,4 @@
-package me.banbeucmas.oregen3.hooks;
+package me.banbeucmas.oregen3.hooks.skyblock;
 
 import net.savagelabs.skyblockx.core.IPlayer;
 import net.savagelabs.skyblockx.core.IPlayerKt;

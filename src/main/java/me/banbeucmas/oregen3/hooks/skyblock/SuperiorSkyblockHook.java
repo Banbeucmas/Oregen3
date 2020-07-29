@@ -1,4 +1,4 @@
-package me.banbeucmas.oregen3.hooks;
+package me.banbeucmas.oregen3.hooks.skyblock;
 
 import com.bgsoftware.superiorskyblock.api.SuperiorSkyblockAPI;
 import com.bgsoftware.superiorskyblock.api.island.Island;

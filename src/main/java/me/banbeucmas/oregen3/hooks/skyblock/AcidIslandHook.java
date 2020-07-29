@@ -1,4 +1,4 @@
-package me.banbeucmas.oregen3.hooks;
+package me.banbeucmas.oregen3.hooks.skyblock;
 
 import com.wasteofplastic.acidisland.ASkyBlockAPI;
 import com.wasteofplastic.acidisland.Island;

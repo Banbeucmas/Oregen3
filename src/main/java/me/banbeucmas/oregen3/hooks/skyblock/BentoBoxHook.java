@@ -1,4 +1,4 @@
-package me.banbeucmas.oregen3.hooks;
+package me.banbeucmas.oregen3.hooks.skyblock;
 
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.utils.StringUtils;
