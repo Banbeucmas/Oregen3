@@ -2,9 +2,9 @@ package me.banbeucmas.oregen3.gui.editor.options;
 
 import com.cryptomorin.xseries.XMaterial;
 import me.banbeucmas.oregen3.Oregen3;
-import me.banbeucmas.oregen3.data.MaterialChooser;
+import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.gui.InventoryHandler;
-import me.banbeucmas.oregen3.gui.editor.Generator;
+import me.banbeucmas.oregen3.gui.editor.GeneratorMenu;
 import me.banbeucmas.oregen3.utils.BlockUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -20,7 +20,7 @@ import java.util.Objects;
 
 public class Fallback implements InventoryHolder, InventoryHandler {
     private final Inventory inventory;
-    private final MaterialChooser chooser;
+    private final Generator chooser;
     private static final ItemStack confirmItem = XMaterial.GREEN_STAINED_GLASS_PANE.parseItem();
 
     static {
@@ -30,7 +30,7 @@ public class Fallback implements InventoryHolder, InventoryHandler {
         confirmItem.setItemMeta(confirmItemMeta);
     }
 
-    public Fallback(final MaterialChooser chooser) {
+    public Fallback(final Generator chooser) {
         this.chooser = chooser;
         inventory    = Bukkit.createInventory(this, InventoryType.HOPPER, "Edit fallback block (" + chooser.getId() + ')');
         inventory.setItem(4, confirmItem);
@@ -56,7 +56,7 @@ public class Fallback implements InventoryHolder, InventoryHandler {
             final Oregen3 plugin = Oregen3.getPlugin();
             plugin.getConfig().set("generators." + chooser.getId() + ".fallback", item.getType().name());
             plugin.updateConfig();
-            Bukkit.getScheduler().runTask(Oregen3.getPlugin(), () -> event.getWhoClicked().openInventory(new Generator(chooser).getInventory()));
+            Bukkit.getScheduler().runTask(Oregen3.getPlugin(), () -> event.getWhoClicked().openInventory(new GeneratorMenu(chooser).getInventory()));
         }
     }
 

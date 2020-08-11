@@ -2,7 +2,7 @@ package me.banbeucmas.oregen3.data.permission;
 
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.DataManager;
-import me.banbeucmas.oregen3.data.MaterialChooser;
+import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.utils.PluginUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -55,7 +55,7 @@ public class AsyncVaultPermission implements PermissionManager, Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                for (final MaterialChooser chooser : DataManager.getChoosers().values()) {
+                for (final Generator chooser : DataManager.getChoosers().values()) {
                     checkPerm(null, player, chooser.getPermission());
                 }
             }

@@ -8,7 +8,7 @@ import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.*;
 
-public class MaterialChooser {
+public class Generator {
     private final String id;
     private final long priority;
     private final double level;
@@ -24,7 +24,7 @@ public class MaterialChooser {
     private boolean worldBlacklist;
     private Set<String> worldList;
 
-    MaterialChooser(final String id) {
+    Generator(final String id) {
         this.id = id;
         final ConfigurationSection path = Oregen3.getPlugin().getConfig().getConfigurationSection("generators." + id);
 

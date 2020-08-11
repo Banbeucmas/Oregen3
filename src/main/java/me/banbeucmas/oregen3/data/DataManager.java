@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DataManager {
-    private static final Map<String, MaterialChooser> choosers = new HashMap<>();
+    private static final Map<String, Generator> choosers = new HashMap<>();
 
-    public static Map<String, MaterialChooser> getChoosers() {
+    public static Map<String, Generator> getChoosers() {
         return choosers;
     }
 
@@ -21,6 +21,6 @@ public class DataManager {
         Oregen3.getPlugin().getConfig()
                 .getConfigurationSection("generators")
                 .getKeys(false)
-                .forEach(id -> choosers.put(id, new MaterialChooser(id)));
+                .forEach(id -> choosers.put(id, new Generator(id)));
     }
 }

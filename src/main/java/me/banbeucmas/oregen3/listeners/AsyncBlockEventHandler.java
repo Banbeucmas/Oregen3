@@ -1,7 +1,7 @@
 package me.banbeucmas.oregen3.listeners;
 
 import me.banbeucmas.oregen3.Oregen3;
-import me.banbeucmas.oregen3.data.MaterialChooser;
+import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.utils.PluginUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -12,7 +12,7 @@ public class AsyncBlockEventHandler implements BlockEventHandler {
     @Override
     public void generateBlock(final World world, final Block source, final Block to, final FileConfiguration config) {
         Bukkit.getScheduler().runTaskAsynchronously(Oregen3.getPlugin(), () -> {
-            final MaterialChooser mc = PluginUtils.getChooser(source.getLocation());
+            final Generator mc = PluginUtils.getChooser(source.getLocation());
             if (mc.isWorldEnabled() && mc.getWorldList().contains(to.getWorld().getName()) == mc.isWorldBlacklist())
                 return;
             Bukkit.getScheduler().runTask(Oregen3.getPlugin(), () -> {

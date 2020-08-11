@@ -2,7 +2,7 @@ package me.banbeucmas.oregen3.listeners;
 
 import com.cryptomorin.xseries.XSound;
 import me.banbeucmas.oregen3.Oregen3;
-import me.banbeucmas.oregen3.data.MaterialChooser;
+import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.utils.PluginUtils;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -22,7 +22,7 @@ public class BlockListener implements Listener {
     private final FileConfiguration config = Oregen3.getPlugin().getConfig();
     private final BlockEventHandler eventHandler = Oregen3.getEventHandler();
 
-    static void sendBlockEffect(final World world, final Block to, final FileConfiguration config, final MaterialChooser mc) {
+    static void sendBlockEffect(final World world, final Block to, final FileConfiguration config, final Generator mc) {
         if (mc.isSoundEnabled())
             world.playSound(to.getLocation(), mc.getSound(), mc.getSoundVolume(), mc.getSoundPitch());
         else if (config.getBoolean("global.generators.sound.enabled", false)) {
@@ -67,7 +67,7 @@ public class BlockListener implements Listener {
         return false;
     }
 
-    static Material randomChance(final MaterialChooser mc, final ConfigurationSection config) {
+    static Material randomChance(final Generator mc, final ConfigurationSection config) {
         final Map<Material, Double> chances = mc.getChances();
         double chance = 100 * PluginUtils.RANDOM.nextDouble();
         if (!config.getBoolean("randomFallback")) {

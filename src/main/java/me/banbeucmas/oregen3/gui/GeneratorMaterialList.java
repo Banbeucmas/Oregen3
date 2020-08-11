@@ -1,7 +1,7 @@
 package me.banbeucmas.oregen3.gui;
 
 import me.banbeucmas.oregen3.Oregen3;
-import me.banbeucmas.oregen3.data.MaterialChooser;
+import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.utils.PluginUtils;
 import me.banbeucmas.oregen3.utils.StringUtils;
 import org.bukkit.Bukkit;
@@ -28,7 +28,7 @@ public class GeneratorMaterialList implements InventoryHolder, InventoryHandler 
 
     public GeneratorMaterialList(final Location location, final OfflinePlayer player) {
         int size = 9;
-        final MaterialChooser mc = PluginUtils.getChooser(location);
+        final Generator mc = PluginUtils.getChooser(location);
         final Map<Material, Double> chances = mc.getChances();
         if (chances.size() > size) {
             size *= chances.size() / size + 1;
@@ -58,7 +58,7 @@ public class GeneratorMaterialList implements InventoryHolder, InventoryHandler 
 
     public GeneratorMaterialList(final UUID uuid, final OfflinePlayer player) {
         int size = 9;
-        final MaterialChooser mc = PluginUtils.getChooser(uuid);
+        final Generator mc = PluginUtils.getChooser(uuid);
         final Map<Material, Double> chances = mc.getChances();
         if (chances.size() > size) {
             size *= chances.size() / size + 1;

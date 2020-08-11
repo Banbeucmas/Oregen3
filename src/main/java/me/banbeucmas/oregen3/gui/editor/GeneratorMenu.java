@@ -1,7 +1,7 @@
 package me.banbeucmas.oregen3.gui.editor;
 
 import me.banbeucmas.oregen3.Oregen3;
-import me.banbeucmas.oregen3.data.MaterialChooser;
+import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.gui.InventoryHandler;
 import me.banbeucmas.oregen3.gui.editor.options.Fallback;
 import me.banbeucmas.oregen3.gui.editor.options.RandomBlockList;
@@ -16,12 +16,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Collections;
 
-public class Generator implements InventoryHolder, InventoryHandler {
+public class GeneratorMenu implements InventoryHolder, InventoryHandler {
     private static final ItemStack randomItem = new ItemStack(Material.STONE);
     private static final ItemStack backItem = new ItemStack(Material.ARROW);
     private static final ItemStack fallbackItem = new ItemStack(Material.COBBLESTONE);
     private final Inventory inventory;
-    private final MaterialChooser chooser;
+    private final Generator chooser;
 
     static {
         final ItemMeta randomItemMeta = randomItem.getItemMeta();
@@ -40,7 +40,7 @@ public class Generator implements InventoryHolder, InventoryHandler {
         fallbackItem.setItemMeta(fallbackMeta);
     }
 
-    public Generator(final MaterialChooser chooser) {
+    public GeneratorMenu(final Generator chooser) {
         this.chooser = chooser;
         final String id = chooser.getId();
 
@@ -67,11 +67,11 @@ public class Generator implements InventoryHolder, InventoryHandler {
         switch (event.getSlot()) {
             case 0:
                 event.getWhoClicked().openInventory(new RandomBlockList(
-                        ((Generator) event.getInventory().getHolder()).chooser).getInventory());
+                        ((GeneratorMenu) event.getInventory().getHolder()).chooser).getInventory());
                 break;
             case 1:
                 event.getWhoClicked().openInventory(new Fallback(
-                        ((Generator) event.getInventory().getHolder()).chooser).getInventory());
+                        ((GeneratorMenu) event.getInventory().getHolder()).chooser).getInventory());
                 break;
             case 8:
                 event.getWhoClicked().openInventory(new GeneratorList(1).getInventory());

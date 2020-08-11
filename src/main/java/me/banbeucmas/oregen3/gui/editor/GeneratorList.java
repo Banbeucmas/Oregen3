@@ -2,7 +2,7 @@ package me.banbeucmas.oregen3.gui.editor;
 
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.DataManager;
-import me.banbeucmas.oregen3.data.MaterialChooser;
+import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.gui.EditGUI;
 import me.banbeucmas.oregen3.gui.InventoryHandler;
 import org.bukkit.Bukkit;
@@ -30,7 +30,7 @@ public class GeneratorList implements InventoryHolder, InventoryHandler {
 
     public GeneratorList(final long page) {
         this.page = page;
-        final Map<String, MaterialChooser> choosers = DataManager.getChoosers();
+        final Map<String, Generator> choosers = DataManager.getChoosers();
         final int size = 9 * (choosers.size() / 9 + 1);
 
         inv = Bukkit.createInventory(this, size, "Generators");
@@ -85,7 +85,7 @@ public class GeneratorList implements InventoryHolder, InventoryHandler {
             Bukkit.getScheduler().runTask(Oregen3.getPlugin(), () -> event.getWhoClicked().openInventory(new EditGUI().getInventory()));
         }
         else {
-            Bukkit.getScheduler().runTask(Oregen3.getPlugin(), () -> event.getWhoClicked().openInventory(new Generator(DataManager.getChoosers().get(
+            Bukkit.getScheduler().runTask(Oregen3.getPlugin(), () -> event.getWhoClicked().openInventory(new GeneratorMenu(DataManager.getChoosers().get(
                     ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName())))
                                                                                                                  .getInventory()));
         }

@@ -1,6 +1,6 @@
 package me.banbeucmas.oregen3.hooks.placeholder;
 
-import me.banbeucmas.oregen3.data.MaterialChooser;
+import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.utils.PluginUtils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Material;
@@ -37,14 +37,14 @@ public class PlaceholderHandler extends PlaceholderExpansion {
         final String[] params = identifier.split("_");
         switch (params[0].toLowerCase()) {
             case "generator": {
-                final MaterialChooser chooser = PluginUtils.getChooser(player.getUniqueId());
+                final Generator chooser = PluginUtils.getChooser(player.getUniqueId());
                 return chooser != null ? chooser.getName() : "";
             }
             case "random": {
                 if (params.length < 2) return "0";
                 final Material material = Material.matchMaterial(params[1]);
                 if (material == null) return "0";
-                final MaterialChooser chooser = PluginUtils.getChooser(player.getUniqueId());
+                final Generator chooser = PluginUtils.getChooser(player.getUniqueId());
                 if (chooser == null)
                     return "0";
                 final Map<Material, Double> chances = chooser.getChances();
