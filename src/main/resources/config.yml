@@ -83,6 +83,8 @@ global:
 
 generators:
   default:
+    #Generator name that will be shown in placeholders
+    name: "My default"
     fallback: COBBLESTONE
     random:
       COBBLESTONE: 30.0
@@ -94,6 +96,7 @@ generators:
       volume: 3
       pitch: 2
   vip:
+    name: "VIP generator"
     fallback: COBBLESTONE
     permission: test.vip
     priority: 2

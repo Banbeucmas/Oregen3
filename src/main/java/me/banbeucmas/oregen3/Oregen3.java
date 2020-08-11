@@ -6,6 +6,7 @@ import me.banbeucmas.oregen3.data.permission.AsyncVaultPermission;
 import me.banbeucmas.oregen3.data.permission.DefaultPermission;
 import me.banbeucmas.oregen3.data.permission.PermissionManager;
 import me.banbeucmas.oregen3.data.permission.VaultPermission;
+import me.banbeucmas.oregen3.hooks.placeholder.PlaceholderHandler;
 import me.banbeucmas.oregen3.hooks.skyblock.*;
 import me.banbeucmas.oregen3.listeners.*;
 import me.banbeucmas.oregen3.utils.StringUtils;
@@ -131,6 +132,7 @@ public final class Oregen3 extends JavaPlugin {
 
         if (manager.isPluginEnabled("PlaceholderAPI")) {
             papi = true;
+            new PlaceholderHandler().register();
         }
 
         if (manager.isPluginEnabled("MVdWPlaceholderAPI")) {

@@ -13,6 +13,7 @@ public class MaterialChooser {
     private final long priority;
     private final double level;
     private final String permission;
+    private final String name;
     private final Map<Material, Double> chances = new EnumMap<>(Material.class);
     private final Material fallback;
     private boolean soundEnabled;
@@ -27,6 +28,7 @@ public class MaterialChooser {
         this.id = id;
         final ConfigurationSection path = Oregen3.getPlugin().getConfig().getConfigurationSection("generators." + id);
 
+        name = path.getString("name", id);
         fallback   = Material.matchMaterial(path.getString("fallback", "COBBLESTONE"));
         permission = path.getString("permission", "oregen3.generator." + id);
         priority   = path.getLong("priority", 0);
@@ -49,6 +51,10 @@ public class MaterialChooser {
 
     public String getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getPermission() {
