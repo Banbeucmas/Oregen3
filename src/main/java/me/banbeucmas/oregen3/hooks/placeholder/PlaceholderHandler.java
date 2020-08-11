@@ -2,6 +2,7 @@ package me.banbeucmas.oregen3.hooks.placeholder;
 
 import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.utils.PluginUtils;
+import me.banbeucmas.oregen3.utils.StringUtils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -48,7 +49,7 @@ public class PlaceholderHandler extends PlaceholderExpansion {
                 if (chooser == null)
                     return "0";
                 final Map<Material, Double> chances = chooser.getChances();
-                return chances.containsKey(material) ? String.valueOf(chances.get(material)) : "0";
+                return chances.containsKey(material) ? StringUtils.DOUBLE_FORMAT.format(chances.get(material)) : "0";
             }
             default:
                 return "";
