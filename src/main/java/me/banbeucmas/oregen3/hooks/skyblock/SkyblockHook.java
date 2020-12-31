@@ -12,7 +12,7 @@ public interface SkyblockHook {
      * @param uuid the user's uuid
      * @param loc  the user's location (can be different from the uuid's location) and can be null
      *
-     * @return island level by player uuid, extra check with the location, or null (vaule of 0)
+     * @return island level by player uuid, extra provided with the location, or null (value of 0)
      */
     double getIslandLevel(UUID uuid, Location loc);
 

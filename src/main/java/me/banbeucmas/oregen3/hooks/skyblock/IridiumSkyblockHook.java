@@ -1,44 +1,42 @@
 package me.banbeucmas.oregen3.hooks.skyblock;
 
+import com.iridium.iridiumskyblock.IridiumSkyblock;
 import com.iridium.iridiumskyblock.Island;
 import com.iridium.iridiumskyblock.User;
-import org.bukkit.Bukkit;
+import com.iridium.iridiumskyblock.managers.IslandManager;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static com.iridium.iridiumskyblock.IridiumSkyblock.getIslandManager;
-
 public class IridiumSkyblockHook implements SkyblockHook {
 
     @Override
     public double getIslandLevel(final UUID uuid, final Location loc) {
-        return User.getUser(Bukkit.getOfflinePlayer(uuid)).getIsland().exp;
+        final Island island = User.getUser(uuid).getIsland();
+        return island == null ? 0 : island.value / IridiumSkyblock.getConfiguration().valuePerLevel;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public UUID getIslandOwner(final Location loc) {
-        final Island island = getIslandManager().getIslandViaLocation(loc);
-        return island == null ? null : Bukkit.getOfflinePlayer(getIslandManager().getIslandViaLocation(loc).getOwner()).getUniqueId();
+        final Island island = IslandManager.getIslandViaLocation(loc);
+        return island == null ? null : UUID.fromString(island.owner);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public UUID getIslandOwner(final UUID uuid) {
-        return Bukkit.getOfflinePlayer(User.getUser(Bukkit.getOfflinePlayer(uuid)).getIsland().getOwner()).getUniqueId();
+        final Island island = User.getUser(uuid).getIsland();
+        return island == null ? null : UUID.fromString(island.owner);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public List<UUID> getMembers(final UUID uuid) {
-        final Island island = User.getUser(Bukkit.getOfflinePlayer(uuid)).getIsland();
+        final Island island = User.getUser(uuid).getIsland();
         if (island == null) return null;
         final List<UUID> list = new ArrayList<>();
-        for (final String s : island.getMembers()) {
-            list.add(Bukkit.getOfflinePlayer(s).getUniqueId());
+        for (final String member : island.members) {
+            list.add(UUID.fromString(member));
         }
         return list;
     }
