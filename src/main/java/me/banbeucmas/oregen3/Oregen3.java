@@ -17,7 +17,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -141,22 +140,21 @@ public final class Oregen3 extends JavaPlugin {
     }
 
     private void setupPermissions() {
-        final PluginManager manager = getServer().getPluginManager();
-        if (manager.isPluginEnabled("Vault")) {
-            final RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
-            perm              = rsp.getProvider();
+        if (getServer().getPluginManager().isPluginEnabled("Vault")) {
+            perm              = getServer().getServicesManager().getRegistration(Permission.class).getProvider();
             permissionManager = new VaultPermission();
-            final FileConfiguration config = getConfig();
-            if (config.getBoolean("hooks.Vault.forceAsync")) {
+            if (getConfig().getBoolean("hooks.Vault.forceAsync")) {
                 permissionManager = new AsyncVaultPermission();
             }
             else {
-                for (final String s : config.getStringList("hooks.Vault.pluginAsyncList")) {
-                    if (manager.isPluginEnabled(s)) {
-                        permissionManager = new AsyncVaultPermission();
-                        break;
+                Bukkit.getScheduler().runTask(this, () -> {
+                    for (final String s : getConfig().getStringList("hooks.Vault.pluginAsyncList")) {
+                        if (getServer().getPluginManager().isPluginEnabled(s)) {
+                            permissionManager = new AsyncVaultPermission();
+                            break;
+                        }
                     }
-                }
+                });
             }
         }
         else {

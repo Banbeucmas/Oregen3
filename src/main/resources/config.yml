@@ -49,7 +49,7 @@ hooks:
   Vault:
     #Will the plugin force to use async permission lookup? Change to true if you have problems using the non-async one
     forceAsync: false
-    #Plugin list that store the permission data async (using database, ...), or you can list other plugins (note that it sometimes won't load before this plugin)
+    #Plugin list that store the permission data async (using database, ...), or you can list other plugins
     pluginAsyncList:
     - LuckPerms
   BentoBox:
