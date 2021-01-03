@@ -8,15 +8,12 @@ import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
 import java.util.Objects;
-import java.util.Random;
 import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 
 import static me.banbeucmas.oregen3.Oregen3.getHook;
 import static me.banbeucmas.oregen3.Oregen3.getPlugin;
 
 public class PluginUtils {
-    public static final Random RANDOM = ThreadLocalRandom.current();
 
     public static OfflinePlayer getOwner(final Location loc) {
         final UUID uuid = getHook().getIslandOwner(loc);

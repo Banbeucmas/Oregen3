@@ -3,7 +3,6 @@ package me.banbeucmas.oregen3.listeners;
 import com.cryptomorin.xseries.XSound;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.Generator;
-import me.banbeucmas.oregen3.utils.PluginUtils;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -15,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFromToEvent;
 
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static me.banbeucmas.oregen3.utils.BlockUtils.*;
 
@@ -69,7 +69,7 @@ public class BlockListener implements Listener {
 
     static Material randomChance(final Generator mc, final ConfigurationSection config) {
         final Map<Material, Double> chances = mc.getChances();
-        double chance = 100 * PluginUtils.RANDOM.nextDouble();
+        double chance = 100 * ThreadLocalRandom.current().nextDouble();
         if (!config.getBoolean("randomFallback")) {
             for (final Map.Entry<Material, Double> entry : chances.entrySet()) {
                 chance -= entry.getValue();
@@ -79,7 +79,7 @@ public class BlockListener implements Listener {
             }
         }
         else {
-            final int id = PluginUtils.RANDOM.nextInt(chances.size());
+            final int id = ThreadLocalRandom.current().nextInt(chances.size());
             final Material mat = (Material) chances.keySet().toArray()[id];
             if (chance <= mc.getChances().get(mat)) {
                 return mat;
