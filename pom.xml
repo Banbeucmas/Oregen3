@@ -172,7 +172,7 @@
         <dependency>
             <groupId>com.github.OmerBenGera</groupId>
             <artifactId>SuperiorSkyblockAPI</artifactId>
-            <version>b12</version>
+            <version>b18</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
