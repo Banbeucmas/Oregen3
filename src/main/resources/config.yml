@@ -8,7 +8,6 @@
 #      random: list of blocks that will randomly be chosen upon generating ores
 #    optional options: options that are optionally provided, the generator will still work normally if missing
 #      permission: the permission it will use instead of the default provided one, defaults to oregen3.generator.<generator name> if missing
-#      fallback: the block it will pick if all other block are not chosen, defaults to COBBLESTONE if missing
 #      sound: sound option that the block will cast if present
 #        name: name of the sound, defaults to BLOCK_FIRE_EXTINGUISH if missing
 #        volume: volume of the sound, defaults to 1 if missing
@@ -40,7 +39,6 @@ blocks:
 
 #Will the plugin try to find a skyblock plugin to enable owner's permission feature?
 enableDependency: true
-randomFallback: false
 defaultGenerator: default
 
 hooks:
@@ -85,19 +83,13 @@ generators:
   default:
     #Generator name that will be shown in placeholders
     name: "My default"
-    fallback: COBBLESTONE
     random:
       COBBLESTONE: 30.0
       GOLD_BLOCK: 20.0
       IRON_BLOCK: 15.0
       LAPIS_BLOCK: 2.0
-    sound:
-      name: BLOCK_FIRE_EXTINGUISH
-      volume: 3
-      pitch: 2
   vip:
     name: "VIP generator"
-    fallback: COBBLESTONE
     permission: test.vip
     priority: 2
     level: 10
@@ -118,7 +110,6 @@ generators:
       - world1
       - world2
   mvp:
-    fallback: DIAMOND_ORE
     priority: 3
     level: 10
     random:

@@ -13,7 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFromToEvent;
 
-import java.util.Map;
+import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static me.banbeucmas.oregen3.utils.BlockUtils.*;
@@ -67,25 +67,13 @@ public class BlockListener implements Listener {
         return false;
     }
 
-    static Material randomChance(final Generator mc, final ConfigurationSection config) {
-        final Map<Material, Double> chances = mc.getChances();
-        double chance = 100 * ThreadLocalRandom.current().nextDouble();
-        if (!config.getBoolean("randomFallback")) {
-            for (final Map.Entry<Material, Double> entry : chances.entrySet()) {
-                chance -= entry.getValue();
-                if (chance <= 0) {
-                    return entry.getKey();
-                }
-            }
+    static Material randomChance(final Generator mc) {
+        final Double chance = ThreadLocalRandom.current().nextDouble(mc.getTotalChance());
+        int chosenBlock = Arrays.binarySearch(mc.getChancesList(), chance);
+        if (chosenBlock < 0) {
+            chosenBlock = -(chosenBlock + 1);
         }
-        else {
-            final int id = ThreadLocalRandom.current().nextInt(chances.size());
-            final Material mat = (Material) chances.keySet().toArray()[id];
-            if (chance <= mc.getChances().get(mat)) {
-                return mat;
-            }
-        }
-        return mc.getFallback();
+        return mc.getMaterialList()[chosenBlock];
     }
 
     @EventHandler

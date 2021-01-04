@@ -54,7 +54,7 @@ public class GeneratorList implements InventoryHolder, InventoryHandler {
         }
 
         choosers.forEach((id, chooser) -> {
-            final ItemStack display = new ItemStack(chooser.getFallback());
+            final ItemStack display = new ItemStack(Material.COBBLESTONE);
             final ItemMeta meta = display.getItemMeta();
 
             meta.setDisplayName("§r" + id);

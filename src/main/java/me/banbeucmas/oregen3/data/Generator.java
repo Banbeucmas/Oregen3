@@ -15,7 +15,9 @@ public class Generator {
     private final String permission;
     private final String name;
     private final Map<Material, Double> chances = new EnumMap<>(Material.class);
-    private final Material fallback;
+    private final Material[] materialList;
+    private final Double[] chancesList;
+    private double totalChance = 0;
     private boolean soundEnabled;
     private Sound sound;
     private float soundVolume;
@@ -29,7 +31,6 @@ public class Generator {
         final ConfigurationSection path = Oregen3.getPlugin().getConfig().getConfigurationSection("generators." + id);
 
         name = path.getString("name", id);
-        fallback   = Material.matchMaterial(path.getString("fallback", "COBBLESTONE"));
         permission = path.getString("permission", "oregen3.generator." + id);
         priority   = path.getLong("priority", 0);
         level      = path.getDouble("level", 0);
@@ -44,8 +45,18 @@ public class Generator {
             worldBlacklist = path.getBoolean("world.blacklist", true);
             worldList      = new HashSet<>(path.getStringList("world.list"));
         }
-        for (final String mat : path.getConfigurationSection("random").getKeys(false)) {
-            chances.put(Material.matchMaterial(mat), path.getDouble("random." + mat));
+        final Set<String> randomList = path.getConfigurationSection("random").getKeys(false);
+        chancesList = new Double[randomList.size()];
+        materialList = new Material[randomList.size()];
+        int i = 0;
+        for (final String mat : randomList) {
+            final double chance = path.getDouble("random." + mat);
+            final Material material = Material.matchMaterial(mat);
+            chances.put(material, chance);
+            totalChance += chance;
+            chancesList[i] = totalChance;
+            materialList[i] = material;
+            i++;
         }
     }
 
@@ -69,8 +80,16 @@ public class Generator {
         return level;
     }
 
-    public Material getFallback() {
-        return fallback;
+    public double getTotalChance() {
+        return totalChance;
+    }
+
+    public Double[] getChancesList() {
+        return chancesList;
+    }
+
+    public Material[] getMaterialList() {
+        return materialList;
     }
 
     public Map<Material, Double> getChances() {

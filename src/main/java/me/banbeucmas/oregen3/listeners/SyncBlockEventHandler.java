@@ -12,7 +12,7 @@ public class SyncBlockEventHandler implements BlockEventHandler {
         final Generator mc = PluginUtils.getChooser(source.getLocation());
         if (mc.isWorldEnabled() && mc.getWorldList().contains(to.getWorld().getName()) == mc.isWorldBlacklist())
             return;
-        to.setType(BlockListener.randomChance(mc, config));
+        to.setType(BlockListener.randomChance(mc));
         BlockListener.sendBlockEffect(world, to, config, mc);
     }
 }

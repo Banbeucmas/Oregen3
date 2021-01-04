@@ -16,7 +16,7 @@ public class AsyncBlockEventHandler implements BlockEventHandler {
             if (mc.isWorldEnabled() && mc.getWorldList().contains(to.getWorld().getName()) == mc.isWorldBlacklist())
                 return;
             Bukkit.getScheduler().runTask(Oregen3.getPlugin(), () -> {
-                to.setType(BlockListener.randomChance(mc, config));
+                to.setType(BlockListener.randomChance(mc));
                 BlockListener.sendBlockEffect(world, to, config, mc);
             });
         });
