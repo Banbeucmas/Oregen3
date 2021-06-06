@@ -28,7 +28,7 @@ public class GeneratorMaterialList implements InventoryHolder, InventoryHandler 
 
     public GeneratorMaterialList(final Location location, final OfflinePlayer player) {
         int size = 9;
-        final Generator mc = PluginUtils.getChooser(location);
+        final Generator mc = PluginUtils.getChosenGenerator(location);
         final Map<Material, Double> chances = mc.getChances();
         if (chances.size() > size) {
             size *= chances.size() / size + 1;
@@ -58,7 +58,7 @@ public class GeneratorMaterialList implements InventoryHolder, InventoryHandler 
 
     public GeneratorMaterialList(final UUID uuid, final OfflinePlayer player) {
         int size = 9;
-        final Generator mc = PluginUtils.getChooser(uuid);
+        final Generator mc = PluginUtils.getChosenGenerator(uuid);
         final Map<Material, Double> chances = mc.getChances();
         if (chances.size() > size) {
             size *= chances.size() / size + 1;

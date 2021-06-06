@@ -1,4 +1,4 @@
-package me.banbeucmas.oregen3.listeners;
+package me.banbeucmas.oregen3.handlers.event;
 
 import org.bukkit.World;
 import org.bukkit.block.Block;

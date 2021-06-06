@@ -1,14 +1,17 @@
 package me.banbeucmas.oregen3.utils;
 
+import com.cryptomorin.xseries.XSound;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.data.Generator;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static me.banbeucmas.oregen3.Oregen3.getHook;
 import static me.banbeucmas.oregen3.Oregen3.getPlugin;
@@ -31,30 +34,49 @@ public class PluginUtils {
         return Bukkit.getServer().getOfflinePlayer(p);
     }
 
-    public static Generator getChooser(final Location loc) {
+    public static Generator getChosenGenerator(final Location loc) {
         Generator mc = DataManager.getChoosers().get(getPlugin().getConfig().getString("defaultGenerator", ""));
-        if (getPlugin().getConfig().getBoolean("hooks.skyblock.getLowestGenerator", false)) {
-            Generator lowestChooser = null;
-            for (final UUID uuid : getHook().getMembers(Objects.requireNonNull(getOwner(loc)).getUniqueId())) {
-                final OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
-                final Generator chooser = getMaterialChooser(loc, mc, p);
-                if (lowestChooser == null || lowestChooser.getPriority() > chooser.getPriority()) {
-                    lowestChooser = chooser;
+        switch (getPlugin().getConfig().getString("hooks.skyblock.getGeneratorMode", "owner")) {
+            case "owner": {
+                final OfflinePlayer p = getOwner(loc);
+                if (p == null) {
+                    break;
                 }
+                return getMaterialChooser(loc, mc, p);
             }
-            return lowestChooser;
-        }
-        if (getPlugin().hasDependency()) {
-            final OfflinePlayer p = getOwner(loc);
-            if (p == null) {
-                return mc;
+            case "lowest": {
+                Generator lowestGen = null;
+                for (final UUID uuid : getHook().getMembers(Objects.requireNonNull(getOwner(loc)).getUniqueId())) {
+                    final OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
+                    final Generator chosen = getMaterialChooser(loc, mc, p);
+                    if (lowestGen == null || lowestGen.getPriority() > chosen.getPriority()) {
+                        lowestGen = chosen;
+                    }
+                }
+                if (lowestGen == null) {
+                    break;
+                }
+                return lowestGen;
             }
-            mc = getMaterialChooser(loc, mc, p);
+            case "highest": {
+                Generator highestGen = null;
+                for (final UUID uuid : getHook().getMembers(Objects.requireNonNull(getOwner(loc)).getUniqueId())) {
+                    final OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
+                    final Generator chosen = getMaterialChooser(loc, mc, p);
+                    if (highestGen == null || highestGen.getPriority() < chosen.getPriority()) {
+                        highestGen = chosen;
+                    }
+                }
+                if (highestGen == null) {
+                    break;
+                }
+                return highestGen;
+            }
         }
         return mc;
     }
 
-    public static Generator getChooser(final UUID uuid) {
+    public static Generator getChosenGenerator(final UUID uuid) {
         Generator mc = DataManager.getChoosers().get(getPlugin().getConfig().getString("defaultGenerator"));
         if (getPlugin().hasDependency()) {
             final UUID p = getHook().getIslandOwner(uuid);
@@ -83,5 +105,26 @@ public class PluginUtils {
             }
         }
         return mc;
+    }
+
+    public static void sendBlockEffect(final World world, final Block to, final FileConfiguration config, final Generator mc) {
+        if (mc.isSoundEnabled())
+            world.playSound(to.getLocation(), mc.getSound(), mc.getSoundVolume(), mc.getSoundPitch());
+        else if (config.getBoolean("global.generators.sound.enabled", false)) {
+            world.playSound(to.getLocation(),
+                            XSound.matchXSound(config.getString("global.generators.sound.name", "BLOCK_FIRE_EXTINGUISH")).map(XSound::parseSound).orElse(XSound.BLOCK_FIRE_EXTINGUISH.parseSound()),
+                            (float) config.getDouble("global.generators.sound.volume", 1),
+                            (float) config.getDouble("global.generators.sound.pitch", 1)
+            );
+        }
+    }
+
+    public static Material randomChance(final Generator mc) {
+        final Double chance = ThreadLocalRandom.current().nextDouble(mc.getTotalChance());
+        int chosenBlock = Arrays.binarySearch(mc.getChancesList(), chance);
+        if (chosenBlock < 0) {
+            chosenBlock = -(chosenBlock + 1);
+        }
+        return mc.getMaterialList()[chosenBlock];
     }
 }

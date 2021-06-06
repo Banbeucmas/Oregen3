@@ -20,8 +20,7 @@ public class ReloadCommand extends AbstractCommand {
             return ExecutionResult.NO_PERMISSION;
         }
 
-        getPlugin().updateConfig();
-        DataManager.loadData();
+        getPlugin().reload();
         getSender().sendMessage(StringUtils.getPrefixString("Config reloaded", getPlayer()));
         return ExecutionResult.SUCCESS;
     }

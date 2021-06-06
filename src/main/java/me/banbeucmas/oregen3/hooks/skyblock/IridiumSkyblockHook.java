@@ -1,42 +1,40 @@
 package me.banbeucmas.oregen3.hooks.skyblock;
 
-import com.iridium.iridiumskyblock.IridiumSkyblock;
-import com.iridium.iridiumskyblock.Island;
-import com.iridium.iridiumskyblock.User;
-import com.iridium.iridiumskyblock.managers.IslandManager;
+import com.iridium.iridiumskyblock.api.IridiumSkyblockAPI;
+import com.iridium.iridiumskyblock.database.Island;
+import com.iridium.iridiumskyblock.database.User;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class IridiumSkyblockHook implements SkyblockHook {
 
     @Override
     public double getIslandLevel(final UUID uuid, final Location loc) {
-        final Island island = User.getUser(uuid).getIsland();
-        return island == null ? 0 : island.value / IridiumSkyblock.getConfiguration().valuePerLevel;
+        return IridiumSkyblockAPI.getInstance().getUser(Bukkit.getOfflinePlayer(uuid)).getIsland().map(Island::getValue).orElse(0.0);
     }
 
     @Override
     public UUID getIslandOwner(final Location loc) {
-        final Island island = IslandManager.getIslandViaLocation(loc);
-        return island == null ? null : UUID.fromString(island.owner);
+        return IridiumSkyblockAPI.getInstance().getIslandViaLocation(loc).map(value -> value.getOwner().getUuid()).orElse(null);
     }
 
     @Override
     public UUID getIslandOwner(final UUID uuid) {
-        final Island island = User.getUser(uuid).getIsland();
-        return island == null ? null : UUID.fromString(island.owner);
+        return IridiumSkyblockAPI.getInstance().getUser(Bukkit.getOfflinePlayer(uuid)).getIsland().map(value -> value.getOwner().getUuid()).orElse(null);
     }
 
     @Override
     public List<UUID> getMembers(final UUID uuid) {
-        final Island island = User.getUser(uuid).getIsland();
-        if (island == null) return null;
+        final Optional<Island> island = IridiumSkyblockAPI.getInstance().getUser(Bukkit.getOfflinePlayer(uuid)).getIsland();
+        if (!island.isPresent()) return null;
         final List<UUID> list = new ArrayList<>();
-        for (final String member : island.members) {
-            list.add(UUID.fromString(member));
+        for (final User member : island.get().getMembers()) {
+            list.add(member.getUuid());
         }
         return list;
     }

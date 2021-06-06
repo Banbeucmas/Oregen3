@@ -29,6 +29,7 @@ mode:
   waterBlock: true
   lavaBlock: false
   waterLava: true
+  waterWater: false
 
 blocks:
 - FENCE
@@ -43,7 +44,8 @@ defaultGenerator: default
 
 hooks:
   skyblock:
-    getLowestGenerator: false
+    #You can choose between owner, lowest and highest
+    getGeneratorMode: owner
   Vault:
     #Will the plugin force to use async permission lookup? Change to true if you have problems using the non-async one
     forceAsync: false
@@ -78,6 +80,8 @@ global:
       name: BLOCK_FIRE_EXTINGUISH
       volume: 3
       pitch: 2
+    #Set to 0 to disable
+    maxBlockPlacePerTick: 0
 
 generators:
   default:

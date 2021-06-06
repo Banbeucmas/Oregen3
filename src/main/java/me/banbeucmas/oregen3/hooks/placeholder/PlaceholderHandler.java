@@ -16,14 +16,14 @@ public class PlaceholderHandler extends PlaceholderExpansion {
 
     static {
         identifierHandlers.put("generator", (player, params) -> {
-            final Generator chooser = PluginUtils.getChooser(player.getUniqueId());
+            final Generator chooser = PluginUtils.getChosenGenerator(player.getUniqueId());
             return chooser != null ? chooser.getName() : "";
         });
         identifierHandlers.put("random", (player, params) -> {
             if (params.length < 2) return "0";
             final Material material = Material.matchMaterial(params[1]);
             if (material == null) return "0";
-            final Generator chooser = PluginUtils.getChooser(player.getUniqueId());
+            final Generator chooser = PluginUtils.getChosenGenerator(player.getUniqueId());
             if (chooser == null)
                 return "0";
             final Map<Material, Double> chances = chooser.getChances();

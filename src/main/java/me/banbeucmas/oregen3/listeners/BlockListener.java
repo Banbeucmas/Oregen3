@@ -1,8 +1,7 @@
 package me.banbeucmas.oregen3.listeners;
 
-import com.cryptomorin.xseries.XSound;
 import me.banbeucmas.oregen3.Oregen3;
-import me.banbeucmas.oregen3.data.Generator;
+import me.banbeucmas.oregen3.handlers.event.BlockEventHandler;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -13,25 +12,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFromToEvent;
 
-import java.util.Arrays;
-import java.util.concurrent.ThreadLocalRandom;
-
 import static me.banbeucmas.oregen3.utils.BlockUtils.*;
 
 public class BlockListener implements Listener {
-    private final FileConfiguration config = Oregen3.getPlugin().getConfig();
-    private final BlockEventHandler eventHandler = Oregen3.getEventHandler();
+    private final FileConfiguration config;
+    private final BlockEventHandler eventHandler;
 
-    static void sendBlockEffect(final World world, final Block to, final FileConfiguration config, final Generator mc) {
-        if (mc.isSoundEnabled())
-            world.playSound(to.getLocation(), mc.getSound(), mc.getSoundVolume(), mc.getSoundPitch());
-        else if (config.getBoolean("global.generators.sound.enabled", false)) {
-            world.playSound(to.getLocation(),
-                            XSound.matchXSound(config.getString("global.generators.sound.name", "BLOCK_FIRE_EXTINGUISH")).map(XSound::parseSound).orElse(XSound.BLOCK_FIRE_EXTINGUISH.parseSound()),
-                            (float) config.getDouble("global.generators.sound.volume", 1),
-                            (float) config.getDouble("global.generators.sound.pitch", 1)
-            );
-        }
+    public BlockListener(final Oregen3 plugin) {
+        this.config = plugin.getConfig();
+        this.eventHandler = plugin.getEventHandler();
     }
 
     private boolean canGenerateBlock(final Block src, final Block to, final ConfigurationSection config) {
@@ -65,15 +54,6 @@ public class BlockListener implements Listener {
             }
         }
         return false;
-    }
-
-    static Material randomChance(final Generator mc) {
-        final Double chance = ThreadLocalRandom.current().nextDouble(mc.getTotalChance());
-        int chosenBlock = Arrays.binarySearch(mc.getChancesList(), chance);
-        if (chosenBlock < 0) {
-            chosenBlock = -(chosenBlock + 1);
-        }
-        return mc.getMaterialList()[chosenBlock];
     }
 
     @EventHandler

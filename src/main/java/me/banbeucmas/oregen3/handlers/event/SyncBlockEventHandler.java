@@ -1,4 +1,4 @@
-package me.banbeucmas.oregen3.listeners;
+package me.banbeucmas.oregen3.handlers.event;
 
 import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.utils.PluginUtils;
@@ -9,10 +9,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 public class SyncBlockEventHandler implements BlockEventHandler {
     @Override
     public void generateBlock(final World world, final Block source, final Block to, final FileConfiguration config) {
-        final Generator mc = PluginUtils.getChooser(source.getLocation());
+        final Generator mc = PluginUtils.getChosenGenerator(source.getLocation());
         if (mc.isWorldEnabled() && mc.getWorldList().contains(to.getWorld().getName()) == mc.isWorldBlacklist())
             return;
-        to.setType(BlockListener.randomChance(mc));
-        BlockListener.sendBlockEffect(world, to, config, mc);
+        to.setType(PluginUtils.randomChance(mc));
+        PluginUtils.sendBlockEffect(world, to, config, mc);
     }
 }

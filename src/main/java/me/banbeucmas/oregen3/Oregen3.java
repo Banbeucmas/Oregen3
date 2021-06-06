@@ -6,6 +6,12 @@ import me.banbeucmas.oregen3.data.permission.AsyncVaultPermission;
 import me.banbeucmas.oregen3.data.permission.DefaultPermission;
 import me.banbeucmas.oregen3.data.permission.PermissionManager;
 import me.banbeucmas.oregen3.data.permission.VaultPermission;
+import me.banbeucmas.oregen3.handlers.block.BlockPlaceHandler;
+import me.banbeucmas.oregen3.handlers.block.LimitedBlockPlaceHandler;
+import me.banbeucmas.oregen3.handlers.block.NormalBlockPlaceHandler;
+import me.banbeucmas.oregen3.handlers.event.AsyncBlockEventHandler;
+import me.banbeucmas.oregen3.handlers.event.BlockEventHandler;
+import me.banbeucmas.oregen3.handlers.event.SyncBlockEventHandler;
 import me.banbeucmas.oregen3.hooks.placeholder.PlaceholderHandler;
 import me.banbeucmas.oregen3.hooks.skyblock.*;
 import me.banbeucmas.oregen3.listeners.*;
@@ -27,6 +33,7 @@ public final class Oregen3 extends JavaPlugin {
     private static Permission perm;
     private static PermissionManager permissionManager;
     private static BlockEventHandler eventHandler;
+    private static BlockPlaceHandler blockPlaceHandler;
     public boolean papi;
     public boolean mvdw;
     private boolean hasDependency = true;
@@ -35,7 +42,7 @@ public final class Oregen3 extends JavaPlugin {
         return hasDependency;
     }
 
-    public static BlockEventHandler getEventHandler() {
+    public BlockEventHandler getEventHandler() {
         return eventHandler;
     }
 
@@ -64,7 +71,12 @@ public final class Oregen3 extends JavaPlugin {
         reloadConfig();
         final FileConfiguration config = getConfig();
         eventHandler = config.getBoolean("global.listener.asyncListener", false) ?
-                new AsyncBlockEventHandler() : new SyncBlockEventHandler();
+                new AsyncBlockEventHandler(this) : new SyncBlockEventHandler();
+        if (blockPlaceHandler != null) {
+            blockPlaceHandler.stop();
+        }
+        blockPlaceHandler = config.getLong("global.generators.maxBlockPlacePerTick", -1) > 0 ?
+                new LimitedBlockPlaceHandler(this) : new NormalBlockPlaceHandler();
     }
 
     @Override
@@ -92,8 +104,13 @@ public final class Oregen3 extends JavaPlugin {
         command.setExecutor(new CommandHandler());
         command.setTabCompleter(new CommandHandler());
 
-        getServer().getPluginManager().registerEvents(new BlockListener(), this);
+        getServer().getPluginManager().registerEvents(new BlockListener(this), this);
         getServer().getPluginManager().registerEvents(new InventoryListener(), this);
+    }
+
+    public void reload() {
+        updateConfig();
+        DataManager.loadData();
     }
 
     private void checkDependency() {
@@ -144,13 +161,13 @@ public final class Oregen3 extends JavaPlugin {
             perm              = getServer().getServicesManager().getRegistration(Permission.class).getProvider();
             permissionManager = new VaultPermission();
             if (getConfig().getBoolean("hooks.Vault.forceAsync")) {
-                permissionManager = new AsyncVaultPermission();
+                permissionManager = new AsyncVaultPermission(this);
             }
             else {
                 Bukkit.getScheduler().runTask(this, () -> {
                     for (final String s : getConfig().getStringList("hooks.Vault.pluginAsyncList")) {
                         if (getServer().getPluginManager().isPluginEnabled(s)) {
-                            permissionManager = new AsyncVaultPermission();
+                            permissionManager = new AsyncVaultPermission(this);
                             break;
                         }
                     }

@@ -18,16 +18,18 @@ import java.util.HashSet;
 import java.util.Map;
 
 public class AsyncVaultPermission implements PermissionManager, Listener {
-    private final Map<String, HashSet<String>> permlist = new HashMap<>();
+    private final Oregen3 plugin;
+    private final Map<String, HashSet<String>> permissionList = new HashMap<>();
 
-    public AsyncVaultPermission() {
-        Bukkit.getPluginManager().registerEvents(this, Oregen3.getPlugin());
+    public AsyncVaultPermission(final Oregen3 plugin) {
+        this.plugin = plugin;
+        Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
     @Override
     public boolean checkPerm(final String world, final OfflinePlayer player, final String permission) {
         checkContains(player.getName());
-        final HashSet<String> list = permlist.get(player.getName());
+        final HashSet<String> list = permissionList.get(player.getName());
 
         if (player.isOnline()) {
             if (!list.contains(permission) && Oregen3.getPerm().playerHas(player.getPlayer(), permission))
@@ -44,7 +46,7 @@ public class AsyncVaultPermission implements PermissionManager, Listener {
                     else if (list.contains(permission) && !Oregen3.getPerm().playerHas(world, player, permission))
                         list.remove(permission);
                 }
-            }.runTaskAsynchronously(Oregen3.getPlugin());
+            }.runTaskAsynchronously(plugin);
         }
 
         return list.contains(permission);
@@ -59,12 +61,12 @@ public class AsyncVaultPermission implements PermissionManager, Listener {
                     checkPerm(null, player, chooser.getPermission());
                 }
             }
-        }.runTaskAsynchronously(Oregen3.getPlugin());
+        }.runTaskAsynchronously(plugin);
     }
 
     private void checkContains(final String player) {
-        if (!permlist.containsKey(player)) {
-            permlist.put(player, new HashSet<>());
+        if (!permissionList.containsKey(player)) {
+            permissionList.put(player, new HashSet<>());
         }
     }
 

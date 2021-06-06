@@ -62,11 +62,6 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
-            <id>bintray-tastybento-maven-repo</id>
-            <name>bintray</name>
-            <url>http://dl.bintray.com/tastybento/maven-repo</url>
-        </repository>
-        <repository>
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
@@ -155,7 +150,8 @@
             <groupId>com.wasteofplastic</groupId>
             <artifactId>acidisland</artifactId>
             <version>3.0.9.4</version>
-            <scope>provided</scope>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/acidisland.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.github.rlf</groupId>

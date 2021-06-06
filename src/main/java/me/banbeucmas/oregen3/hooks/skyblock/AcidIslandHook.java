@@ -16,7 +16,7 @@ public class AcidIslandHook implements SkyblockHook {
 
     @Override
     public double getIslandLevel(final UUID uuid, final Location loc) {
-        return api.getIslandLevel(uuid);
+        return api.getLongIslandLevel(uuid);
     }
 
     @Override
