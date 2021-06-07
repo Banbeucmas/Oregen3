@@ -1,5 +1,6 @@
 package me.banbeucmas.oregen3.handlers.event;
 
+import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.utils.PluginUtils;
 import org.bukkit.Bukkit;
@@ -24,7 +25,7 @@ public class AsyncBlockEventHandler implements BlockEventHandler {
                 return;
             PluginUtils.sendBlockEffect(world, to, config, mc);
             final Material randomMaterial = PluginUtils.randomChance(mc);
-            Bukkit.getScheduler().runTask(plugin, () -> to.setType(randomMaterial));
+            Oregen3.getBlockPlaceHandler().placeBlock(to, randomMaterial);
         });
     }
 

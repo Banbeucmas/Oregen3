@@ -67,6 +67,10 @@ public final class Oregen3 extends JavaPlugin {
         return permissionManager;
     }
 
+    public static BlockPlaceHandler getBlockPlaceHandler() {
+        return blockPlaceHandler;
+    }
+
     public void updateConfig() {
         reloadConfig();
         final FileConfiguration config = getConfig();

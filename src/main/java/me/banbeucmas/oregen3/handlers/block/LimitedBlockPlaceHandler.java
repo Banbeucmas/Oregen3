@@ -6,17 +6,18 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.ArrayDeque;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class LimitedBlockPlaceHandler implements BlockPlaceHandler {
-    private Queue<BlockPlaceTask> tasks = new ArrayDeque<>();
+    private Queue<BlockPlaceTask> tasks = new ConcurrentLinkedQueue<>();
     private BukkitTask task;
     private long maxBlockPlacePerTick;
 
     public LimitedBlockPlaceHandler(Oregen3 plugin) {
         maxBlockPlacePerTick = plugin.getConfig().getLong("global.generators.maxBlockPlacePerTick", -1);
         task = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+            //Bukkit.getLogger().info("Total size: " + tasks.size());
             long blockPlaced = 0;
             while (!tasks.isEmpty() && blockPlaced < maxBlockPlacePerTick) {
                 BlockPlaceTask blockPlace = tasks.poll();

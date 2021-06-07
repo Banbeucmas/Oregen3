@@ -1,5 +1,6 @@
 package me.banbeucmas.oregen3.handlers.event;
 
+import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.utils.PluginUtils;
 import org.bukkit.World;
@@ -12,7 +13,7 @@ public class SyncBlockEventHandler implements BlockEventHandler {
         final Generator mc = PluginUtils.getChosenGenerator(source.getLocation());
         if (mc.isWorldEnabled() && mc.getWorldList().contains(to.getWorld().getName()) == mc.isWorldBlacklist())
             return;
-        to.setType(PluginUtils.randomChance(mc));
+        Oregen3.getBlockPlaceHandler().placeBlock(to, PluginUtils.randomChance(mc));
         PluginUtils.sendBlockEffect(world, to, config, mc);
     }
 }
