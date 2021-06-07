@@ -29,6 +29,10 @@ public class LimitedBlockPlaceHandler implements BlockPlaceHandler {
 
     public void stop() {
         task.cancel();
+        while (!tasks.isEmpty()) {
+            BlockPlaceTask blockPlace = tasks.poll();
+            blockPlace.block.setType(blockPlace.material);
+        }
     }
 
     @Override
