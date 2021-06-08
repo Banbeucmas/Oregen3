@@ -37,6 +37,11 @@ public class BlockListener implements Listener {
                     && config.getBoolean("mode.lavaBlock")) {
                 return true;
             }
+            else if (isWater(check.getType())
+                    && (isWater(material))
+                    && config.getBoolean("mode.waterWater")) {
+                return true;
+            }
         }
         return false;
     }
