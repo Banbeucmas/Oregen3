@@ -45,9 +45,11 @@ public class PluginUtils {
                 return getMaterialChooser(loc, mc, p);
             }
             case "lowest": {
+                boolean ignore = getPlugin().getConfig().getBoolean("hooks.skyblock.ignoreOfflinePlayers", false);
                 Generator lowestGen = null;
                 for (final UUID uuid : getHook().getMembers(Objects.requireNonNull(getOwner(loc)).getUniqueId())) {
                     final OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
+                    if (ignore && !p.isOnline()) continue;
                     final Generator chosen = getMaterialChooser(loc, mc, p);
                     if (lowestGen == null || lowestGen.getPriority() > chosen.getPriority()) {
                         lowestGen = chosen;
@@ -59,9 +61,11 @@ public class PluginUtils {
                 return lowestGen;
             }
             case "highest": {
+                boolean ignore = getPlugin().getConfig().getBoolean("hooks.skyblock.ignoreOfflinePlayers", false);
                 Generator highestGen = null;
                 for (final UUID uuid : getHook().getMembers(Objects.requireNonNull(getOwner(loc)).getUniqueId())) {
                     final OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
+                    if (ignore && !p.isOnline()) continue;
                     final Generator chosen = getMaterialChooser(loc, mc, p);
                     if (highestGen == null || highestGen.getPriority() < chosen.getPriority()) {
                         highestGen = chosen;

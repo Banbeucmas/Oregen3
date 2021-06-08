@@ -46,6 +46,8 @@ hooks:
   skyblock:
     #You can choose between owner, lowest and highest
     getGeneratorMode: owner
+    #Only works on lowest and highest mode
+    ignoreOfflinePlayers: false
   Vault:
     #Will the plugin force to use async permission lookup? Change to true if you have problems using the non-async one
     forceAsync: false
