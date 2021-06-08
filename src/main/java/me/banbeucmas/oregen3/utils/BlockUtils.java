@@ -1,5 +1,6 @@
 package me.banbeucmas.oregen3.utils;
 
+import com.cryptomorin.xseries.XBlock;
 import me.banbeucmas.oregen3.Oregen3;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -30,13 +31,11 @@ public class BlockUtils {
     }
 
     public static boolean isWater(final Material material) {
-        final String name = material.name();
-        return name.equals("WATER") || name.equals("STATIONARY_WATER");
+        return XBlock.isWater(material);
     }
 
     public static boolean isLava(final Material material) {
-        final String name = material.name();
-        return name.equals("LAVA") || name.equals("STATIONARY_LAVA");
+        return XBlock.isLava(material);
     }
 
     public static boolean isSurroundedByWater(final Location loc) {

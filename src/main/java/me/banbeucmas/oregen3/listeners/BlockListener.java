@@ -6,7 +6,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,7 +22,7 @@ public class BlockListener implements Listener {
         this.eventHandler = plugin.getEventHandler();
     }
 
-    private boolean canGenerateBlock(final Block src, final Block to, final ConfigurationSection config) {
+    private boolean canGenerateBlock(final Block src, final Block to) {
         final Material material = src.getType();
         for (final BlockFace face : FACES) {
             final Block check = to.getRelative(face);
@@ -37,11 +36,6 @@ public class BlockListener implements Listener {
                     && config.getBoolean("mode.lavaBlock")) {
                 return true;
             }
-            else if (isWater(check.getType())
-                    && (isWater(material))
-                    && config.getBoolean("mode.waterWater")) {
-                return true;
-            }
         }
         return false;
     }
@@ -49,10 +43,10 @@ public class BlockListener implements Listener {
     /*
     Checks for Water + Lava, block will use another method to prevent confusion
      */
-    private boolean canGenerate(final Material material, final Block b, final ConfigurationSection config) {
+    private boolean canGenerate(final Material material, final Block b) {
         final boolean check = isWater(material);
         for (final BlockFace face : FACES) {
-            final Material type = b.getRelative(face, 1).getType();
+            final Material type = b.getRelative(face).getType();
             if (((check && isLava(type)) || (!check && isWater(type)))
                     && config.getBoolean("mode.waterLava")) {
                 return true;
@@ -80,7 +74,7 @@ public class BlockListener implements Listener {
         if (isWater(sourceMaterial) || isLava(sourceMaterial)) {
             if ((toMaterial == Material.AIR || isWater(toMaterial))
                     && sourceMaterial != Material.STATIONARY_WATER
-                    && canGenerate(sourceMaterial, to, config)
+                    && canGenerate(sourceMaterial, to)
                     && event.getFace() != BlockFace.DOWN) {
                 if (isLava(sourceMaterial) && !isSurroundedByWater(to.getLocation())) {
                     return;
@@ -88,7 +82,7 @@ public class BlockListener implements Listener {
                 event.setCancelled(true);
                 eventHandler.generateBlock(world, source, to, config);
             }
-            else if (canGenerateBlock(source, to, config)) {
+            else if (canGenerateBlock(source, to)) {
                 event.setCancelled(true);
                 eventHandler.generateBlock(world, source, to, config);
             }

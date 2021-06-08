@@ -29,7 +29,6 @@ mode:
   waterBlock: true
   lavaBlock: false
   waterLava: true
-  waterWater: false
 
 blocks:
 - FENCE
