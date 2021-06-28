@@ -9,12 +9,12 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class LimitedBlockPlaceHandler implements BlockPlaceHandler {
+public class LimitedBlockPlacer implements BlockPlacer {
     private Queue<BlockPlaceTask> tasks = new ConcurrentLinkedQueue<>();
     private BukkitTask task;
     private long maxBlockPlacePerTick;
 
-    public LimitedBlockPlaceHandler(Oregen3 plugin) {
+    public LimitedBlockPlacer(Oregen3 plugin) {
         maxBlockPlacePerTick = plugin.getConfig().getLong("global.generators.maxBlockPlacePerTick", -1);
         task = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
             //Bukkit.getLogger().info("Total size: " + tasks.size());

@@ -6,9 +6,9 @@ import me.banbeucmas.oregen3.data.permission.AsyncVaultPermission;
 import me.banbeucmas.oregen3.data.permission.DefaultPermission;
 import me.banbeucmas.oregen3.data.permission.PermissionManager;
 import me.banbeucmas.oregen3.data.permission.VaultPermission;
-import me.banbeucmas.oregen3.handlers.block.BlockPlaceHandler;
-import me.banbeucmas.oregen3.handlers.block.LimitedBlockPlaceHandler;
-import me.banbeucmas.oregen3.handlers.block.NormalBlockPlaceHandler;
+import me.banbeucmas.oregen3.handlers.block.BlockPlacer;
+import me.banbeucmas.oregen3.handlers.block.LimitedBlockPlacer;
+import me.banbeucmas.oregen3.handlers.block.NormalBlockPlacer;
 import me.banbeucmas.oregen3.handlers.event.AsyncBlockEventHandler;
 import me.banbeucmas.oregen3.handlers.event.BlockEventHandler;
 import me.banbeucmas.oregen3.handlers.event.SyncBlockEventHandler;
@@ -33,7 +33,7 @@ public final class Oregen3 extends JavaPlugin {
     private static Permission perm;
     private static PermissionManager permissionManager;
     private static BlockEventHandler eventHandler;
-    private static BlockPlaceHandler blockPlaceHandler;
+    private static BlockPlacer blockPlacer;
     public boolean papi;
     public boolean mvdw;
     private boolean hasDependency = true;
@@ -67,8 +67,8 @@ public final class Oregen3 extends JavaPlugin {
         return permissionManager;
     }
 
-    public static BlockPlaceHandler getBlockPlaceHandler() {
-        return blockPlaceHandler;
+    public static BlockPlacer getBlockPlaceHandler() {
+        return blockPlacer;
     }
 
     public void updateConfig() {
@@ -76,11 +76,11 @@ public final class Oregen3 extends JavaPlugin {
         final FileConfiguration config = getConfig();
         eventHandler = config.getBoolean("global.listener.asyncListener", false) ?
                 new AsyncBlockEventHandler(this) : new SyncBlockEventHandler();
-        if (blockPlaceHandler != null) {
-            blockPlaceHandler.stop();
+        if (blockPlacer != null) {
+            blockPlacer.stop();
         }
-        blockPlaceHandler = config.getLong("global.generators.maxBlockPlacePerTick", -1) > 0 ?
-                new LimitedBlockPlaceHandler(this) : new NormalBlockPlaceHandler();
+        blockPlacer = config.getLong("global.generators.maxBlockPlacePerTick", -1) > 0 ?
+                new LimitedBlockPlacer(this) : new NormalBlockPlacer();
     }
 
     @Override
