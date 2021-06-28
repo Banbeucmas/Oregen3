@@ -1,5 +1,6 @@
 package me.banbeucmas.oregen3.listeners;
 
+import com.cryptomorin.xseries.XBlock;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.handlers.event.BlockEventHandler;
 import org.bukkit.Material;
@@ -63,7 +64,7 @@ public class BlockListener implements Listener {
         final Material toMaterial = to.getType();
         final World world = source.getWorld();
 
-        if (world == null || sourceMaterial == Material.AIR)
+        if (sourceMaterial == Material.AIR)
             return;
 
         if (config.getBoolean("global.generators.world.enabled", false)
@@ -73,7 +74,7 @@ public class BlockListener implements Listener {
         }
         if (isWater(sourceMaterial) || isLava(sourceMaterial)) {
             if ((toMaterial == Material.AIR || isWater(toMaterial))
-                    && sourceMaterial != Material.STATIONARY_WATER
+                    && XBlock.isWaterStationary(source)
                     && canGenerate(sourceMaterial, to)
                     && event.getFace() != BlockFace.DOWN) {
                 if (isLava(sourceMaterial) && !isSurroundedByWater(to.getLocation())) {
