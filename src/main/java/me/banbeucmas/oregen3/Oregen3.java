@@ -162,7 +162,7 @@ public final class Oregen3 extends JavaPlugin {
 
     private void setupPermissions() {
         if (getServer().getPluginManager().isPluginEnabled("Vault")) {
-            perm              = getServer().getServicesManager().getRegistration(Permission.class).getProvider();
+            perm              = Objects.requireNonNull(getServer().getServicesManager().getRegistration(Permission.class)).getProvider();
             permissionManager = new VaultPermission();
             if (getConfig().getBoolean("hooks.Vault.forceAsync")) {
                 permissionManager = new AsyncVaultPermission(this);

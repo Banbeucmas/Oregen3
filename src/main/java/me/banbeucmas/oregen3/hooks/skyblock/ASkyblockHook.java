@@ -22,7 +22,7 @@ public class ASkyblockHook implements SkyblockHook {
     @Override
     public UUID getIslandOwner(final Location loc) {
         final Island island = api.getIslandAt(loc);
-        return island == null ? null : api.getIslandAt(loc).getOwner();
+        return island == null ? null : island.getOwner();
     }
 
     @Override
@@ -32,6 +32,6 @@ public class ASkyblockHook implements SkyblockHook {
 
     @Override
     public List<UUID> getMembers(final UUID uuid) {
-        return api.getIslandOwnedBy(api.getTeamLeader(uuid)).getMembers();
+        return api.getIslandOwnedBy(uuid).getMembers();
     }
 }

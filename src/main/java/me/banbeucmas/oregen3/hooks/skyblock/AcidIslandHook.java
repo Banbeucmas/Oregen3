@@ -22,7 +22,7 @@ public class AcidIslandHook implements SkyblockHook {
     @Override
     public UUID getIslandOwner(final Location loc) {
         final Island island = api.getIslandAt(loc);
-        return island == null ? null : api.getIslandAt(loc).getOwner();
+        return island == null ? null : island.getOwner();
     }
 
     @Override

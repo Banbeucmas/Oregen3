@@ -28,7 +28,7 @@ public class FabledSkyBlockHook implements SkyblockHook {
     @Override
     public UUID getIslandOwner(final Location loc) {
         final Island island = manager.getIslandAtLocation(loc);
-        return island == null ? null : manager.getIslandAtLocation(loc).getOwnerUUID();
+        return island == null ? null : island.getOwnerUUID();
     }
 
     @Override
