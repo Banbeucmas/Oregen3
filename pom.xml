@@ -107,7 +107,7 @@
         <dependency>
             <groupId>com.github.cryptomorin</groupId>
             <artifactId>XSeries</artifactId>
-            <version>8.3.0</version>
+            <version>8.4.0</version>
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>
@@ -158,16 +158,14 @@
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
+                    <groupId>be.maximvdw</groupId>
+                    <artifactId>MVdWPlaceholderAPI</artifactId>
+                </exclusion>
+                <exclusion>
                     <groupId>com.songoda</groupId>
                     <artifactId>SongodaCore</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.iridium</groupId>
-            <artifactId>IridiumSkyblock</artifactId>
-            <version>3.0.8</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

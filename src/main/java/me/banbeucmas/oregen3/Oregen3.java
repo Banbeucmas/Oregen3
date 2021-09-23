@@ -35,7 +35,6 @@ public final class Oregen3 extends JavaPlugin {
     private static BlockEventHandler eventHandler;
     private static BlockPlacer blockPlacer;
     public boolean papi;
-    public boolean mvdw;
     private boolean hasDependency = true;
 
     public boolean hasDependency() {
@@ -142,9 +141,6 @@ public final class Oregen3 extends JavaPlugin {
         else if (manager.isPluginEnabled("uSkyBlock")) {
             hook     = new uSkyBlockHook();
         }
-        else if (manager.isPluginEnabled("IridiumSkyblock")) {
-            hook     = new IridiumSkyblockHook();
-        }
         else {
             getLogger().warning(StringUtils.getPrefixString("Plugin dependency for Oregen3 not found! Turning enableDependency off...", null));
             hasDependency = false;
@@ -153,10 +149,6 @@ public final class Oregen3 extends JavaPlugin {
         if (manager.isPluginEnabled("PlaceholderAPI")) {
             papi = true;
             new PlaceholderHandler().register();
-        }
-
-        if (manager.isPluginEnabled("MVdWPlaceholderAPI")) {
-            mvdw = true;
         }
     }
 

@@ -32,8 +32,6 @@ public class StringUtils {
     private static String parsePlaceholder(String s, final OfflinePlayer player) {
         if (Oregen3.getPlugin().papi)
             s = me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(player, s);
-        if (Oregen3.getPlugin().mvdw)
-            s = be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(player, s);
         return s;
     }
 }
