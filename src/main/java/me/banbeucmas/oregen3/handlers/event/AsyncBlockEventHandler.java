@@ -19,14 +19,7 @@ public class AsyncBlockEventHandler implements BlockEventHandler {
 
     @Override
     public void generateBlock(final World world, final Block source, final Block to, final FileConfiguration config) {
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            final Generator mc = PluginUtils.getChosenGenerator(source.getLocation());
-            if (mc.isWorldEnabled() && mc.getWorldList().contains(to.getWorld().getName()) == mc.isWorldBlacklist())
-                return;
-            PluginUtils.sendBlockEffect(world, to, config, mc);
-            final Material randomMaterial = PluginUtils.randomChance(mc);
-            Oregen3.getBlockPlaceHandler().placeBlock(to, randomMaterial);
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> generate(world, source, to, config));
     }
 
 }

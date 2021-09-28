@@ -10,10 +10,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 public class SyncBlockEventHandler implements BlockEventHandler {
     @Override
     public void generateBlock(final World world, final Block source, final Block to, final FileConfiguration config) {
-        final Generator mc = PluginUtils.getChosenGenerator(source.getLocation());
-        if (mc.isWorldEnabled() && mc.getWorldList().contains(to.getWorld().getName()) == mc.isWorldBlacklist())
-            return;
-        Oregen3.getBlockPlaceHandler().placeBlock(to, PluginUtils.randomChance(mc));
-        PluginUtils.sendBlockEffect(world, to, config, mc);
+        generate(world, source, to, config);
     }
 }
