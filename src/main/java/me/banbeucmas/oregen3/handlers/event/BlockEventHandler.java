@@ -17,4 +17,6 @@ public interface BlockEventHandler {
         Oregen3.getBlockPlaceHandler().placeBlock(to, PluginUtils.randomChance(mc));
         PluginUtils.sendBlockEffect(world, to, config, mc);
     }
+
+    boolean isAsync();
 }

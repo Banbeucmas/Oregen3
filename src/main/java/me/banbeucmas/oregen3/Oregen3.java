@@ -6,9 +6,9 @@ import me.banbeucmas.oregen3.data.permission.AsyncVaultPermission;
 import me.banbeucmas.oregen3.data.permission.DefaultPermission;
 import me.banbeucmas.oregen3.data.permission.PermissionManager;
 import me.banbeucmas.oregen3.data.permission.VaultPermission;
-import me.banbeucmas.oregen3.handlers.block.BlockPlacer;
-import me.banbeucmas.oregen3.handlers.block.LimitedBlockPlacer;
-import me.banbeucmas.oregen3.handlers.block.NormalBlockPlacer;
+import me.banbeucmas.oregen3.handlers.block.placetask.BlockPlaceTask;
+import me.banbeucmas.oregen3.handlers.block.placetask.LimitedBlockPlaceTask;
+import me.banbeucmas.oregen3.handlers.block.placetask.NormalBlockPlaceTask;
 import me.banbeucmas.oregen3.handlers.event.AsyncBlockEventHandler;
 import me.banbeucmas.oregen3.handlers.event.BlockEventHandler;
 import me.banbeucmas.oregen3.handlers.event.SyncBlockEventHandler;
@@ -33,7 +33,7 @@ public final class Oregen3 extends JavaPlugin {
     private static Permission perm;
     private static PermissionManager permissionManager;
     private static BlockEventHandler eventHandler;
-    private static BlockPlacer blockPlacer;
+    private static BlockPlaceTask blockPlaceTask;
     public boolean papi;
     private boolean hasDependency = true;
 
@@ -66,8 +66,8 @@ public final class Oregen3 extends JavaPlugin {
         return permissionManager;
     }
 
-    public static BlockPlacer getBlockPlaceHandler() {
-        return blockPlacer;
+    public static BlockPlaceTask getBlockPlaceHandler() {
+        return blockPlaceTask;
     }
 
     public void updateConfig() {
@@ -75,11 +75,11 @@ public final class Oregen3 extends JavaPlugin {
         final FileConfiguration config = getConfig();
         eventHandler = config.getBoolean("global.listener.asyncListener", false) ?
                 new AsyncBlockEventHandler(this) : new SyncBlockEventHandler();
-        if (blockPlacer != null) {
-            blockPlacer.stop();
+        if (blockPlaceTask != null) {
+            blockPlaceTask.stop();
         }
-        blockPlacer = config.getLong("global.generators.maxBlockPlacePerTick", -1) > 0 ?
-                new LimitedBlockPlacer(this) : new NormalBlockPlacer();
+        blockPlaceTask = config.getLong("global.generators.maxBlockPlacePerTick", -1) > 0 ?
+                new LimitedBlockPlaceTask(this) : new NormalBlockPlaceTask();
     }
 
     @Override

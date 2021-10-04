@@ -1,10 +1,6 @@
 package me.banbeucmas.oregen3.handlers.event;
 
-import me.banbeucmas.oregen3.Oregen3;
-import me.banbeucmas.oregen3.data.Generator;
-import me.banbeucmas.oregen3.utils.PluginUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -22,4 +18,8 @@ public class AsyncBlockEventHandler implements BlockEventHandler {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> generate(world, source, to, config));
     }
 
+    @Override
+    public boolean isAsync() {
+        return false;
+    }
 }

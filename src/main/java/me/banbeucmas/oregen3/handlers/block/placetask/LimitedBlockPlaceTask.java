@@ -1,4 +1,4 @@
-package me.banbeucmas.oregen3.handlers.block;
+package me.banbeucmas.oregen3.handlers.block.placetask;
 
 import me.banbeucmas.oregen3.Oregen3;
 import org.bukkit.Bukkit;
@@ -6,15 +6,21 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class LimitedBlockPlacer implements BlockPlacer {
-    private Queue<BlockPlaceTask> tasks = new ConcurrentLinkedQueue<>();
+public class LimitedBlockPlaceTask implements BlockPlaceTask {
+    private Queue<BlockPlaceTask> tasks;
     private BukkitTask task;
     private long maxBlockPlacePerTick;
 
-    public LimitedBlockPlacer(Oregen3 plugin) {
+    public LimitedBlockPlaceTask(Oregen3 plugin) {
+        if (plugin.getEventHandler().isAsync()) {
+            tasks = new ConcurrentLinkedQueue<>();
+        } else {
+            tasks = new ArrayDeque<>();
+        }
         maxBlockPlacePerTick = plugin.getConfig().getLong("global.generators.maxBlockPlacePerTick", -1);
         task = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
             //Bukkit.getLogger().info("Total size: " + tasks.size());
