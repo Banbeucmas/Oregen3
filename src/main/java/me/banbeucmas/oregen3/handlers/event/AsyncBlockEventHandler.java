@@ -20,6 +20,6 @@ public class AsyncBlockEventHandler implements BlockEventHandler {
 
     @Override
     public boolean isAsync() {
-        return false;
+        return true;
     }
 }
