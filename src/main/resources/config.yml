@@ -37,28 +37,28 @@ blocks:
 - DARK_OAK_FENCE
 - IRON_FENCE
 
-#Will the plugin try to find a skyblock plugin to enable owner's permission feature?
+# Will the plugin try to find a skyblock plugin to enable owner's permission feature?
 enableDependency: true
 defaultGenerator: default
 
 hooks:
   skyblock:
-    #You can choose between owner, lowest and highest
+    # You can choose between owner, lowest and highest
     getGeneratorMode: owner
-    #Only works on lowest and highest mode
+    # Only works on lowest and highest mode
     ignoreOfflinePlayers: false
   Vault:
-    #Will the plugin force using async permission lookup? Change to true if you have problems using the non-async one
+    # Will the plugin force using async permission lookup? Change to true if you have problems using the non-async one
     forceAsync: false
-    #Plugin list that store the permission data async (using database, ...), or you can list other plugins
+    # Plugin list that store the permission data async (using database, ...), or you can list other plugins
     pluginAsyncList:
     - LuckPerms
   BentoBox:
-    #This plugin will check for available gamemode by order. Which addon comes first then it will use that gamemode to check
-    # for player's island (who knows someone would use 2 gamemode at a time....)
-    #Since BentoBox lets you install many gamemodes, this check is required due to the fact this plugin only hooks into one
-    # gamemode (maybe fixed later).
-    #If an invalid gamemode is found, the plugin will skip it.
+    # This plugin will check for available gamemode by order. Which addon comes first then it will use that gamemode to check
+    #  for player's island (who knows someone would use 2 gamemode at a time....)
+    # Since BentoBox lets you install many gamemodes, this check is required due to the fact this plugin only hooks into one
+    #  gamemode (maybe fixed later).
+    # If an invalid gamemode is found, the plugin will skip it.
     gamemodePriorities:
     - AcidIsland
     - BSkyBlock
@@ -67,7 +67,7 @@ hooks:
 
 global:
   listener:
-    #Will the plugin attempt to generate blocks asynchronously? Turn this on if you're experiencing lag while generating blocks
+    # Will the plugin attempt to generate blocks asynchronously? Turn this on if you're experiencing lag while generating blocks
     asyncListener: false
   generators:
     world:
@@ -86,9 +86,11 @@ global:
 
 generators:
   default:
-    #Generator name that will be shown in placeholders
+    # Generator name that will be shown in placeholders
     name: "My default"
     random:
+    # Example for oraxen support, in order: oraxen-"blockID"
+    # oraxen-ruby_ore:10
       COBBLESTONE: 30.0
       GOLD_BLOCK: 20.0
       IRON_BLOCK: 15.0
