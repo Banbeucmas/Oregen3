@@ -116,19 +116,10 @@ public class PluginUtils {
             world.playSound(to.getLocation(), mc.getSound(), mc.getSoundVolume(), mc.getSoundPitch());
         else if (config.getBoolean("global.generators.sound.enabled", false)) {
             world.playSound(to.getLocation(),
-                            XSound.matchXSound(config.getString("global.generators.sound.name", "BLOCK_FIRE_EXTINGUISH")).map(XSound::parseSound).orElse(XSound.BLOCK_FIRE_EXTINGUISH.parseSound()),
+                    Objects.requireNonNull(XSound.matchXSound(config.getString("global.generators.sound.name", "BLOCK_FIRE_EXTINGUISH")).map(XSound::parseSound).orElse(XSound.BLOCK_FIRE_EXTINGUISH.parseSound())),
                             (float) config.getDouble("global.generators.sound.volume", 1),
                             (float) config.getDouble("global.generators.sound.pitch", 1)
             );
         }
-    }
-
-    public static Material randomChance(final Generator mc) {
-        final Double chance = ThreadLocalRandom.current().nextDouble(mc.getTotalChance());
-        int chosenBlock = Arrays.binarySearch(mc.getChancesList(), chance);
-        if (chosenBlock < 0) {
-            chosenBlock = -(chosenBlock + 1);
-        }
-        return mc.getMaterialList()[chosenBlock];
     }
 }

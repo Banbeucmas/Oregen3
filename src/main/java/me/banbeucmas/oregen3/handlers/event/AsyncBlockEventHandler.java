@@ -6,7 +6,7 @@ import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 
-public class AsyncBlockEventHandler implements BlockEventHandler {
+public class AsyncBlockEventHandler extends BlockEventHandler {
     private final Plugin plugin;
 
     public AsyncBlockEventHandler(final Plugin plugin) {

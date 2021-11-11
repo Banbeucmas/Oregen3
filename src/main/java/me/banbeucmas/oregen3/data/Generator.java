@@ -2,11 +2,15 @@ package me.banbeucmas.oregen3.data;
 
 import com.cryptomorin.xseries.XSound;
 import me.banbeucmas.oregen3.Oregen3;
+import me.banbeucmas.oregen3.handlers.block.placer.BlockPlacer;
+import me.banbeucmas.oregen3.handlers.block.placer.VanillaBlockPlacer;
+import me.banbeucmas.oregen3.hooks.blockplacer.OraxenBlockPlacer;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Generator {
     private final String id;
@@ -14,8 +18,7 @@ public class Generator {
     private final double level;
     private final String permission;
     private final String name;
-    private final Map<Material, Double> chances = new EnumMap<>(Material.class);
-    private final Material[] materialList;
+    private final BlockPlacer[] blockPlacers;
     private final Double[] chancesList;
     private double totalChance = 0;
     private boolean soundEnabled;
@@ -30,7 +33,7 @@ public class Generator {
         this.id = id;
         final ConfigurationSection path = Oregen3.getPlugin().getConfig().getConfigurationSection("generators." + id);
 
-        name = path.getString("name", id);
+        name = Objects.requireNonNull(path).getString("name", id);
         permission = path.getString("permission", "oregen3.generator." + id);
         priority   = path.getLong("priority", 0);
         level      = path.getDouble("level", 0);
@@ -45,19 +48,31 @@ public class Generator {
             worldBlacklist = path.getBoolean("world.blacklist", true);
             worldList      = new HashSet<>(path.getStringList("world.list"));
         }
-        final Set<String> randomList = path.getConfigurationSection("random").getKeys(false);
+        final Set<String> randomList = Objects.requireNonNull(path.getConfigurationSection("random")).getKeys(false);
         chancesList = new Double[randomList.size()];
-        materialList = new Material[randomList.size()];
+        blockPlacers = new BlockPlacer[randomList.size()];
         int i = 0;
         for (final String mat : randomList) {
             final double chance = path.getDouble("random." + mat);
-            final Material material = Material.matchMaterial(mat);
-            chances.put(material, chance);
+            if (mat.startsWith("oraxen-")) {
+                blockPlacers[i] = new OraxenBlockPlacer(mat);
+            }
+            else {
+                blockPlacers[i] = new VanillaBlockPlacer(mat);
+            }
             totalChance += chance;
             chancesList[i] = totalChance;
-            materialList[i] = material;
             i++;
         }
+    }
+
+    public BlockPlacer randomChance() {
+        final Double chance = ThreadLocalRandom.current().nextDouble(getTotalChance());
+        int chosenBlock = Arrays.binarySearch(getChancesList(), chance);
+        if (chosenBlock < 0) {
+            chosenBlock = -(chosenBlock + 1);
+        }
+        return blockPlacers[chosenBlock];
     }
 
     public String getId() {
@@ -88,12 +103,8 @@ public class Generator {
         return chancesList;
     }
 
-    public Material[] getMaterialList() {
-        return materialList;
-    }
-
     public Map<Material, Double> getChances() {
-        return chances;
+        return null;
     }
 
     public boolean isSoundEnabled() {

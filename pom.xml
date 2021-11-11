@@ -152,6 +152,13 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>com.github.Th0rgal</groupId>
+            <artifactId>oraxen</artifactId>
+            <version>1.116.4</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/oraxen-1.116.4-all.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>com.songoda</groupId>
             <artifactId>skyblock</artifactId>
             <version>2.3.30</version>
