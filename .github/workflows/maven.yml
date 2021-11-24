@@ -4,7 +4,6 @@ on: [ push, pull_request ]
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.commits[0].message, '[ci-skip]')"
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 16
@@ -18,4 +17,4 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: Artifacts
-          path: target/
+          path: target/Oregen3*.jar
