@@ -62,10 +62,6 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
-            <id>spigot-repo</id>
-            <url>https://repo.codemc.org/repository/nms/</url>
-        </repository>
-        <repository>
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
@@ -102,8 +98,8 @@
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.17.1-R0.1-SNAPSHOT</version>
+            <artifactId>spigot-api</artifactId>
+            <version>1.17-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -119,8 +115,8 @@
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>
-            <artifactId>bstats-bukkit</artifactId>
-            <version>2.2.1</version>
+            <artifactId>bstats-bukkit-lite</artifactId>
+            <version>1.7</version>
         </dependency>
         <dependency>
             <groupId>me.clip</groupId>
@@ -139,7 +135,7 @@
             <artifactId>acidisland</artifactId>
             <version>3.0.9.4</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/libs/acidisland.jar</systemPath>
+            <systemPath>${project.basedir}/lib/acidisland.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.github.rlf</groupId>
@@ -164,7 +160,7 @@
             <artifactId>oraxen</artifactId>
             <version>1.116.4</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/libs/oraxen-1.116.4-all.jar</systemPath>
+            <systemPath>${project.basedir}/lib/oraxen-1.116.4-all.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.songoda</groupId>
