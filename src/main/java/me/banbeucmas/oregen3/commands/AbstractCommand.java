@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 import java.util.regex.Matcher;
 
-import static me.banbeucmas.oregen3.utils.StringUtils.*;
+import static me.banbeucmas.oregen3.util.StringUtils.*;
 
 abstract class AbstractCommand {
 	private final String permission;

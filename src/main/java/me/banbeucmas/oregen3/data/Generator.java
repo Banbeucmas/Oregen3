@@ -2,9 +2,9 @@ package me.banbeucmas.oregen3.data;
 
 import com.cryptomorin.xseries.XSound;
 import me.banbeucmas.oregen3.Oregen3;
-import me.banbeucmas.oregen3.handlers.block.placer.BlockPlacer;
-import me.banbeucmas.oregen3.handlers.block.placer.VanillaBlockPlacer;
-import me.banbeucmas.oregen3.hooks.blockplacer.OraxenBlockPlacer;
+import me.banbeucmas.oregen3.handler.block.placer.BlockPlacer;
+import me.banbeucmas.oregen3.handler.block.placer.VanillaBlockPlacer;
+import me.banbeucmas.oregen3.hook.blockplacer.OraxenBlockPlacer;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;

@@ -1,7 +1,7 @@
 package me.banbeucmas.oregen3.commands;
 
 import me.banbeucmas.oregen3.Oregen3;
-import me.banbeucmas.oregen3.utils.StringUtils;
+import me.banbeucmas.oregen3.util.StringUtils;
 import org.bukkit.command.CommandSender;
 
 public class UsageCommand extends AbstractCommand {

@@ -1,7 +1,7 @@
 package me.banbeucmas.oregen3.commands;
 
 import me.banbeucmas.oregen3.gui.EditorGUI;
-import me.banbeucmas.oregen3.managers.ui.PlayerUI;
+import me.banbeucmas.oregen3.manager.ui.PlayerUI;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

@@ -7,16 +7,16 @@ import me.banbeucmas.oregen3.data.permission.DefaultPermission;
 import me.banbeucmas.oregen3.data.permission.PermissionManager;
 import me.banbeucmas.oregen3.data.permission.VaultPermission;
 import me.banbeucmas.oregen3.editor.Editor;
-import me.banbeucmas.oregen3.handlers.block.placetask.BlockPlaceTask;
-import me.banbeucmas.oregen3.handlers.block.placetask.LimitedBlockPlaceTask;
-import me.banbeucmas.oregen3.handlers.block.placetask.NormalBlockPlaceTask;
-import me.banbeucmas.oregen3.handlers.event.*;
-import me.banbeucmas.oregen3.hooks.placeholder.PlaceholderHandler;
-import me.banbeucmas.oregen3.hooks.skyblock.*;
-import me.banbeucmas.oregen3.listeners.*;
-import me.banbeucmas.oregen3.utils.StringUtils;
+import me.banbeucmas.oregen3.handler.block.placetask.BlockPlaceTask;
+import me.banbeucmas.oregen3.handler.block.placetask.LimitedBlockPlaceTask;
+import me.banbeucmas.oregen3.handler.block.placetask.NormalBlockPlaceTask;
+import me.banbeucmas.oregen3.handler.event.*;
+import me.banbeucmas.oregen3.hook.placeholder.PlaceholderHandler;
+import me.banbeucmas.oregen3.hook.skyblock.*;
+import me.banbeucmas.oregen3.listener.*;
+import me.banbeucmas.oregen3.util.StringUtils;
 import net.milkbowl.vault.permission.Permission;
-import org.bstats.bukkit.Metrics;
+import org.bstats.bukkit.MetricsLite;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
@@ -86,7 +86,7 @@ public final class Oregen3 extends JavaPlugin {
     public void onEnable() {
         plugin = this;
 
-        new Metrics(this, 3052);
+        new MetricsLite(this, 3052);
 
         saveDefaultConfig();
         updateConfig();

@@ -2,8 +2,8 @@ package me.banbeucmas.oregen3.commands;
 
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.gui.GeneratorMaterialList;
-import me.banbeucmas.oregen3.utils.PluginUtils;
-import me.banbeucmas.oregen3.utils.StringUtils;
+import me.banbeucmas.oregen3.util.PluginUtils;
+import me.banbeucmas.oregen3.util.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 import java.util.regex.Matcher;
 
-import static me.banbeucmas.oregen3.utils.StringUtils.PLAYER;
+import static me.banbeucmas.oregen3.util.StringUtils.PLAYER;
 
 public class InformationCommand extends AbstractCommand {
     InformationCommand(final CommandSender sender, final String label, final String[] args) {

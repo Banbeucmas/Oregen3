@@ -2,9 +2,9 @@ package me.banbeucmas.oregen3.gui;
 
 import com.cryptomorin.xseries.XMaterial;
 import me.banbeucmas.oregen3.gui.editor.ListGenerator;
-import me.banbeucmas.oregen3.managers.items.ItemBuilder;
-import me.banbeucmas.oregen3.managers.ui.PlayerUI;
-import me.banbeucmas.oregen3.managers.ui.chest.ChestUI;
+import me.banbeucmas.oregen3.manager.items.ItemBuilder;
+import me.banbeucmas.oregen3.manager.ui.PlayerUI;
+import me.banbeucmas.oregen3.manager.ui.chest.ChestUI;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;

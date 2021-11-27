@@ -1,11 +1,11 @@
 package me.banbeucmas.oregen3.commands;
 
 import me.banbeucmas.oregen3.Oregen3;
-import me.banbeucmas.oregen3.utils.StringUtils;
+import me.banbeucmas.oregen3.util.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static me.banbeucmas.oregen3.utils.StringUtils.LABEL;
+import static me.banbeucmas.oregen3.util.StringUtils.LABEL;
 
 public class HelpCommand extends AbstractCommand {
     HelpCommand(final CommandSender sender, final String label) {

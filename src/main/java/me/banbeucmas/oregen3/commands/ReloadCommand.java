@@ -1,7 +1,6 @@
 package me.banbeucmas.oregen3.commands;
 
-import me.banbeucmas.oregen3.data.DataManager;
-import me.banbeucmas.oregen3.utils.StringUtils;
+import me.banbeucmas.oregen3.util.StringUtils;
 import org.bukkit.command.CommandSender;
 
 import static me.banbeucmas.oregen3.Oregen3.getPlugin;

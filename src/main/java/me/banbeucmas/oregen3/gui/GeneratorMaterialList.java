@@ -2,8 +2,8 @@ package me.banbeucmas.oregen3.gui;
 
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.Generator;
-import me.banbeucmas.oregen3.utils.PluginUtils;
-import me.banbeucmas.oregen3.utils.StringUtils;
+import me.banbeucmas.oregen3.util.PluginUtils;
+import me.banbeucmas.oregen3.util.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;

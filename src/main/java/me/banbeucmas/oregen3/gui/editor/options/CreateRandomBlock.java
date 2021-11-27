@@ -6,10 +6,10 @@ import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.gui.EditorGUI;
 import me.banbeucmas.oregen3.gui.editor.ListGenerator;
 import me.banbeucmas.oregen3.gui.editor.MenuGenerator;
-import me.banbeucmas.oregen3.managers.items.ItemBuilder;
-import me.banbeucmas.oregen3.managers.items.SkullIndex;
-import me.banbeucmas.oregen3.managers.ui.PlayerUI;
-import me.banbeucmas.oregen3.managers.ui.chest.ChestUI;
+import me.banbeucmas.oregen3.manager.items.ItemBuilder;
+import me.banbeucmas.oregen3.manager.items.SkullIndex;
+import me.banbeucmas.oregen3.manager.ui.PlayerUI;
+import me.banbeucmas.oregen3.manager.ui.chest.ChestUI;
 import org.bukkit.Material;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class CreateRandomBlock extends ChestUI {
 
