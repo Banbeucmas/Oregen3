@@ -6,7 +6,6 @@ import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.gui.EditorGUI;
 import me.banbeucmas.oregen3.manager.items.ItemBuilder;
-import me.banbeucmas.oregen3.manager.items.SkullIndex;
 import me.banbeucmas.oregen3.manager.ui.PlayerUI;
 import me.banbeucmas.oregen3.manager.ui.chest.ChestUI;
 import me.banbeucmas.oregen3.util.StringUtils;
@@ -45,13 +44,13 @@ public class ListGenerator extends ChestUI {
         Map<String, Generator> map = DataManager.getChoosers();
         List<Generator> choosers = new ArrayList<>(map.values());
         
-        if (page > 0) set(2, 0, new ItemBuilder(SkullIndex.PREVIOUS).setName("§e <- Previous Page ").build(), event -> {
+        if (page > 0) set(2, 0, new ItemBuilder(XMaterial.BARRIER.parseMaterial()).setName("§e <- Previous Page ").build(), event -> {
             event.setCancelled(true);
             setCancelDragEvent(true);
             page--;
             renderPage();
         });
-        if ((page + 1) * 36 < choosers.size()) set(6, 0, new ItemBuilder(SkullIndex.NEXT).setName("§e Next Page -> ").build(), event -> {
+        if ((page + 1) * 36 < choosers.size()) set(6, 0, new ItemBuilder(XMaterial.ARROW.parseMaterial()).setName("§e Next Page -> ").build(), event -> {
             event.setCancelled(true);
             setCancelDragEvent(true);
             page++;

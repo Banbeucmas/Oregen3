@@ -28,10 +28,6 @@ public class ItemBuilder {
         this.type = type;
     }
 
-    public ItemBuilder(SkullIndex skullSkin) {
-        this.stack = skullSkin.asItem();
-    }
-
     public ItemBuilder setName(String name) {
         this.name = StringUtils.color(name);
         return this;
@@ -119,7 +115,7 @@ public class ItemBuilder {
     }
 
     /**
-     * Sets the custom model id used for a resource pack.
+     * Sets the custom model id used for a resource pack (1.14+ only).
      *
      * @param id id of the custom model.
      * @return an instance of this item builder.

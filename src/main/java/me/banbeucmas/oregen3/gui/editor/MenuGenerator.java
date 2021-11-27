@@ -5,7 +5,6 @@ import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.gui.editor.options.ListRandomBlock;
 import me.banbeucmas.oregen3.manager.items.ItemBuilder;
-import me.banbeucmas.oregen3.manager.items.SkullIndex;
 import me.banbeucmas.oregen3.manager.ui.PlayerUI;
 import me.banbeucmas.oregen3.manager.ui.chest.ChestUI;
 import org.bukkit.configuration.Configuration;
@@ -30,7 +29,7 @@ public class MenuGenerator extends ChestUI {
         ConfigurationSection path = config.getConfigurationSection("generators." + generator.getId() + ".random");
         List<String> materials = new ArrayList<>(path.getKeys(true));
 
-        ItemStack item = SkullIndex.GENERATOR.asItem();
+        ItemStack item = XMaterial.FURNACE.parseItem();
 
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName("§7Generator §6" + generator.getId());

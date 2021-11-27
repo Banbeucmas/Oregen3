@@ -7,7 +7,6 @@ import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.editor.Editor;
 import me.banbeucmas.oregen3.gui.editor.MenuGenerator;
 import me.banbeucmas.oregen3.manager.items.ItemBuilder;
-import me.banbeucmas.oregen3.manager.items.SkullIndex;
 import me.banbeucmas.oregen3.manager.ui.PlayerUI;
 import me.banbeucmas.oregen3.manager.ui.chest.ChestUI;
 import me.banbeucmas.oregen3.util.StringUtils;
@@ -50,7 +49,7 @@ public class ListRandomBlock extends ChestUI {
         });
         renderPage();
         for (int i = 0; i < 9; i++) set(i, 5, BORDER, null);
-        set(4, 5, new ItemBuilder(SkullIndex.CREATE)
+        set(4, 5, new ItemBuilder(XMaterial.EMERALD_BLOCK.parseMaterial())
                 .setName("§2Add Block")
                 .addLore("", "§7Want to add more block? click here!", "")
                 .build(), event -> {
@@ -65,13 +64,13 @@ public class ListRandomBlock extends ChestUI {
         ConfigurationSection path = config.getConfigurationSection("generators." + generator.getId() + ".random");
         List<String> materials = new ArrayList<>(path.getKeys(false));
 
-        if (page > 0) set(2, 0, new ItemBuilder(SkullIndex.PREVIOUS).setName("§e <- Previous Page ").build(), event -> {
+        if (page > 0) set(2, 0, new ItemBuilder(XMaterial.ARROW.parseMaterial()).setName("§e <- Previous Page ").build(), event -> {
             event.setCancelled(true);
             setCancelDragEvent(true);
             page--;
             renderPage();
         });
-        if ((page + 1) * 36 < materials.size()) set(6, 0, new ItemBuilder(SkullIndex.NEXT).setName("§e Next Page -> ").build(), event -> {
+        if ((page + 1) * 36 < materials.size()) set(6, 0, new ItemBuilder(XMaterial.ARROW.parseMaterial()).setName("§e Next Page -> ").build(), event -> {
             event.setCancelled(true);
             setCancelDragEvent(true);
             page++;
