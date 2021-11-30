@@ -6,14 +6,14 @@ import me.banbeucmas.oregen3.data.permission.AsyncVaultPermission;
 import me.banbeucmas.oregen3.data.permission.DefaultPermission;
 import me.banbeucmas.oregen3.data.permission.PermissionManager;
 import me.banbeucmas.oregen3.data.permission.VaultPermission;
-import me.banbeucmas.oregen3.editor.Editor;
 import me.banbeucmas.oregen3.handler.block.placetask.BlockPlaceTask;
 import me.banbeucmas.oregen3.handler.block.placetask.LimitedBlockPlaceTask;
 import me.banbeucmas.oregen3.handler.block.placetask.NormalBlockPlaceTask;
 import me.banbeucmas.oregen3.handler.event.*;
 import me.banbeucmas.oregen3.hook.placeholder.PlaceholderHandler;
 import me.banbeucmas.oregen3.hook.skyblock.*;
-import me.banbeucmas.oregen3.listener.*;
+import me.banbeucmas.oregen3.listener.BlockListener;
+import me.banbeucmas.oregen3.listener.InventoryListener;
 import me.banbeucmas.oregen3.util.StringUtils;
 import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.MetricsLite;
@@ -21,7 +21,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -111,14 +110,6 @@ public final class Oregen3 extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InventoryListener(), this);
         getServer().getPluginManager().registerEvents(new InventoryEventsHandler(this), this);
         getServer().getPluginManager().registerEvents(new ChatEventHandler(this), this);
-
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                if (Editor.chanceSet.containsKey(player.getUniqueId())) {
-                    player.sendTitle("§6§lEdit Chance", "§7Type in chat to edit, chat §ccancel§7 to cancel", 0, 60, 0);
-                }
-            }
-        }, 0, 20);
     }
 
     public void reload() {
