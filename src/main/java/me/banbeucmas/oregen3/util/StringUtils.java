@@ -41,7 +41,7 @@ public class StringUtils {
 
     /**
      * Returns the number of occurrences a color code is used in a string. A color
-     * code is defined as a {@code &} followed by a digit between 0 to 9 or a character from
+     * code is defined as a {@code &} followed by a digit between 0 and 9 or a character from
      * a to f, k to o or r.
      *
      * @param text text to match the string to.

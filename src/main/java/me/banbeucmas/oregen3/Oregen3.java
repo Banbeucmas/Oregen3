@@ -177,7 +177,7 @@ public final class Oregen3 extends JavaPlugin {
             }
         }
         else {
-            getLogger().warning(StringUtils.getPrefixString("Vault not found! Offline player's permission will not be checked! Using bukkit's provided one...", null));
+            getLogger().warning(StringUtils.getColoredString("Vault not found! Offline player's permission will not be checked! Using bukkit's provided one...", null));
             permissionChecker = new DefaultPermissionChecker();
         }
     }
