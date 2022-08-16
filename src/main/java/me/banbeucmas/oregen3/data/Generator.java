@@ -34,9 +34,9 @@ public class Generator {
     @Getter(value = AccessLevel.NONE)
     private transient Double[] chances;
 
-    Generator(final String id, Oregen3 plugin) {
+    Generator(final String id) {
         this.id = id;
-        final ConfigurationSection path = plugin.getConfig().getConfigurationSection("generators." + id);
+        final ConfigurationSection path = Oregen3.getPlugin().getConfig().getConfigurationSection("generators." + id);
 
         name = Objects.requireNonNull(path).getString("name", id);
         permission = path.getString("permission", "oregen3.generator." + id);
