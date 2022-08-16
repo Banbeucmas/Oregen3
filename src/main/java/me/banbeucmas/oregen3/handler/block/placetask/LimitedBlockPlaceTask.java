@@ -10,12 +10,13 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class LimitedBlockPlaceTask implements BlockPlaceTask {
+public class LimitedBlockPlaceTask extends BlockPlaceTask {
     private Queue<BlockPlaceTask> tasks;
     private BukkitTask task;
     private long maxBlockPlacePerTick;
 
     public LimitedBlockPlaceTask(Oregen3 plugin) {
+        super(plugin);
         if (plugin.getEventHandler().isAsync()) {
             tasks = new ConcurrentLinkedQueue<>();
         } else {
@@ -23,21 +24,20 @@ public class LimitedBlockPlaceTask implements BlockPlaceTask {
         }
         maxBlockPlacePerTick = plugin.getConfig().getLong("global.generators.maxBlockPlacePerTick", Integer.MAX_VALUE);
         task = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
-            //Bukkit.getLogger().info("Total size: " + tasks.size());
             long blockPlaced = 0;
             while (!tasks.isEmpty() && blockPlaced < maxBlockPlacePerTick) {
                 BlockPlaceTask blockPlace = tasks.poll();
-                blockPlace.placer.placeBlock(blockPlace.block);
-                blockPlaced++;
+                if (place(blockPlace.block, blockPlace.placer)) blockPlaced++;
             }
         }, 0, 1);
     }
 
+    @Override
     public void stop() {
         task.cancel();
         while (!tasks.isEmpty()) {
             BlockPlaceTask blockPlace = tasks.poll();
-            blockPlace.placer.placeBlock(blockPlace.block);
+            place(blockPlace.block, blockPlace.placer);
         }
     }
 

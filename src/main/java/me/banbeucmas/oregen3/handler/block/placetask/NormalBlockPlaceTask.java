@@ -5,11 +5,12 @@ import me.banbeucmas.oregen3.handler.block.placer.BlockPlacer;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 
-public class NormalBlockPlaceTask implements BlockPlaceTask {
+public class NormalBlockPlaceTask extends BlockPlaceTask {
     private Oregen3 plugin;
     private BlockPlaceTask placeTask;
 
     public NormalBlockPlaceTask(Oregen3 plugin) {
+        super(plugin);
         this.plugin = plugin;
         if (plugin.getEventHandler().isAsync()) {
             placeTask = new SyncBlockPlaceTask();
@@ -24,26 +25,23 @@ public class NormalBlockPlaceTask implements BlockPlaceTask {
         placeTask.placeBlock(block, placer);
     }
 
-    @Override
-    public void stop() { }
-
-    private class SyncBlockPlaceTask implements BlockPlaceTask {
+    private class SyncBlockPlaceTask extends BlockPlaceTask {
+        public SyncBlockPlaceTask() {
+            super(plugin);
+        }
         @Override
         public void placeBlock(Block block, BlockPlacer blockPlacer) {
-            Bukkit.getScheduler().runTask(plugin, () -> blockPlacer.placeBlock(block));
+            Bukkit.getScheduler().runTask(plugin, () -> place(block, blockPlacer));
         }
-
-        @Override
-        public void stop() { }
     }
 
-    private static class DefaultBlockPlaceTask implements BlockPlaceTask {
+    private class DefaultBlockPlaceTask extends BlockPlaceTask {
+        public DefaultBlockPlaceTask() {
+            super(plugin);
+        }
         @Override
         public void placeBlock(Block block, BlockPlacer blockPlacer) {
-            blockPlacer.placeBlock(block);
+            place(block, blockPlacer);
         }
-
-        @Override
-        public void stop() { }
     }
 }

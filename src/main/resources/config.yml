@@ -5,25 +5,24 @@
 # Notes:
 #  generator options:
 #    required options: options that MUST be provided, or else the plugin will throw errors
-#      random: list of blocks that will randomly be chosen upon generating ores
-#    optional options: options that are optionally provided, the generator will still work normally if missing
-#      permission: the permission it will use instead of the default provided one, defaults to oregen3.generator.<generator name> if missing
-#      sound: sound option that the block will cast if present
-#        name: name of the sound, defaults to BLOCK_FIRE_EXTINGUISH if missing
-#        volume: volume of the sound, defaults to 1 if missing
-#        pitch: pitch of the sound, defaults to 1 if missing
-#      world: world-related options
-#        blacklist: if the world list provided below are blacklist (non-whitelist), defaults to true if missing
-#        list: list of world that the generator are consider of, defaults to an empty list if missing
-#      sound: you can use the old enum sound, as long as it playable in your server version (ex: 1.8 sound names for 1.12 server)
-#  Available placeholder for messages:
-#  - noPermission: %perm%
-#  - noPlayer: %player%
-#  - noIslandOthers: %player%
-#  - messages:
-#     commands: %label% (First argument in command)
-#  You can use PlaceholderAPI or MVDWPlaceholderAPI placeholders
-#   in every messages (except some that requires a player but the message can't get the player's name)
+#    - random: list of blocks that will randomly be chosen upon generating ores
+#    optional options: options that are optionally provided, the generator will work normally if missing
+#    - permission: the permission it will use instead of the default provided one, defaults to oregen3.generator.<generator name> if missing
+#    - sound: sound option that the block will cast if present
+#      - name: name of the sound, defaults to BLOCK_FIRE_EXTINGUISH if missing
+#      - volume: volume of the sound, defaults to 1 if missing
+#      - pitch: pitch of the sound, defaults to 1 if missing
+#    - world: world-related options
+#      - blacklist: if the world list provided below are blacklist (non-whitelist), defaults to true if missing
+#      - list: list of world that the generator are consider of, defaults to an empty list if missing
+#    - sound: you can use old sounds, as long as it playable in your server version (ex: 1.8 sound names for 1.12 server)
+# Available placeholder for messages:
+# - noPermission: %perm%
+# - noPlayer: %player%
+# - noIslandOthers: %player%
+# - messages:
+#    commands: %label% (First argument in command)
+# You can also use PlaceholderAPI placeholders in every messages
 # -------------------------------------
 mode:
   waterBlock: true
@@ -40,6 +39,8 @@ blocks:
 # Will the plugin try to find a skyblock plugin to enable owner's permission feature?
 enableDependency: true
 defaultGenerator: default
+# Adds a check to prevent placing blocks on non-air blocks
+preventOverrideBlocks: false
 
 hooks:
   skyblock:
