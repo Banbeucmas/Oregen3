@@ -56,7 +56,7 @@ public class Generator {
         final Set<String> randomList = Objects.requireNonNull(path.getConfigurationSection("random")).getKeys(false);
         random = new HashMap<>();
         for (final String mat : randomList) {
-            random.put(mat, path.getDouble("random" + mat));
+            random.put(mat, path.getDouble("random." + mat));
         }
 
         init();
