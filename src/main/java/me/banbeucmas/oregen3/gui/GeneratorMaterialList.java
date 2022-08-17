@@ -4,21 +4,18 @@ import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.util.PluginUtils;
 import me.banbeucmas.oregen3.util.StringUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,9 +53,9 @@ public class GeneratorMaterialList implements InventoryHolder, InventoryHandler 
         });
     }
 
-    public GeneratorMaterialList(final UUID uuid, final OfflinePlayer player) {
+    public GeneratorMaterialList(final World world, final OfflinePlayer player) {
         int size = 9;
-        final Generator mc = PluginUtils.getChosenGenerator(uuid, null);
+        final Generator mc = PluginUtils.getChosenGenerator(player.getUniqueId(), world);
         final Map<String, Double> chances = mc.getRandom();
         if (chances.size() > size) {
             size *= chances.size() / size + 1;
@@ -86,7 +83,7 @@ public class GeneratorMaterialList implements InventoryHolder, InventoryHandler 
     }
 
     @Override
-    public Inventory getInventory() {
+    public @NotNull Inventory getInventory() {
         return inv;
     }
 

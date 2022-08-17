@@ -33,7 +33,7 @@ public class InformationCommand extends AbstractCommand {
             return ExecutionResult.NO_PERMISSION;
         }
 
-        final Player p = getPlayer();
+        Player p = getPlayer();
         final String[] args = getArgs();
         final FileConfiguration config = Oregen3.getPlugin().getConfig();
 
@@ -42,22 +42,27 @@ public class InformationCommand extends AbstractCommand {
             if (!player.hasPlayedBefore()) {
                 return ExecutionResult.NO_PLAYER;
             }
-            final UUID uuid = player.getUniqueId();
-            World world = null;
-            if (!Oregen3.getHook().isIslandWorldSingle() && args.length < 3) {
-                return ExecutionResult.MISSING_ARGS;
+            if (player.isOnline()) {
+                p = player.getPlayer();
             }
-            if (args.length > 2) {
-                world = Bukkit.getWorld(args[2]);
-            }
+            else {
+                final UUID uuid = player.getUniqueId();
+                World world = null;
+                if (!Oregen3.getHook().isIslandWorldSingle() && args.length < 3) {
+                    return ExecutionResult.MISSING_ARGS;
+                }
+                if (args.length > 2) {
+                    world = Bukkit.getWorld(args[2]);
+                }
 
-            if (!Oregen3.getPlugin().hasDependency() || PluginUtils.getOwner(uuid, world) == null) {
-                sender.sendMessage(PLAYER.matcher(StringUtils.getColoredPrefixString(config.getString("messages.noIslandOthers"), getPlayer())).replaceAll(Matcher.quoteReplacement(Objects.requireNonNull(player.getName()))));
+                if (!Oregen3.getPlugin().hasDependency() || PluginUtils.getOwner(uuid, world) == null) {
+                    sender.sendMessage(PLAYER.matcher(StringUtils.getColoredPrefixString(config.getString("messages.noIslandOthers"), getPlayer())).replaceAll(Matcher.quoteReplacement(Objects.requireNonNull(player.getName()))));
+                    return ExecutionResult.SUCCESS;
+                }
+
+                p.openInventory(new GeneratorMaterialList(world, player).getInventory());
                 return ExecutionResult.SUCCESS;
             }
-
-            p.openInventory(new GeneratorMaterialList(uuid, p).getInventory());
-            return ExecutionResult.SUCCESS;
         }
 
         if (!Oregen3.getPlugin().hasDependency() || PluginUtils.getOwner(p.getLocation()) == null) {
