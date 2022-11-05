@@ -1,5 +1,6 @@
 package me.banbeucmas.oregen3.manager.items;
 
+import com.cryptomorin.xseries.SkullUtils;
 import me.banbeucmas.oregen3.util.StringUtils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
@@ -8,6 +9,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 
@@ -18,14 +20,29 @@ public class ItemBuilder {
 
     private ItemStack stack;
     private Material type;
+    private int amount = 1;
     private String name;
     private List<String> lore = new ArrayList<>();
+    private byte data = 0;
     private PotionType potionType;
-    private boolean glowing;
+    private boolean glowing = false;
     private int customModel = -1;
+    private String skull;
 
     public ItemBuilder(Material type) {
         this.type = type;
+    }
+
+    public ItemBuilder setAmount(int amount) {
+        if (amount > type.getMaxStackSize())
+            amount = type.getMaxStackSize();
+        this.amount = amount;
+        return this;
+    }
+
+    public ItemBuilder setData(byte data) {
+        this.data = data;
+        return this;
     }
 
     public ItemBuilder setName(String name) {
@@ -125,12 +142,21 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemStack build() {
-        ItemStack item = stack == null ? new ItemStack(type) : stack;
+    public ItemBuilder setSkull(String skull) {
+        this.skull = skull;
+        return this;
+    }
 
+    public ItemStack build() {
+        ItemStack item = stack == null ? new ItemStack(this.type, this.amount, this.data) : stack;
         ItemMeta meta = item.getItemMeta();
+        if (meta == null) return item;
+
         meta.setDisplayName(name);
         meta.setLore(lore);
+        if (this.data > 0) {
+            item.setDurability(this.data);
+        }
         if (customModel > 0) {
             meta.setCustomModelData(customModel);
         }
@@ -139,12 +165,14 @@ public class ItemBuilder {
         if (glowing) {
             meta.addEnchant(Enchantment.DURABILITY, 1, true);
         }
-        item.setItemMeta(meta);
-        if (meta instanceof PotionMeta && potionType != null) {
+        if (meta instanceof SkullMeta) {
+            String skull = this.skull;
+            if (skull != null) SkullUtils.applySkin(meta, skull);
+        } else if (meta instanceof PotionMeta) {
             PotionMeta potionMeta = (PotionMeta) meta;
-            potionMeta.setBasePotionData(new PotionData(potionType));
-            item.setItemMeta(potionMeta);
+            if (potionType != null) potionMeta.setBasePotionData(new PotionData(potionType));
         }
+        item.setItemMeta(meta);
         return item;
     }
 
