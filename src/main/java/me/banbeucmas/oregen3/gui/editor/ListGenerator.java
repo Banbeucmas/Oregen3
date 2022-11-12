@@ -21,10 +21,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ListGenerator {
 
@@ -42,11 +40,11 @@ public class ListGenerator {
                         pagination.setItemsPerPage(36);
                         pagination.iterator(SlotIterator.builder().startPosition(1, 0).type(SlotIterator.SlotIteratorType.HORIZONTAL).build());
 
-                        for (int i = 0; i < 9; i++) contents.set(i, BORDER);
+                        contents.fillRow(0, BORDER);
                         contents.set(0, IntelligentItem.of(new ItemBuilder(XMaterial.ARROW.parseMaterial())
                                 .setName("§e <- Go Back ")
                                 .build(), event -> EditorGUI.open(player)));
-                        for (int i = 0; i < 9; i++) contents.set(5, i, BORDER);
+                        contents.fillRow(45, BORDER);
 
                         movePage(player, contents, pagination);
 
@@ -69,10 +67,7 @@ public class ListGenerator {
                             lore.add("§7Level: " + info.getLevel());
                             lore.add("");
                             lore.add("§7Random:");
-                            for (int mc = 0; mc < materials.size(); mc++) {
-                                if (mc < 10) lore.add("§6 ● §8" + materials.get(mc) + ":§e " + StringUtils.DOUBLE_FORMAT.format(config.getDouble("generators." + info.getId() + ".random." + materials.get(mc))) + "%");
-                            }
-                            if (materials.size() >= 10) lore.add("§6 ● §8And §e%last §8other block(s)".replace("%last", String.valueOf(materials.size() - 10)));
+                            listRandom(config, materials, lore, info);
                             lore.add("");
                             lore.add("§eClick to edit.");
                             meta.setLore(lore);
@@ -114,4 +109,10 @@ public class ListGenerator {
         }));
     }
 
+    public static void listRandom(Configuration config, List<String> materials, List<String> lore, Generator generator) {
+        for (int mc = 0; mc < materials.size(); mc++) {
+            if (mc < 10) lore.add("§6 ● §8" + materials.get(mc) + ":§e " + StringUtils.DOUBLE_FORMAT.format(config.getDouble("generators." + generator.getId() + ".random." + materials.get(mc))) + "%");
+        }
+        if (materials.size() >= 10) lore.add("§6 ● §8And §e%last §8other block(s)".replace("%last", String.valueOf(materials.size() - 10)));
+    }
 }
