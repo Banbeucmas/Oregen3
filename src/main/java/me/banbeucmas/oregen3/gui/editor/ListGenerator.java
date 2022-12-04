@@ -13,11 +13,9 @@ import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.gui.EditorGUI;
 import me.banbeucmas.oregen3.manager.items.ItemBuilder;
 import me.banbeucmas.oregen3.util.StringUtils;
-import org.bukkit.Material;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -30,7 +28,8 @@ public class ListGenerator {
 
     public static void open(Player player) {
         RyseInventory listGenerator = RyseInventory.builder()
-                .title("Generators")
+                .identifier("ListGenerator")
+                .title("Generators [p.1]")
                 .rows(6)
                 .provider(new InventoryProvider() {
                     @Override

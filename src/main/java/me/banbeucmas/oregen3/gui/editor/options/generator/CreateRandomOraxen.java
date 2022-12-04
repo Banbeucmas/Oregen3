@@ -7,27 +7,38 @@ import io.github.rysefoxx.inventory.plugin.content.InventoryProvider;
 import io.github.rysefoxx.inventory.plugin.pagination.Pagination;
 import io.github.rysefoxx.inventory.plugin.pagination.RyseInventory;
 import io.github.rysefoxx.inventory.plugin.pagination.SlotIterator;
+import io.th0rgal.oraxen.api.OraxenBlocks;
+import io.th0rgal.oraxen.api.OraxenItems;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.gui.editor.ListGenerator;
 import me.banbeucmas.oregen3.manager.items.ItemBuilder;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.nio.Buffer;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class CreateWorldGenerator {
+public class CreateRandomOraxen {
 
     protected static final ItemStack BORDER = new ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE.parseItem()).setName("§0").build();
 
+    private static final List<io.th0rgal.oraxen.items.ItemBuilder> ORAXEN_BLOCKS;
+
+    static {
+        ORAXEN_BLOCKS = new ArrayList<>();
+
+        for (io.th0rgal.oraxen.items.ItemBuilder items : OraxenItems.getItems()) {
+            if (OraxenBlocks.isOraxenBlock(OraxenItems.getIdByItem(items))) ORAXEN_BLOCKS.add(items);
+        }
+    }
+
     public static void open(Player player, Generator generator) {
-        RyseInventory inventory = RyseInventory.builder()
-                .identifier("ListWorld")
-                .title("Choose World You Want [p.1]")
+        RyseInventory oraxenUI = RyseInventory.builder()
+                .title("Oraxen [p.1]")
                 .rows(6)
                 .provider(new InventoryProvider() {
                     @Override
@@ -39,34 +50,27 @@ public class CreateWorldGenerator {
                         contents.fillRow(0, BORDER);
                         contents.set(0, IntelligentItem.of(new ItemBuilder(XMaterial.ARROW.parseMaterial())
                                 .setName("§e <- Go Back ")
-                                .build(), event -> ListGenerator.open(player)));
+                                .build(), event -> CreateRandomBlock.open(player, generator)));
                         contents.fillRow(45, BORDER);
 
                         Configuration config = Oregen3.getPlugin().getConfig();
-                        List<String> worlds = config.getStringList("generators." + generator.getId() + ".world.list");
 
                         ListGenerator.movePage(player, contents, pagination);
 
-                        for (World world : Bukkit.getWorlds()) {
-                            // Checking if world already in list
-                            if (worlds.contains(world.getName())) continue;
-
-                            pagination.addItem(IntelligentItem.of(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
-                                    .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDM0NjdhNTMxOTc4ZDBiOGZkMjRmNTYyODVjNzI3MzRkODRmNWVjODhlMGI0N2M0OTMyMzM2Mjk3OWIzMjNhZiJ9fX0=")
-                                    .setName("§2" + world.getName())
-                                    .addLore("", "§eClick to add world", "")
+                        for (io.th0rgal.oraxen.items.ItemBuilder item : ORAXEN_BLOCKS) {
+                            pagination.addItem(IntelligentItem.of(item
+                                    .setLore(Arrays.asList("", "§eClick to add oraxen block", ""))
                                     .build(), event -> {
                                 // TODO: Save config with comments
-                                worlds.add(world.getName());
-                                config.set("generators." + generator.getId() + ".world.list", worlds);
+                                config.set("generators." + generator.getId() + ".random.oraxen-" + OraxenItems.getIdByItem(item), 1.0);
                                 Oregen3.getPlugin().saveConfig();
                                 Oregen3.getPlugin().reload();
-                                ListWorldGenerator.open(player, generator);
+                                ListRandomBlock.open(player, generator);
                             }));
                         }
                     }
                 })
                 .build(Oregen3.getPlugin());
-        inventory.open(player);
+        oraxenUI.open(player);
     }
 }
