@@ -9,7 +9,7 @@ public class OraxenBlockPlacer implements BlockPlacer {
     String itemID;
 
     public OraxenBlockPlacer(String block) {
-        itemID = block.substring(block.indexOf('-') + 1);
+        itemID = block;
     }
 
     @Override

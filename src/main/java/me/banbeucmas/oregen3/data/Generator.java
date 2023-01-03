@@ -6,6 +6,7 @@ import lombok.Getter;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.handler.block.placer.BlockPlacer;
 import me.banbeucmas.oregen3.handler.block.placer.VanillaBlockPlacer;
+import me.banbeucmas.oregen3.hook.blockplacer.ItemsAdderBlockPlacer;
 import me.banbeucmas.oregen3.hook.blockplacer.OraxenBlockPlacer;
 import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
@@ -70,7 +71,10 @@ public class Generator {
             String mat = entry.getKey();
             Double chance = entry.getValue();
             if (mat.startsWith("oraxen-")) {
-                blockPlacers[i] = new OraxenBlockPlacer(mat);
+                blockPlacers[i] = new OraxenBlockPlacer(mat.substring(mat.indexOf('-') + 1));
+            }
+            if (mat.startsWith("itemsadder-")) {
+                blockPlacers[i] = new ItemsAdderBlockPlacer(mat.substring(mat.indexOf('-') + 1));
             } else {
                 blockPlacers[i] = new VanillaBlockPlacer(mat);
             }
