@@ -27,7 +27,7 @@ public class CreateWorldGenerator {
     public static void open(Player player, Generator generator) {
         RyseInventory inventory = RyseInventory.builder()
                 .identifier("ListWorld")
-                .title("Choose World You Want [p.1]")
+                .title("Choose World [p.1]")
                 .rows(6)
                 .provider(new InventoryProvider() {
                     @Override

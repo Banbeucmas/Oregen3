@@ -36,7 +36,7 @@ public class ChatEventHandler implements Listener {
 
             Bukkit.getScheduler().scheduleSyncDelayedTask(JavaPlugin.getPlugin(Oregen3.class), () -> {
                 if (message.equalsIgnoreCase("cancel")) {
-                    player.sendMessage("§8[§aOregen3§8]§7 Edit cancel!");
+                    player.sendMessage("§8[§aOregen3§8]§7 Edit canceled");
                     Editor.clearPlayerMarking(player);
                     return;
                 }
@@ -74,7 +74,7 @@ public class ChatEventHandler implements Listener {
 
             Bukkit.getScheduler().scheduleSyncDelayedTask(JavaPlugin.getPlugin(Oregen3.class), () -> {
                 if (message.equalsIgnoreCase("cancel")) {
-                    player.sendMessage("§8[§aOregen3§8]§7 Edit cancel!");
+                    player.sendMessage("§8[§aOregen3§8]§7 Edit canceled");
                     Editor.clearPlayerMarking(player);
                     return;
                 }

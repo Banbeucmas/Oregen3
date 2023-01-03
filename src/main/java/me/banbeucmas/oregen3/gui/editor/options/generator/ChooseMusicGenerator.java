@@ -36,7 +36,7 @@ public class ChooseMusicGenerator {
     public static void open(Player player, Generator generator) {
         RyseInventory inventory = RyseInventory.builder()
                 .identifier("ListMusic")
-                .title("Choose Music You Want [p.1]")
+                .title("Choose Music [p.1]")
                 .rows(6)
                 .provider(new InventoryProvider() {
                     @Override
@@ -66,7 +66,7 @@ public class ChooseMusicGenerator {
                                             "§8[§2Shift Left-Click§8]§e play at pitch 1",
                                             "§8[§2Shift Right-Click§8]§e play at pitch 2",
                                             "",
-                                            "§eClick to set this sound!"
+                                            "§eClick to set this sound"
                                     )
                                     .build(), event -> {
                                 if (event.isShiftClick() && event.isLeftClick()) {

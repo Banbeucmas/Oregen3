@@ -52,7 +52,7 @@ public class MusicGenerator {
                                 .build(), event -> {
                             player.closeInventory();
                             player.sendMessage("",
-                                    "§7Please type in chat volume you would like to set",
+                                    "§7Type in chat volume you would like to set",
                                     "§7Type §ccancel §7to cancel",
                                     "");
                             Editor.markEditType(player, generator, EditType.SET_VOLUME);
@@ -63,7 +63,7 @@ public class MusicGenerator {
                                 .build(), event -> {
                             player.closeInventory();
                             player.sendMessage("",
-                                    "§7Please type in chat pitch you would like to set",
+                                    "§7Type in chat pitch you would like to set",
                                     "§7Type §ccancel §7to cancel",
                                     "");
                             Editor.markEditType(player, generator, EditType.SET_PITCH);

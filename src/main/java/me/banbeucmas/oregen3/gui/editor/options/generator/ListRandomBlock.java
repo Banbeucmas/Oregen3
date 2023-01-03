@@ -56,7 +56,7 @@ public class ListRandomBlock {
                         contents.set(5, 4, IntelligentItem.of(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
                                 .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjA1NmJjMTI0NGZjZmY5OTM0NGYxMmFiYTQyYWMyM2ZlZTZlZjZlMzM1MWQyN2QyNzNjMTU3MjUzMWYifX19")
                                 .setName("§2Add Block")
-                                .addLore("", "§7Want to add more block? click here!", "")
+                                .addLore("", "§7Want to add more block? click here", "")
                                 .build(), event -> CreateRandomBlock.open(player, generator)));
 
                         ListGenerator.movePage(player, contents, pagination);
@@ -131,7 +131,7 @@ public class ListRandomBlock {
             if (event.isLeftClick()) {
                 pagination.inventory().close(player);
                 player.sendMessage("",
-                        "§7Please type in chat how much you're willing to set chance percent",
+                        "§7Type in chat to set chance percentage",
                         "§7Type §ccancel §7to cancel",
                         "");
                 Editor.markChanceSet(player, generator, material);

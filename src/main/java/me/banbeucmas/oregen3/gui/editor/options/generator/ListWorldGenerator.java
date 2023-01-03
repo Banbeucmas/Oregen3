@@ -53,11 +53,11 @@ public class ListWorldGenerator {
                         contents.fillRow(45, BORDER);
 
                         ENABLE = IntelligentItem.empty(new ItemBuilder(XMaterial.LIME_STAINED_GLASS_PANE.parseItem())
-                                .setName("§7World Blacklist: §aEnable")
+                                .setName("§7World Blacklist: §aEnabled")
                                 .addLore("", "§eCheck to disable.", "")
                                 .build());
                         DISABLE = IntelligentItem.empty(new ItemBuilder(XMaterial.RED_STAINED_GLASS_PANE.parseItem())
-                                .setName("§7World Blacklist: §cDisable")
+                                .setName("§7World Blacklist: §cDisabled")
                                 .addLore("", "§eCheck to enable.", "")
                                 .build());
 
@@ -84,7 +84,7 @@ public class ListWorldGenerator {
                         contents.set(5, 4, IntelligentItem.of(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
                                 .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDM0NjdhNTMxOTc4ZDBiOGZkMjRmNTYyODVjNzI3MzRkODRmNWVjODhlMGI0N2M0OTMyMzM2Mjk3OWIzMjNhZiJ9fX0=")
                                 .setName("§2Add World")
-                                .addLore("", "§7Want to add more world? click here!", "")
+                                .addLore("", "§7Want to add more world? click here", "")
                                 .build(), event -> CreateWorldGenerator.open(player, generator)));
 
                         ListGenerator.movePage(player, contents, pagination);
@@ -95,7 +95,7 @@ public class ListWorldGenerator {
                             pagination.addItem(IntelligentItem.of(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
                                     .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDM0NjdhNTMxOTc4ZDBiOGZkMjRmNTYyODVjNzI3MzRkODRmNWVjODhlMGI0N2M0OTMyMzM2Mjk3OWIzMjNhZiJ9fX0=")
                                     .setName("§2" + world)
-                                    .addLore("", "§7Click to remove world!", "")
+                                    .addLore("", "§7Click to remove world", "")
                                     .build(), event -> {
                                 // TODO: Save config with comments
                                 worlds.remove(world);

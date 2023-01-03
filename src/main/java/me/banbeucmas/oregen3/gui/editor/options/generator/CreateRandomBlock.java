@@ -44,7 +44,7 @@ public class CreateRandomBlock {
     public static void open(Player player, Generator generator) {
         RyseInventory blockUI = RyseInventory.builder()
                 .identifier("ListBlock")
-                .title("Choose Block You Want [p.1]")
+                .title("Choose Block [p.1]")
                 .rows(6)
                 .provider(new InventoryProvider() {
                     @Override
@@ -64,7 +64,7 @@ public class CreateRandomBlock {
                             contents.set(5, 4, IntelligentItem.of(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
                                     .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjhiZGM3YTFkNmNmZjc2YTkyNTU2NTJkMzE2NTUzMjI4NWFjYzNhOWQxYzBmMTJmMzljYTAwNzc2OWE3ZWExNCJ9fX0=")
                                     .setName("§2Add Oraxen Block")
-                                    .addLore("", "§7Oraxen Supported:§2 Found§7!", "", "§7Want to add oraxen block? click here!", "")
+                                    .addLore("", "§7Oraxen Supported:§2 Found§7!", "", "§7Want to add oraxen block? click here", "")
                                     .build(), event -> CreateRandomOraxen.open(player, generator)
                             ));
                         } else {

@@ -100,7 +100,7 @@ public class MenuGenerator {
                                     if (event.isLeftClick()) {
                                         player.closeInventory();
                                         player.sendMessage("",
-                                                "§7Please type in chat permission you would like to set",
+                                                "§7Type in chat permission you would like to set",
                                                 "§7Type §ccancel §7to cancel",
                                                 "");
                                         Editor.markEditType(player, generator, EditType.SET_PERMISSION);
@@ -120,7 +120,7 @@ public class MenuGenerator {
                             if (event.isLeftClick()) {
                                 player.closeInventory();
                                 player.sendMessage("",
-                                                   "§7Please type in chat priority you would like to set",
+                                                   "§7Type in chat priority you would like to set",
                                                    "§7Type §ccancel §7to cancel",
                                                    "");
                                 Editor.markEditType(player, generator, EditType.SET_PRIORITY);
@@ -140,7 +140,7 @@ public class MenuGenerator {
                             if (event.isLeftClick()) {
                                 player.closeInventory();
                                 player.sendMessage("",
-                                        "§7Please type in chat level you would like to set",
+                                        "§7Type in chat level you would like to set",
                                         "§7Type §ccancel §7to cancel",
                                         "");
                                 Editor.markEditType(player, generator, EditType.SET_LEVEL);
