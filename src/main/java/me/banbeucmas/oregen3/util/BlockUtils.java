@@ -23,19 +23,11 @@ public class BlockUtils {
     };
 
     public static boolean isBlock(final Block b) {
-        return Oregen3.getPlugin().getConfig().getStringList("blocks").contains(b.getType().toString());
+        return XBlock.isOneOf(b, Oregen3.getPlugin().getConfig().getStringList("blocks"));
     }
 
     public static boolean isItem(final ItemStack i) {
         return i != null && i.getType() != Material.AIR;
-    }
-
-    public static boolean isWater(final Material material) {
-        return XBlock.isWater(material);
-    }
-
-    public static boolean isLava(final Material material) {
-        return XBlock.isLava(material);
     }
 
     public static boolean isSurroundedByWater(final Location loc) {
@@ -47,6 +39,6 @@ public class BlockUtils {
                          world.getBlockAt(x - 1, y, z),
                          world.getBlockAt(x, y, z + 1),
                          world.getBlockAt(x, y, z - 1))
-                .anyMatch(b -> isWater(b.getType()));
+                .anyMatch(b -> XBlock.isWater(b.getType()));
     }
 }

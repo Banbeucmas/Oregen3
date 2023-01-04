@@ -3,6 +3,7 @@ package me.banbeucmas.oregen3.listener;
 import com.cryptomorin.xseries.XBlock;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.handler.event.BlockEventHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -28,12 +29,12 @@ public class BlockListener implements Listener {
         for (final BlockFace face : FACES) {
             final Block check = to.getRelative(face);
             if (isBlock(check)
-                    && (isWater(material))
+                    && (XBlock.isWater(material))
                     && config.getBoolean("mode.waterBlock")) {
                 return true;
             }
             else if (isBlock(check)
-                    && (isLava(material))
+                    && (XBlock.isLava(material))
                     && config.getBoolean("mode.lavaBlock")) {
                 return true;
             }
@@ -45,10 +46,10 @@ public class BlockListener implements Listener {
     Checks for Water + Lava, block will use another method to prevent confusion
      */
     private boolean canGenerate(final Material material, final Block b) {
-        final boolean check = isWater(material);
+        final boolean check = XBlock.isWater(material);
         for (final BlockFace face : FACES) {
             final Material type = b.getRelative(face).getType();
-            if (((check && isLava(type)) || (!check && isWater(type)))
+            if (((check && XBlock.isLava(type)) || (!check && XBlock.isWater(type)))
                     && config.getBoolean("mode.waterLava")) {
                 return true;
             }
@@ -64,7 +65,7 @@ public class BlockListener implements Listener {
         final Material toMaterial = to.getType();
         final World world = source.getWorld();
 
-        if (sourceMaterial == Material.AIR)
+        if (XBlock.isAir(sourceMaterial))
             return;
 
         if (config.getBoolean("global.generators.world.enabled", false)
@@ -72,12 +73,13 @@ public class BlockListener implements Listener {
                 == config.getStringList("global.generators.world.list").contains(to.getWorld().getName())) {
             return;
         }
-        if (isWater(sourceMaterial) || isLava(sourceMaterial)) {
-            if ((toMaterial == Material.AIR || isWater(toMaterial))
+        Bukkit.broadcastMessage(sourceMaterial + " " + toMaterial);
+        if (XBlock.isWater(sourceMaterial) || XBlock.isLava(sourceMaterial)) {
+            if ((XBlock.isAir(toMaterial) || XBlock.isWater(toMaterial))
                     && XBlock.isWaterStationary(source)
                     && canGenerate(sourceMaterial, to)
                     && event.getFace() != BlockFace.DOWN) {
-                if (isLava(sourceMaterial) && !isSurroundedByWater(to.getLocation())) {
+                if (XBlock.isLava(sourceMaterial) && !isSurroundedByWater(to.getLocation())) {
                     return;
                 }
                 event.setCancelled(true);
@@ -85,6 +87,7 @@ public class BlockListener implements Listener {
             }
             else if (canGenerateBlock(source, to)) {
                 event.setCancelled(true);
+                Bukkit.broadcastMessage("oregen2");
                 eventHandler.generateBlock(world, source, to);
             }
         }
