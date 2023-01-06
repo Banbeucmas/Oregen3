@@ -3,7 +3,6 @@ package me.banbeucmas.oregen3.listener;
 import com.cryptomorin.xseries.XBlock;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.handler.event.BlockEventHandler;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -73,7 +72,7 @@ public class BlockListener implements Listener {
                 == config.getStringList("global.generators.world.list").contains(to.getWorld().getName())) {
             return;
         }
-        Bukkit.broadcastMessage(sourceMaterial + " " + toMaterial);
+
         if (XBlock.isWater(sourceMaterial) || XBlock.isLava(sourceMaterial)) {
             if ((XBlock.isAir(toMaterial) || XBlock.isWater(toMaterial))
                     && XBlock.isWaterStationary(source)
@@ -87,7 +86,6 @@ public class BlockListener implements Listener {
             }
             else if (canGenerateBlock(source, to)) {
                 event.setCancelled(true);
-                Bukkit.broadcastMessage("oregen2");
                 eventHandler.generateBlock(world, source, to);
             }
         }
