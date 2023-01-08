@@ -12,6 +12,11 @@ public class DataManager {
         return choosers;
     }
 
+    //TODO: Make this not static
+    public static Generator getGenerator(String name) {
+        return choosers.get(name);
+    }
+
     public static void unregisterAll(){
         choosers.clear();
     }
