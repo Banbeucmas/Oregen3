@@ -6,19 +6,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DataManager {
-    private static final Map<String, Generator> choosers = new HashMap<>();
+    private static final Map<String, Generator> generators = new HashMap<>();
 
-    public static Map<String, Generator> getChoosers() {
-        return choosers;
+    public static Map<String, Generator> getGenerators() {
+        return generators;
     }
 
     //TODO: Make this not static
     public static Generator getGenerator(String name) {
-        return choosers.get(name);
+        return generators.get(name);
     }
 
     public static void unregisterAll(){
-        choosers.clear();
+        generators.clear();
     }
 
     public static void loadData() {
@@ -26,6 +26,6 @@ public class DataManager {
         Oregen3.getPlugin().getConfig()
                 .getConfigurationSection("generators")
                 .getKeys(false)
-                .forEach(id -> choosers.put(id, new Generator(id)));
+                .forEach(id -> generators.put(id, new Generator(id)));
     }
 }

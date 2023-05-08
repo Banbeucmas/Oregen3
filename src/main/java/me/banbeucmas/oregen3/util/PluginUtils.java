@@ -35,7 +35,7 @@ public class PluginUtils {
     }
 
     public static Generator getChosenGenerator(final Location loc) {
-        Generator mc = DataManager.getChoosers().get(getPlugin().getConfig().getString("defaultGenerator", ""));
+        Generator mc = DataManager.getGenerators().get(getPlugin().getConfig().getString("defaultGenerator", ""));
         switch (getPlugin().getConfig().getString("hooks.skyblock.getGeneratorMode", "owner")) {
             case "owner": {
                 final OfflinePlayer p = getOwner(loc);
@@ -81,13 +81,13 @@ public class PluginUtils {
     }
 
     public static Generator getChosenGenerator(final UUID uuid, World world) {
-        Generator mc = DataManager.getChoosers().get(getPlugin().getConfig().getString("defaultGenerator"));
+        Generator mc = DataManager.getGenerators().get(getPlugin().getConfig().getString("defaultGenerator"));
         if (getPlugin().hasDependency()) {
             final UUID p = getHook().getIslandOwner(uuid, world);
             if (p == null) {
                 return mc;
             }
-            for (final Generator chooser : DataManager.getChoosers().values()) {
+            for (final Generator chooser : DataManager.getGenerators().values()) {
                 if (Oregen3.getPermissionManager().checkPerm(world.getName(), Bukkit.getOfflinePlayer(p), chooser.getPermission())
                         && chooser.getPriority() >= mc.getPriority()
                         && getHook().getIslandLevel(p, null) >= chooser.getLevel()) {
@@ -100,7 +100,8 @@ public class PluginUtils {
 
     private static Generator getMaterialChooser(final Location loc, Generator mc, final OfflinePlayer p) {
         final double level = getHook().getIslandLevel(p.getUniqueId(), loc);
-        for (final Generator chooser : DataManager.getChoosers().values()) {
+        for (final Generator chooser : DataManager.getGenerators().values()) {
+            if (chooser.isWorldEnabled() && chooser.getWorldList().contains(loc.getWorld().getName()) == chooser.isWorldBlacklist()) continue;
             if (Oregen3.getPermissionManager().checkPerm(loc.getWorld().getName(), p, chooser.getPermission())
                     && chooser.getPriority() >= mc.getPriority()
                     && level >= chooser.getLevel()) {

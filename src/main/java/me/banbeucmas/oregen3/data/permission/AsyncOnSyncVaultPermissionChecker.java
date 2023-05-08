@@ -57,7 +57,7 @@ public class AsyncOnSyncVaultPermissionChecker implements PermissionChecker, Lis
         new BukkitRunnable() {
             @Override
             public void run() {
-                for (final Generator chooser : DataManager.getChoosers().values()) {
+                for (final Generator chooser : DataManager.getGenerators().values()) {
                     checkPerm(null, player, chooser.getPermission());
                 }
             }

@@ -11,8 +11,7 @@ public abstract class BlockEventHandler {
 
     void generate(final World world, final Block source, final Block to) {
         final Generator mc = PluginUtils.getChosenGenerator(source.getLocation());
-        if (mc.isWorldEnabled() && mc.getWorldList().contains(to.getWorld().getName()) == mc.isWorldBlacklist())
-            return;
+        if (mc == null) return;
         Oregen3.getBlockPlaceHandler().placeBlock(to, mc.randomChance());
         PluginUtils.sendBlockEffect(world, to, Oregen3.getPlugin(), mc);
     }

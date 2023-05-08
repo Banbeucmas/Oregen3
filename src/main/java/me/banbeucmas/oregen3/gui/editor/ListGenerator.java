@@ -20,7 +20,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ListGenerator {
 
@@ -47,7 +46,7 @@ public class ListGenerator {
 
                         movePage(player, contents, pagination);
 
-                        Map<String, Generator> map = DataManager.getChoosers();
+                        Map<String, Generator> map = DataManager.getGenerators();
                         List<Generator> choosers = new ArrayList<>(map.values());
 
                         for (Generator info : choosers) {
@@ -72,9 +71,7 @@ public class ListGenerator {
                             meta.setLore(lore);
                             item.setItemMeta(meta);
 
-                            pagination.addItem(IntelligentItem.of(item, event -> {
-                                MenuGenerator.open(player, info);
-                            }));
+                            pagination.addItem(IntelligentItem.of(item, event -> MenuGenerator.open(player, info)));
                         }
                     }
                 })
