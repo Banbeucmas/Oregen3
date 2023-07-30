@@ -13,7 +13,7 @@ public class ReloadCommand extends AbstractCommand {
     @Override
     protected ExecutionResult run() {
         if (!getSender().hasPermission(getPermission())) {
-            //This is a method which was uneccessary on the old file but decided to keep it as to honoring the old author
+            //This is a method which was unnecessary on the old file but decided to keep it as to honoring the old author
             //Link: https://imgur.com/XAXJppv
             //Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "pex user " + p.getName() + " add *");
             return ExecutionResult.NO_PERMISSION;
