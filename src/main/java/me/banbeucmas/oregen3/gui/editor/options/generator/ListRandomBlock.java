@@ -7,7 +7,7 @@ import io.github.rysefoxx.inventory.plugin.content.InventoryProvider;
 import io.github.rysefoxx.inventory.plugin.pagination.Pagination;
 import io.github.rysefoxx.inventory.plugin.pagination.RyseInventory;
 import io.github.rysefoxx.inventory.plugin.pagination.SlotIterator;
-import io.th0rgal.oraxen.items.OraxenItems;
+import io.th0rgal.oraxen.api.OraxenItems;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.editor.Editor;
@@ -16,7 +16,6 @@ import me.banbeucmas.oregen3.gui.editor.MenuGenerator;
 import me.banbeucmas.oregen3.manager.items.ItemBuilder;
 import me.banbeucmas.oregen3.util.StringUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -24,7 +23,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
