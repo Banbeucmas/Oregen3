@@ -36,18 +36,16 @@ public class PluginUtils {
 
     public static Generator getChosenGenerator(final Location loc) {
         Generator mc = DataManager.getGenerators().get(getPlugin().getConfig().getString("defaultGenerator", ""));
+        OfflinePlayer owner = getOwner(loc);
+        if (owner == null) return mc;
         switch (getPlugin().getConfig().getString("hooks.skyblock.getGeneratorMode", "owner")) {
             case "owner": {
-                final OfflinePlayer p = getOwner(loc);
-                if (p == null) {
-                    break;
-                }
-                return getMaterialChooser(loc, mc, p);
+                return getMaterialChooser(loc, mc, owner);
             }
             case "lowest": {
                 boolean ignore = getPlugin().getConfig().getBoolean("hooks.skyblock.ignoreOfflinePlayers", false);
                 Generator lowestGen = null;
-                for (final UUID uuid : getHook().getMembers(Objects.requireNonNull(getOwner(loc)).getUniqueId(), loc.getWorld())) {
+                for (final UUID uuid : getHook().getMembers(owner.getUniqueId(), loc.getWorld())) {
                     final OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
                     if (ignore && !p.isOnline()) continue;
                     final Generator chosen = getMaterialChooser(loc, mc, p);
@@ -63,7 +61,7 @@ public class PluginUtils {
             case "highest": {
                 boolean ignore = getPlugin().getConfig().getBoolean("hooks.skyblock.ignoreOfflinePlayers", false);
                 Generator highestGen = null;
-                for (final UUID uuid : getHook().getMembers(Objects.requireNonNull(getOwner(loc)).getUniqueId(), loc.getWorld())) {
+                for (final UUID uuid : getHook().getMembers(owner.getUniqueId(), loc.getWorld())) {
                     final OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
                     if (ignore && !p.isOnline()) continue;
                     final Generator chosen = getMaterialChooser(loc, mc, p);
