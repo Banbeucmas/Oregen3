@@ -8,7 +8,6 @@ import io.github.rysefoxx.inventory.plugin.pagination.Pagination;
 import io.github.rysefoxx.inventory.plugin.pagination.RyseInventory;
 import io.github.rysefoxx.inventory.plugin.pagination.SlotIterator;
 import me.banbeucmas.oregen3.Oregen3;
-import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.gui.EditorGUI;
 import me.banbeucmas.oregen3.manager.items.ItemBuilder;
@@ -19,13 +18,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class ListGenerator {
 
     protected static final ItemStack BORDER = new ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE.parseItem()).setName("§0").build();
 
-    public static void open(Player player) {
+    public static void open(Player player, Oregen3 plugin) {
         RyseInventory listGenerator = RyseInventory.builder()
                 .identifier("ListGenerator")
                 .title("Generators [p.1]")
@@ -41,16 +42,16 @@ public class ListGenerator {
                         contents.fillRow(0, BORDER);
                         contents.set(0, IntelligentItem.of(new ItemBuilder(XMaterial.ARROW.parseMaterial())
                                 .setName("§e <- Go Back ")
-                                .build(), event -> EditorGUI.open(player)));
+                                .build(), event -> EditorGUI.open(player, plugin)));
                         contents.fillRow(45, BORDER);
 
                         movePage(player, contents, pagination);
 
-                        Map<String, Generator> map = DataManager.getGenerators();
+                        Map<String, Generator> map = plugin.getDataManager().getGenerators();
                         List<Generator> choosers = new ArrayList<>(map.values());
 
                         for (Generator info : choosers) {
-                            Configuration config = Oregen3.getPlugin().getConfig();
+                            Configuration config = plugin.getConfig();
                             ConfigurationSection path = config.getConfigurationSection("generators." + info.getId() + ".random");
                             List<String> materials = new ArrayList<>(path.getKeys(true));
                             ItemStack item = XMaterial.COBBLESTONE.parseItem();
@@ -71,11 +72,11 @@ public class ListGenerator {
                             meta.setLore(lore);
                             item.setItemMeta(meta);
 
-                            pagination.addItem(IntelligentItem.of(item, event -> MenuGenerator.open(player, info)));
+                            pagination.addItem(IntelligentItem.of(item, event -> MenuGenerator.open(player, info, plugin)));
                         }
                     }
                 })
-                .build(Oregen3.getPlugin());
+                .build(plugin);
         listGenerator.open(player);
     }
 

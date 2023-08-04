@@ -1,31 +1,34 @@
 package me.banbeucmas.oregen3.data;
 
+import lombok.Getter;
 import me.banbeucmas.oregen3.Oregen3;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class DataManager {
-    private static final Map<String, Generator> generators = new HashMap<>();
+    private Oregen3 plugin;
 
-    public static Map<String, Generator> getGenerators() {
-        return generators;
+    @Getter
+    private final Map<String, Generator> generators = new HashMap<>();
+
+    public DataManager(Oregen3 plugin) {
+        this.plugin = plugin;
     }
 
-    //TODO: Make this not static
-    public static Generator getGenerator(String name) {
+    public Generator getGenerator(String name) {
         return generators.get(name);
     }
 
-    public static void unregisterAll(){
+    public void unregisterAll(){
         generators.clear();
     }
 
-    public static void loadData() {
+    public void loadData() {
         unregisterAll();
-        Oregen3.getPlugin().getConfig()
+        plugin.getConfig()
                 .getConfigurationSection("generators")
                 .getKeys(false)
-                .forEach(id -> generators.put(id, new Generator(id)));
+                .forEach(id -> generators.put(id, new Generator(plugin, id)));
     }
 }

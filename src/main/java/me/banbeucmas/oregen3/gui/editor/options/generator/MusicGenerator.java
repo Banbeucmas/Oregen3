@@ -20,7 +20,7 @@ public class MusicGenerator {
 
     protected static final ItemStack BORDER = new ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE.parseItem()).setName("§0").build();
 
-    public static void open(Player player, Generator generator) {
+    public static void open(Player player, Generator generator, Oregen3 plugin) {
         RyseInventory inventory = RyseInventory.builder()
                 .title("Music Editor")
                 .rows(5)
@@ -36,16 +36,16 @@ public class MusicGenerator {
                                 "#########"
                         );
 
-                        Configuration config = Oregen3.getPlugin().getConfig();
+                        Configuration config = plugin.getConfig();
 
                         pattern.set('#', BORDER);
                         pattern.set('<', IntelligentItem.of(new ItemBuilder(XMaterial.ARROW.parseMaterial())
                                 .setName("§e <- Go Back ")
-                                .build(), event -> MenuGenerator.open(player, generator)));
+                                .build(), event -> MenuGenerator.open(player, generator, plugin)));
                         pattern.set('1', IntelligentItem.of(new ItemBuilder(XMaterial.JUKEBOX.parseItem())
                                 .setName("§rEdit Sound")
                                 .addLore("", "§7Current sound:§e " + generator.getSound(), "", "§eClick to edit sound", "")
-                                .build(), event -> ChooseMusicGenerator.open(player, generator)));
+                                .build(), event -> ChooseMusicGenerator.open(player, generator, plugin)));
                         pattern.set('2', IntelligentItem.of(new ItemBuilder(XMaterial.NOTE_BLOCK.parseItem())
                                 .setName("§rEdit Volume")
                                 .addLore("", "§7Current volume:§e " + generator.getSoundVolume(), "", "§eClick to set volume", "")
@@ -70,7 +70,7 @@ public class MusicGenerator {
                         }));
                     }
                 })
-                .build(Oregen3.getPlugin());
+                .build(plugin);
         inventory.open(player);
     }
 }

@@ -41,7 +41,7 @@ public class CreateRandomBlock {
         BLOCK_MATERIALS.sort(Comparator.comparing(Enum::name));
     }
 
-    public static void open(Player player, Generator generator) {
+    public static void open(Player player, Generator generator, Oregen3 plugin) {
         RyseInventory blockUI = RyseInventory.builder()
                 .identifier("ListBlock")
                 .title("Choose Block [p.1]")
@@ -56,7 +56,7 @@ public class CreateRandomBlock {
                         contents.fillRow(0, BORDER);
                         contents.set(0, IntelligentItem.of(new ItemBuilder(XMaterial.ARROW.parseMaterial())
                                 .setName("§e <- Go Back ")
-                                .build(), event -> ListGenerator.open(player)));
+                                .build(), event -> ListGenerator.open(player, plugin)));
                         contents.fillRow(45, BORDER);
 
                         // Oraxen Require
@@ -65,7 +65,7 @@ public class CreateRandomBlock {
                                     .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjhiZGM3YTFkNmNmZjc2YTkyNTU2NTJkMzE2NTUzMjI4NWFjYzNhOWQxYzBmMTJmMzljYTAwNzc2OWE3ZWExNCJ9fX0=")
                                     .setName("§2Add Oraxen Block")
                                     .addLore("", "§7Oraxen Supported:§2 Found§7!", "", "§7Want to add oraxen block? click here", "")
-                                    .build(), event -> CreateRandomOraxen.open(player, generator)
+                                    .build(), event -> CreateRandomOraxen.open(player, generator, plugin)
                             ));
                         } else {
                             contents.set(5, 4, IntelligentItem.empty(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
@@ -77,7 +77,7 @@ public class CreateRandomBlock {
                         }
 
 
-                        Configuration config = Oregen3.getPlugin().getConfig();
+                        Configuration config = plugin.getConfig();
                         ConfigurationSection path = config.getConfigurationSection("generators." + generator.getId() + ".random");
                         List<String> materials = config.getStringList("generators." + generator.getId() + ".random");
 
@@ -89,14 +89,14 @@ public class CreateRandomBlock {
                                             .build(), event -> {
                                 // TODO: Save config with comments
                                 config.set("generators." + generator.getId() + ".random." + item.toString(), 1.0);
-                                Oregen3.getPlugin().saveConfig();
-                                Oregen3.getPlugin().reload();
-                                ListRandomBlock.open(player, generator);
+                                plugin.saveConfig();
+                                plugin.reload();
+                                ListRandomBlock.open(player, generator, plugin);
                             }));
                         }
                     }
                 })
-                .build(Oregen3.getPlugin());
+                .build(plugin);
         blockUI.open(player);
     }
 

@@ -1,7 +1,6 @@
 package me.banbeucmas.oregen3.hook.skyblock;
 
 import me.banbeucmas.oregen3.Oregen3;
-import me.banbeucmas.oregen3.util.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -19,12 +18,12 @@ public class BentoBoxHook implements SkyblockHook {
     private IslandsManager manager;
     private boolean level = true;
 
-    public BentoBoxHook() {
-        Bukkit.getScheduler().runTaskLater(Oregen3.getPlugin(), () -> {
+    public BentoBoxHook(Oregen3 plugin) {
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
             manager = BentoBox.getInstance().getIslands();
 
             if (!BentoBox.getInstance().getAddonsManager().getAddonByName("Level").isPresent()) {
-                Oregen3.getPlugin().getLogger().warning(StringUtils.getPrefixString("Level addon for BentoBox not found! Turning island level feature off...", null));
+                plugin.getLogger().warning(plugin.getStringUtils().getPrefixString("Level addon for BentoBox not found! Turning island level feature off...", null));
                 level = false;
             }
         }, 2);

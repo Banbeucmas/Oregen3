@@ -17,7 +17,7 @@ public class LimitedBlockPlaceTask extends BlockPlaceTask {
 
     public LimitedBlockPlaceTask(Oregen3 plugin) {
         super(plugin);
-        if (plugin.getEventHandler().isAsync()) {
+        if (plugin.getBlockEventHandler().isAsync()) {
             tasks = new ConcurrentLinkedQueue<>();
         } else {
             tasks = new ArrayDeque<>();

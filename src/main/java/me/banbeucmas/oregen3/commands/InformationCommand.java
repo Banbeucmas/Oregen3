@@ -2,8 +2,6 @@ package me.banbeucmas.oregen3.commands;
 
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.gui.GeneratorMaterialList;
-import me.banbeucmas.oregen3.util.PluginUtils;
-import me.banbeucmas.oregen3.util.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
@@ -15,11 +13,14 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.regex.Matcher;
 
-import static me.banbeucmas.oregen3.util.StringUtils.PLAYER;
+import static me.banbeucmas.oregen3.util.StringUtils.PLACEHOLDER_PLAYER_PATTERN;
 
 public class InformationCommand extends AbstractCommand {
-    InformationCommand(final CommandSender sender, final String label, final String[] args) {
-        super("oregen3.information", sender, label, args);
+    Oregen3 plugin;
+    
+    InformationCommand(Oregen3 plugin, final CommandSender sender, final String label, final String[] args) {
+        super(plugin, "oregen3.information", sender, label, args);
+        this.plugin = plugin;
     }
 
     @Override
@@ -33,9 +34,9 @@ public class InformationCommand extends AbstractCommand {
             return ExecutionResult.NO_PERMISSION;
         }
 
-        Player p = getPlayer();
+        Player p = (Player) sender;
         final String[] args = getArgs();
-        final FileConfiguration config = Oregen3.getPlugin().getConfig();
+        final FileConfiguration config = plugin.getConfig();
 
         if (args.length > 1) {
             @SuppressWarnings("deprecation") final OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
@@ -48,15 +49,15 @@ public class InformationCommand extends AbstractCommand {
             else {
                 final UUID uuid = player.getUniqueId();
                 World world = null;
-                if (!Oregen3.getHook().isIslandWorldSingle() && args.length < 3) {
+                if (!plugin.getHook().isIslandWorldSingle() && args.length < 3) {
                     return ExecutionResult.MISSING_ARGS;
                 }
                 if (args.length > 2) {
                     world = Bukkit.getWorld(args[2]);
                 }
 
-                if (!Oregen3.getPlugin().hasDependency() || PluginUtils.getOwner(uuid, world) == null) {
-                    sender.sendMessage(PLAYER.matcher(StringUtils.getColoredPrefixString(config.getString("messages.noIslandOthers"), getPlayer())).replaceAll(Matcher.quoteReplacement(Objects.requireNonNull(player.getName()))));
+                if (!plugin.hasDependency() || plugin.getUtils().getOwner(uuid, world) == null) {
+                    sender.sendMessage(PLACEHOLDER_PLAYER_PATTERN.matcher(plugin.getStringUtils().getColoredPrefixString(config.getString("messages.noIslandOthers"), p)).replaceAll(Matcher.quoteReplacement(Objects.requireNonNull(player.getName()))));
                     return ExecutionResult.SUCCESS;
                 }
 
@@ -65,11 +66,11 @@ public class InformationCommand extends AbstractCommand {
             }
         }
 
-        if (!Oregen3.getPlugin().hasDependency() || PluginUtils.getOwner(p.getLocation()) == null) {
-            p.sendMessage(StringUtils.getColoredPrefixString(config.getString("messages.noIsland"), getPlayer()));
+        if (!plugin.hasDependency() || plugin.getUtils().getOwner(p.getLocation()) == null) {
+            p.sendMessage(plugin.getStringUtils().getColoredPrefixString(config.getString("messages.noIsland"), p));
             return ExecutionResult.SUCCESS;
         }
-        p.openInventory(new GeneratorMaterialList(p.getLocation(), p).getInventory());
+        p.openInventory(new GeneratorMaterialList(plugin, p.getLocation(), p).getInventory());
 
         return ExecutionResult.SUCCESS;
     }

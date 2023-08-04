@@ -15,24 +15,26 @@ import org.bukkit.event.block.BlockFromToEvent;
 import static me.banbeucmas.oregen3.util.BlockUtils.*;
 
 public class BlockListener implements Listener {
+    private Oregen3 plugin;
     private final FileConfiguration config;
     private final BlockEventHandler eventHandler;
 
     public BlockListener(final Oregen3 plugin) {
+        this.plugin = plugin;
         this.config = plugin.getConfig();
-        this.eventHandler = plugin.getEventHandler();
+        this.eventHandler = plugin.getBlockEventHandler();
     }
 
     private boolean canGenerateBlock(final Block src, final Block to) {
         final Material material = src.getType();
         for (final BlockFace face : FACES) {
             final Block check = to.getRelative(face);
-            if (isBlock(check)
+            if (plugin.getBlockUtils().isBlock(check)
                     && (XBlock.isWater(material))
                     && config.getBoolean("mode.waterBlock")) {
                 return true;
             }
-            else if (isBlock(check)
+            else if (plugin.getBlockUtils().isBlock(check)
                     && (XBlock.isLava(material))
                     && config.getBoolean("mode.lavaBlock")) {
                 return true;

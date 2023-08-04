@@ -1,13 +1,15 @@
 package me.banbeucmas.oregen3.commands;
 
-import me.banbeucmas.oregen3.util.StringUtils;
+import me.banbeucmas.oregen3.Oregen3;
 import org.bukkit.command.CommandSender;
-
-import static me.banbeucmas.oregen3.Oregen3.getPlugin;
+import org.bukkit.entity.Player;
 
 public class ReloadCommand extends AbstractCommand {
-    ReloadCommand(final CommandSender sender) {
-        super("oregen3.reload", sender, null, null);
+    Oregen3 plugin;
+
+    ReloadCommand(final Oregen3 plugin, final CommandSender sender) {
+        super(plugin,"oregen3.reload", sender, null, null);
+        this.plugin = plugin;
     }
 
     @Override
@@ -19,8 +21,9 @@ public class ReloadCommand extends AbstractCommand {
             return ExecutionResult.NO_PERMISSION;
         }
 
-        getPlugin().reload();
-        getSender().sendMessage(StringUtils.getPrefixString("Config reloaded", getPlayer()));
+        plugin.reload();
+        Player player = getSender() instanceof Player ? (Player) getSender() : null;
+        getSender().sendMessage(plugin.getStringUtils().getPrefixString("Config reloaded", player));
         return ExecutionResult.SUCCESS;
     }
 }

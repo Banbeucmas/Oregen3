@@ -12,7 +12,7 @@ public class NormalBlockPlaceTask extends BlockPlaceTask {
     public NormalBlockPlaceTask(Oregen3 plugin) {
         super(plugin);
         this.plugin = plugin;
-        if (plugin.getEventHandler().isAsync()) {
+        if (plugin.getBlockEventHandler().isAsync()) {
             placeTask = new SyncBlockPlaceTask();
         }
         else {

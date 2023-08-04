@@ -4,7 +4,6 @@ import com.cryptomorin.xseries.XMaterial;
 import io.github.rysefoxx.inventory.plugin.content.IntelligentItem;
 import io.github.rysefoxx.inventory.plugin.content.InventoryContents;
 import io.github.rysefoxx.inventory.plugin.content.InventoryProvider;
-import io.github.rysefoxx.inventory.plugin.enums.TimeSetting;
 import io.github.rysefoxx.inventory.plugin.pagination.RyseInventory;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.Generator;
@@ -21,14 +20,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MenuGenerator {
 
     protected static final ItemStack BORDER = new ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE.parseItem()).setName("§0").build();
 
-    public static void open(Player player, Generator generator) {
+    public static void open(Player player, Generator generator, Oregen3 plugin) {
         RyseInventory menuGenerator = RyseInventory.builder()
                 .title("Generator: %name".replace("%name", generator.getId()))
                 .rows(5)
@@ -36,7 +34,7 @@ public class MenuGenerator {
                     @Override
                     public void init(Player player, InventoryContents contents) {
 
-                        Configuration config = Oregen3.getPlugin().getConfig();
+                        Configuration config = plugin.getConfig();
                         ConfigurationSection path = config.getConfigurationSection("generators." + generator.getId() + ".random");
                         List<String> materials = new ArrayList<>(path.getKeys(true));
 
@@ -60,7 +58,7 @@ public class MenuGenerator {
                         contents.fillRow(0, BORDER);
                         contents.set(0, IntelligentItem.of(new ItemBuilder(XMaterial.ARROW.parseMaterial())
                                 .setName("§e <- Go Back ")
-                                .build(), event -> ListGenerator.open(player)));
+                                .build(), event -> ListGenerator.open(player, plugin)));
                         contents.set(0, 4, item);
                         contents.fillRow(36, BORDER);
 
@@ -70,7 +68,7 @@ public class MenuGenerator {
 //                                .build());
 //                        contents.set(19, animateItem);
 //
-//                        IntelligentMaterialAnimator materialAnimator = IntelligentMaterialAnimator.builder(Oregen3.getPlugin())
+//                        IntelligentMaterialAnimator materialAnimator = IntelligentMaterialAnimator.builder(plugin)
 //                                .item(animateItem)
 //                                .slot(19)
 //                                .loop()
@@ -90,7 +88,7 @@ public class MenuGenerator {
                         contents.set(2, 0, IntelligentItem.of(new ItemBuilder(XMaterial.COBBLESTONE.parseMaterial())
                                 .setName("§rEdit random blocks")
                                 .addLore("", "§eClick to open random blocks", "")
-                                .build(), event -> ListRandomBlock.open(player, generator)));
+                                .build(), event -> ListRandomBlock.open(player, generator, plugin)));
 
                         contents.set(2, 2, IntelligentItem.of(new ItemBuilder(XMaterial.NAME_TAG.parseMaterial())
                                 .setName("§rEdit permission")
@@ -108,9 +106,9 @@ public class MenuGenerator {
                                     if (event.isRightClick()) {
                                         // TODO: Save config with comments
                                         config.set("generators." + generator.getId() + ".permission", null);
-                                        Oregen3.getPlugin().saveConfig();
-                                        Oregen3.getPlugin().reload();
-                                        ListGenerator.open(player);
+                                        plugin.saveConfig();
+                                        plugin.reload();
+                                        ListGenerator.open(player, plugin);
                                     }
                         }));
                         contents.set(2,4, IntelligentItem.of(new ItemBuilder(XMaterial.PAPER.parseItem())
@@ -128,9 +126,9 @@ public class MenuGenerator {
                             if (event.isRightClick()) {
                                 // TODO: Save config with comments
                                 config.set("generators." + generator.getId() + ".priority", null);
-                                Oregen3.getPlugin().saveConfig();
-                                Oregen3.getPlugin().reload();
-                                ListGenerator.open(player);
+                                plugin.saveConfig();
+                                plugin.reload();
+                                ListGenerator.open(player, plugin);
                             }
                         }));
                         contents.set(2, 6, IntelligentItem.of(new ItemBuilder(XMaterial.EXPERIENCE_BOTTLE.parseMaterial())
@@ -148,22 +146,22 @@ public class MenuGenerator {
                             if (event.isRightClick()) {
                                 // TODO: Save config with comments
                                 config.set("generators." + generator.getId() + ".level", null);
-                                Oregen3.getPlugin().saveConfig();
-                                Oregen3.getPlugin().reload();
-                                ListGenerator.open(player);
+                                plugin.saveConfig();
+                                plugin.reload();
+                                ListGenerator.open(player, plugin);
                             }
                         }));
                         contents.set(2, 8, IntelligentItem.of(new ItemBuilder(XMaterial.JUKEBOX.parseMaterial())
                                 .setName("§rEdit music")
                                 .addLore("", "§eClick to open music", "")
-                                .build(), event -> MusicGenerator.open(player, generator)));
+                                .build(), event -> MusicGenerator.open(player, generator, plugin)));
                         contents.set(4, 8, IntelligentItem.of(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
                                 .setName("§rEdit Worlds")
                                 .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDM0NjdhNTMxOTc4ZDBiOGZkMjRmNTYyODVjNzI3MzRkODRmNWVjODhlMGI0N2M0OTMyMzM2Mjk3OWIzMjNhZiJ9fX0=")
-                                .build(), event -> ListWorldGenerator.open(player, generator)));
+                                .build(), event -> ListWorldGenerator.open(player, generator, plugin)));
                     }
                 })
-                .build(Oregen3.getPlugin());
+                .build(plugin);
         menuGenerator.open(player);
     }
 

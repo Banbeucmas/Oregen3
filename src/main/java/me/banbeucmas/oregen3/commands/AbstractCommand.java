@@ -9,23 +9,18 @@ import java.util.regex.Matcher;
 import static me.banbeucmas.oregen3.util.StringUtils.*;
 
 abstract class AbstractCommand {
-	private final String permission;
-	private final CommandSender sender;
-	private final Player player;
-	private final String label;
-	private final String[] args;
+	Oregen3 plugin;
+	String permission;
+	CommandSender sender;
+	String label;
+	String[] args;
 
-	AbstractCommand(final String permission, final CommandSender sender, final String label, final String[] args) {
+	AbstractCommand(final Oregen3 plugin, final String permission, final CommandSender sender, final String label, final String[] args) {
+		this.plugin = plugin;
 		this.permission = permission;
 		this.label      = label;
 		this.args       = args;
 		this.sender     = sender;
-
-		if (sender instanceof Player) {
-			player = (Player) sender;
-		}
-		else
-			player = null;
 	}
 
 	/**
@@ -34,18 +29,19 @@ abstract class AbstractCommand {
 	abstract ExecutionResult run();
 
 	void execute() {
+		Player player = sender instanceof Player ? (Player) sender : null;
 		switch (run()) {
 			case MISSING_ARGS:
-				sender.sendMessage(getColoredPrefixString(Oregen3.getPlugin().getConfig().getString("messages.missingArgs"), player));
+				sender.sendMessage(plugin.getStringUtils().getColoredPrefixString(plugin.getConfig().getString("messages.missingArgs"), player));
 				break;
 			case NO_PERMISSION:
-				sender.sendMessage(getColoredPrefixString(PERM.matcher(Oregen3.getPlugin().getConfig().getString("messages.noPermission")).replaceAll(Matcher.quoteReplacement(permission)), player));
+				sender.sendMessage(plugin.getStringUtils().getColoredPrefixString(PLACEHOLDER_PERM_PATTERN.matcher(plugin.getConfig().getString("messages.noPermission", "")).replaceAll(Matcher.quoteReplacement(permission)), player));
 				break;
 			case NO_PLAYER:
-				sender.sendMessage(getColoredPrefixString(PLAYER.matcher(Oregen3.getPlugin().getConfig().getString("messages.noPlayer")).replaceAll(Matcher.quoteReplacement(player != null ? player.getName() : "")), player));
+				sender.sendMessage(plugin.getStringUtils().getColoredPrefixString(PLACEHOLDER_PLAYER_PATTERN.matcher(plugin.getConfig().getString("messages.noPlayer", "")).replaceAll(Matcher.quoteReplacement(player != null ? player.getName() : "")), player));
 				break;
 			case NON_PLAYER:
-				sender.sendMessage(getColoredPrefixString(Oregen3.getPlugin().getConfig().getString("messages.notPlayer"), player));
+				sender.sendMessage(plugin.getStringUtils().getColoredPrefixString(plugin.getConfig().getString("messages.notPlayer"), player));
 		}
 	}
 
@@ -64,9 +60,5 @@ abstract class AbstractCommand {
 
 	CommandSender getSender() {
 		return sender;
-	}
-
-	Player getPlayer() {
-		return player;
 	}
 }

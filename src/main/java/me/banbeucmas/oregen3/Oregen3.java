@@ -1,6 +1,8 @@
 package me.banbeucmas.oregen3;
 
 import io.github.rysefoxx.inventory.plugin.pagination.InventoryManager;
+import lombok.AccessLevel;
+import lombok.Getter;
 import me.banbeucmas.oregen3.commands.CommandHandler;
 import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.data.permission.*;
@@ -12,6 +14,8 @@ import me.banbeucmas.oregen3.hook.placeholder.PlaceholderHandler;
 import me.banbeucmas.oregen3.hook.skyblock.*;
 import me.banbeucmas.oregen3.listener.BlockListener;
 import me.banbeucmas.oregen3.listener.InventoryListener;
+import me.banbeucmas.oregen3.util.BlockUtils;
+import me.banbeucmas.oregen3.util.PluginUtils;
 import me.banbeucmas.oregen3.util.StringUtils;
 import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.MetricsLite;
@@ -22,55 +26,32 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
-
-public final class Oregen3 extends JavaPlugin {
-    private static Oregen3 plugin;
-    private static SkyblockHook hook;
-    private static Permission perm;
-    private static PermissionChecker permissionChecker;
-    private static BlockEventHandler eventHandler;
-    private static BlockPlaceTask blockPlaceTask;
-    public boolean papi;
-    private boolean hasDependency = true;
-    private InventoryManager inventoryManager;
-
+@Getter
+public class Oregen3 extends JavaPlugin {
+    private boolean papiEnabled;
+    @Getter(AccessLevel.NONE) private boolean hasDependency = true;
     public boolean hasDependency() {
         return hasDependency;
     }
 
-    public BlockEventHandler getEventHandler() {
-        return eventHandler;
-    }
+    private SkyblockHook hook;
+    private Permission perm;
+    private PermissionChecker permissionChecker;
+    private BlockEventHandler blockEventHandler;
+    private BlockPlaceTask blockPlaceTask;
+    private PluginUtils utils = new PluginUtils(this);
+    private StringUtils stringUtils = new StringUtils(this);
+    private BlockUtils blockUtils = new BlockUtils(this);
+    private DataManager dataManager = new DataManager(this);
 
     public void onDisable() {
-        plugin = null;
-        DataManager.unregisterAll();
-    }
-
-    public static SkyblockHook getHook() {
-        return hook;
-    }
-
-    public static Oregen3 getPlugin() {
-        return plugin;
-    }
-
-    public static Permission getPerm() {
-        return perm;
-    }
-
-    public static PermissionChecker getPermissionManager() {
-        return permissionChecker;
-    }
-
-    public static BlockPlaceTask getBlockPlaceHandler() {
-        return blockPlaceTask;
+        dataManager.unregisterAll();
     }
 
     public void updateConfig() {
         reloadConfig();
-        eventHandler = getConfig().getBoolean("global.listener.asyncListener", false) ?
-                new AsyncBlockEventHandler(this) : new SyncBlockEventHandler();
+        blockEventHandler = getConfig().getBoolean("global.listener.asyncListener", false) ?
+                new AsyncBlockEventHandler(this) : new SyncBlockEventHandler(this);
         if (blockPlaceTask != null) {
             blockPlaceTask.stop();
         }
@@ -80,8 +61,6 @@ public final class Oregen3 extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        plugin = this;
-
         new MetricsLite(this, 3052);
 
         saveDefaultConfig();
@@ -97,24 +76,25 @@ public final class Oregen3 extends JavaPlugin {
         sender.sendMessage("");
         sender.sendMessage("------------------------------------");
 
-        DataManager.loadData();
+        dataManager.loadData();
 
         final PluginCommand command = Objects.requireNonNull(getCommand("oregen3"));
-        command.setExecutor(new CommandHandler());
-        command.setTabCompleter(new CommandHandler());
+        CommandHandler commandHandler = new CommandHandler(this);
+        command.setExecutor(commandHandler);
+        command.setTabCompleter(commandHandler);
 
         getServer().getPluginManager().registerEvents(new BlockListener(this), this);
         getServer().getPluginManager().registerEvents(new InventoryListener(), this);
         getServer().getPluginManager().registerEvents(new ChatEventHandler(this), this);
         getServer().getPluginManager().registerEvents(new InventoryOpenHandler(), this);
 
-        this.inventoryManager = new InventoryManager(this);
-        this.inventoryManager.invoke();
+        InventoryManager inventoryManager = new InventoryManager(this);
+        inventoryManager.invoke();
     }
 
     public void reload() {
         updateConfig();
-        DataManager.loadData();
+        dataManager.loadData();
     }
 
     private void checkDependency() {
@@ -131,7 +111,7 @@ public final class Oregen3 extends JavaPlugin {
             hook     = new AcidIslandHook();
         }
         else if (manager.isPluginEnabled("BentoBox")) {
-            hook     = new BentoBoxHook();
+            hook     = new BentoBoxHook(this);
         }
         else if (manager.isPluginEnabled("SuperiorSkyblock2")) {
             hook     = new SuperiorSkyblockHook();
@@ -148,18 +128,18 @@ public final class Oregen3 extends JavaPlugin {
         }
 
         if (manager.isPluginEnabled("PlaceholderAPI")) {
-            papi = true;
-            new PlaceholderHandler().register();
+            papiEnabled = true;
+            new PlaceholderHandler(this).register();
         }
     }
 
     private void setupPermissions() {
         if (getServer().getPluginManager().isPluginEnabled("Vault")) {
             perm              = Objects.requireNonNull(getServer().getServicesManager().getRegistration(Permission.class)).getProvider();
-            permissionChecker = new SyncVaultPermissionChecker();
+            permissionChecker = new SyncVaultPermissionChecker(this);
             if (getConfig().getBoolean("hooks.Vault.forceAsync")) {
                 if (getConfig().getBoolean("global.listener.asyncListener", false)) {
-                    permissionChecker = new AsyncVaultPermissionChecker();
+                    permissionChecker = new AsyncVaultPermissionChecker(this);
                 }
                 else {
                     permissionChecker = new AsyncOnSyncVaultPermissionChecker(this);
@@ -170,7 +150,7 @@ public final class Oregen3 extends JavaPlugin {
                     for (final String s : getConfig().getStringList("hooks.Vault.pluginAsyncList")) {
                         if (getServer().getPluginManager().isPluginEnabled(s)) {
                             if (getConfig().getBoolean("global.listener.asyncListener", false)) {
-                                permissionChecker = new AsyncVaultPermissionChecker();
+                                permissionChecker = new AsyncVaultPermissionChecker(this);
                             }
                             else {
                                 permissionChecker = new AsyncOnSyncVaultPermissionChecker(this);
@@ -182,7 +162,7 @@ public final class Oregen3 extends JavaPlugin {
             }
         }
         else {
-            getLogger().warning(StringUtils.getColoredString("Vault not found! Offline player's permission will not be checked! Using bukkit's provided one...", null));
+            getLogger().warning(stringUtils.getColoredString("Vault not found! Offline player's permission will not be checked! Using bukkit's provided one...", null));
             permissionChecker = new DefaultPermissionChecker();
         }
     }

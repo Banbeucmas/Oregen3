@@ -1,15 +1,14 @@
 package me.banbeucmas.oregen3.commands;
 
 import me.banbeucmas.oregen3.Oregen3;
-import me.banbeucmas.oregen3.util.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static me.banbeucmas.oregen3.util.StringUtils.LABEL;
+import static me.banbeucmas.oregen3.util.StringUtils.PLACEHOLDER_LABEL_PATTERN;
 
 public class HelpCommand extends AbstractCommand {
-    HelpCommand(final CommandSender sender, final String label) {
-        super("oregen3.help", sender, label, null);
+    HelpCommand(Oregen3 plugin, final CommandSender sender, final String label) {
+        super(plugin, "oregen3.help", sender, label, null);
     }
 
     @Override
@@ -18,16 +17,16 @@ public class HelpCommand extends AbstractCommand {
             return ExecutionResult.NON_PLAYER;
         }
 
-        final CommandSender sender = getSender();
-        sender.sendMessage(StringUtils.getColoredPrefixString(LABEL.matcher(Oregen3.getPlugin().getConfig().getString("messages.commands.help")).replaceAll(getLabel()), getPlayer()));
+        final Player sender = (Player) getSender();
+        sender.sendMessage(plugin.getStringUtils().getColoredPrefixString(PLACEHOLDER_LABEL_PATTERN.matcher(plugin.getConfig().getString("messages.commands.help", "")).replaceAll(getLabel()), sender));
         if (sender.hasPermission("oregen3.reload")) {
-            sender.sendMessage(StringUtils.getColoredPrefixString(LABEL.matcher(Oregen3.getPlugin().getConfig().getString("messages.commands.reload")).replaceAll(getLabel()), getPlayer()));
+            sender.sendMessage(plugin.getStringUtils().getColoredPrefixString(PLACEHOLDER_LABEL_PATTERN.matcher(plugin.getConfig().getString("messages.commands.reload", "")).replaceAll(getLabel()), sender));
         }
         if (sender.hasPermission("oregen3.information")) {
-            sender.sendMessage(StringUtils.getColoredPrefixString(LABEL.matcher(Oregen3.getPlugin().getConfig().getString("messages.commands.info")).replaceAll(getLabel()), getPlayer()));
+            sender.sendMessage(plugin.getStringUtils().getColoredPrefixString(PLACEHOLDER_LABEL_PATTERN.matcher(plugin.getConfig().getString("messages.commands.info", "")).replaceAll(getLabel()), sender));
         }
         if (sender.hasPermission("oregen3.edit")) {
-            sender.sendMessage(StringUtils.getColoredPrefixString(LABEL.matcher(Oregen3.getPlugin().getConfig().getString("messages.commands.edit")).replaceAll(getLabel()), getPlayer()));
+            sender.sendMessage(plugin.getStringUtils().getColoredPrefixString(PLACEHOLDER_LABEL_PATTERN.matcher(plugin.getConfig().getString("messages.commands.edit", "")).replaceAll(getLabel()), sender));
         }
         return ExecutionResult.SUCCESS;
     }

@@ -17,14 +17,13 @@ import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.nio.Buffer;
 import java.util.List;
 
 public class CreateWorldGenerator {
 
     protected static final ItemStack BORDER = new ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE.parseItem()).setName("§0").build();
 
-    public static void open(Player player, Generator generator) {
+    public static void open(Player player, Generator generator, Oregen3 plugin) {
         RyseInventory inventory = RyseInventory.builder()
                 .identifier("ListWorld")
                 .title("Choose World [p.1]")
@@ -39,10 +38,10 @@ public class CreateWorldGenerator {
                         contents.fillRow(0, BORDER);
                         contents.set(0, IntelligentItem.of(new ItemBuilder(XMaterial.ARROW.parseMaterial())
                                 .setName("§e <- Go Back ")
-                                .build(), event -> ListGenerator.open(player)));
+                                .build(), event -> ListGenerator.open(player, plugin)));
                         contents.fillRow(45, BORDER);
 
-                        Configuration config = Oregen3.getPlugin().getConfig();
+                        Configuration config = plugin.getConfig();
                         List<String> worlds = config.getStringList("generators." + generator.getId() + ".world.list");
 
                         ListGenerator.movePage(player, contents, pagination);
@@ -59,14 +58,14 @@ public class CreateWorldGenerator {
                                 // TODO: Save config with comments
                                 worlds.add(world.getName());
                                 config.set("generators." + generator.getId() + ".world.list", worlds);
-                                Oregen3.getPlugin().saveConfig();
-                                Oregen3.getPlugin().reload();
-                                ListWorldGenerator.open(player, generator);
+                                plugin.saveConfig();
+                                plugin.reload();
+                                ListWorldGenerator.open(player, generator, plugin);
                             }));
                         }
                     }
                 })
-                .build(Oregen3.getPlugin());
+                .build(plugin);
         inventory.open(player);
     }
 }

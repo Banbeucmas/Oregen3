@@ -29,7 +29,7 @@ public class ListWorldGenerator {
     protected static IntelligentItem DISABLE = null;
     public static String GENERATOR_ID;
 
-    public static void open(Player player, Generator generator) {
+    public static void open(Player player, Generator generator, Oregen3 plugin) {
         GENERATOR_ID = generator.getId();
 
         RyseInventory inventory = RyseInventory.builder()
@@ -44,12 +44,12 @@ public class ListWorldGenerator {
                         pagination.setItemsPerPage(36);
                         pagination.iterator(SlotIterator.builder().startPosition(1, 0).type(SlotIterator.SlotIteratorType.HORIZONTAL).build());
 
-                        Configuration config = Oregen3.getPlugin().getConfig();
+                        Configuration config = plugin.getConfig();
 
                         contents.fillRow(0, BORDER);
                         contents.set(0, IntelligentItem.of(new ItemBuilder(XMaterial.ARROW.parseMaterial())
                                 .setName("§e <- Go Back ")
-                                .build(), event -> MenuGenerator.open(player, generator)));
+                                .build(), event -> MenuGenerator.open(player, generator, plugin)));
                         contents.fillRow(45, BORDER);
 
                         ENABLE = IntelligentItem.empty(new ItemBuilder(XMaterial.LIME_STAINED_GLASS_PANE.parseItem())
@@ -67,17 +67,17 @@ public class ListWorldGenerator {
                             if (config.getBoolean("generators." + generator.getId() + ".world.blacklist")) {
                                 // TODO: Save config with comments
                                 config.set("generators." + generator.getId() + ".world.blacklist", false);
-                                Oregen3.getPlugin().saveConfig();
-                                Oregen3.getPlugin().reload();
+                                plugin.saveConfig();
+                                plugin.reload();
                                 contents.updateOrSet(48, DISABLE);
-                                ListWorldGenerator.open(player, generator);
+                                ListWorldGenerator.open(player, generator, plugin);
                             } else {
                                 // TODO: Save config with comments
                                 config.set("generators." + generator.getId() + ".world.blacklist", true);
-                                Oregen3.getPlugin().saveConfig();
-                                Oregen3.getPlugin().reload();
+                                plugin.saveConfig();
+                                plugin.reload();
                                 contents.updateOrSet(48, ENABLE);
-                                ListWorldGenerator.open(player, generator);
+                                ListWorldGenerator.open(player, generator, plugin);
                             }
                         });
 
@@ -85,7 +85,7 @@ public class ListWorldGenerator {
                                 .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDM0NjdhNTMxOTc4ZDBiOGZkMjRmNTYyODVjNzI3MzRkODRmNWVjODhlMGI0N2M0OTMyMzM2Mjk3OWIzMjNhZiJ9fX0=")
                                 .setName("§2Add World")
                                 .addLore("", "§7Want to add more world? click here", "")
-                                .build(), event -> CreateWorldGenerator.open(player, generator)));
+                                .build(), event -> CreateWorldGenerator.open(player, generator, plugin)));
 
                         ListGenerator.movePage(player, contents, pagination);
 
@@ -100,14 +100,14 @@ public class ListWorldGenerator {
                                 // TODO: Save config with comments
                                 worlds.remove(world);
                                 config.set("generators." + generator.getId() + ".world.list", worlds);
-                                Oregen3.getPlugin().saveConfig();
-                                Oregen3.getPlugin().reload();
-                                ListWorldGenerator.open(player, generator);
+                                plugin.saveConfig();
+                                plugin.reload();
+                                ListWorldGenerator.open(player, generator, plugin);
                             }));
                         }
                     }
                 })
-                .build(Oregen3.getPlugin());
+                .build(plugin);
         inventory.open(player);
     }
 

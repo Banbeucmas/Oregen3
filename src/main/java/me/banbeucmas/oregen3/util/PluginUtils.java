@@ -2,7 +2,6 @@ package me.banbeucmas.oregen3.util;
 
 import com.cryptomorin.xseries.XSound;
 import me.banbeucmas.oregen3.Oregen3;
-import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.data.Generator;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -13,39 +12,41 @@ import org.bukkit.block.Block;
 import java.util.Objects;
 import java.util.UUID;
 
-import static me.banbeucmas.oregen3.Oregen3.getHook;
-import static me.banbeucmas.oregen3.Oregen3.getPlugin;
-
 public class PluginUtils {
+    private Oregen3 plugin;
+    
+    public PluginUtils(Oregen3 plugin) {
+        this.plugin = plugin;
+    }
 
-    public static OfflinePlayer getOwner(final Location loc) {
-        final UUID uuid = getHook().getIslandOwner(loc);
+    public OfflinePlayer getOwner(final Location loc) {
+        final UUID uuid = plugin.getHook().getIslandOwner(loc);
         if (uuid == null) {
             return null;
         }
         return Bukkit.getServer().getOfflinePlayer(uuid);
     }
 
-    public static OfflinePlayer getOwner(final UUID uuid, World world) {
-        final UUID p = getHook().getIslandOwner(uuid, world);
+    public OfflinePlayer getOwner(final UUID uuid, World world) {
+        final UUID p = plugin.getHook().getIslandOwner(uuid, world);
         if (p == null) {
             return null;
         }
         return Bukkit.getServer().getOfflinePlayer(p);
     }
 
-    public static Generator getChosenGenerator(final Location loc) {
-        Generator mc = DataManager.getGenerators().get(getPlugin().getConfig().getString("defaultGenerator", ""));
+    public Generator getChosenGenerator(final Location loc) {
+        Generator mc = plugin.getDataManager().getGenerators().get(plugin.getConfig().getString("defaultGenerator", ""));
         OfflinePlayer owner = getOwner(loc);
         if (owner == null) return mc;
-        switch (getPlugin().getConfig().getString("hooks.skyblock.getGeneratorMode", "owner")) {
+        switch (plugin.getConfig().getString("hooks.skyblock.getGeneratorMode", "owner")) {
             case "owner": {
                 return getMaterialChooser(loc, mc, owner);
             }
             case "lowest": {
-                boolean ignore = getPlugin().getConfig().getBoolean("hooks.skyblock.ignoreOfflinePlayers", false);
+                boolean ignore = plugin.getConfig().getBoolean("hooks.skyblock.ignoreOfflinePlayers", false);
                 Generator lowestGen = null;
-                for (final UUID uuid : getHook().getMembers(owner.getUniqueId(), loc.getWorld())) {
+                for (final UUID uuid : plugin.getHook().getMembers(owner.getUniqueId(), loc.getWorld())) {
                     final OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
                     if (ignore && !p.isOnline()) continue;
                     final Generator chosen = getMaterialChooser(loc, mc, p);
@@ -59,9 +60,9 @@ public class PluginUtils {
                 return lowestGen;
             }
             case "highest": {
-                boolean ignore = getPlugin().getConfig().getBoolean("hooks.skyblock.ignoreOfflinePlayers", false);
+                boolean ignore = plugin.getConfig().getBoolean("hooks.skyblock.ignoreOfflinePlayers", false);
                 Generator highestGen = null;
-                for (final UUID uuid : getHook().getMembers(owner.getUniqueId(), loc.getWorld())) {
+                for (final UUID uuid : plugin.getHook().getMembers(owner.getUniqueId(), loc.getWorld())) {
                     final OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
                     if (ignore && !p.isOnline()) continue;
                     final Generator chosen = getMaterialChooser(loc, mc, p);
@@ -78,17 +79,17 @@ public class PluginUtils {
         return mc;
     }
 
-    public static Generator getChosenGenerator(final UUID uuid, World world) {
-        Generator mc = DataManager.getGenerators().get(getPlugin().getConfig().getString("defaultGenerator"));
-        if (getPlugin().hasDependency()) {
-            final UUID p = getHook().getIslandOwner(uuid, world);
+    public Generator getChosenGenerator(final UUID uuid, World world) {
+        Generator mc = plugin.getDataManager().getGenerators().get(plugin.getConfig().getString("defaultGenerator"));
+        if (plugin.hasDependency()) {
+            final UUID p = plugin.getHook().getIslandOwner(uuid, world);
             if (p == null) {
                 return mc;
             }
-            for (final Generator chooser : DataManager.getGenerators().values()) {
-                if (Oregen3.getPermissionManager().checkPerm(world.getName(), Bukkit.getOfflinePlayer(p), chooser.getPermission())
+            for (final Generator chooser : plugin.getDataManager().getGenerators().values()) {
+                if (plugin.getPermissionChecker().checkPerm(world.getName(), Bukkit.getOfflinePlayer(p), chooser.getPermission())
                         && chooser.getPriority() >= mc.getPriority()
-                        && getHook().getIslandLevel(p, null) >= chooser.getLevel()) {
+                        && plugin.getHook().getIslandLevel(p, null) >= chooser.getLevel()) {
                     mc = chooser;
                 }
             }
@@ -96,11 +97,11 @@ public class PluginUtils {
         return mc;
     }
 
-    private static Generator getMaterialChooser(final Location loc, Generator mc, final OfflinePlayer p) {
-        final double level = getHook().getIslandLevel(p.getUniqueId(), loc);
-        for (final Generator chooser : DataManager.getGenerators().values()) {
+    private Generator getMaterialChooser(final Location loc, Generator mc, final OfflinePlayer p) {
+        final double level = plugin.getHook().getIslandLevel(p.getUniqueId(), loc);
+        for (final Generator chooser : plugin.getDataManager().getGenerators().values()) {
             if (chooser.isWorldEnabled() && chooser.getWorldList().contains(loc.getWorld().getName()) == chooser.isWorldBlacklist()) continue;
-            if (Oregen3.getPermissionManager().checkPerm(loc.getWorld().getName(), p, chooser.getPermission())
+            if (plugin.getPermissionChecker().checkPerm(loc.getWorld().getName(), p, chooser.getPermission())
                     && chooser.getPriority() >= mc.getPriority()
                     && level >= chooser.getLevel()) {
                 mc = chooser;
@@ -109,7 +110,7 @@ public class PluginUtils {
         return mc;
     }
 
-    public static void sendBlockEffect(final World world, final Block to, final Oregen3 plugin, final Generator mc) {
+    public void sendBlockEffect(final World world, final Block to, final Generator mc) {
         if (mc.isSoundEnabled())
             world.playSound(to.getLocation(), mc.getSound(), mc.getSoundVolume(), mc.getSoundPitch());
         else if (plugin.getConfig().getBoolean("global.generators.sound.enabled", false)) {

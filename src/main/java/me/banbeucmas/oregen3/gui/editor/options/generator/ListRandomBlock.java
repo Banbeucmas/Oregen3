@@ -31,7 +31,7 @@ public class ListRandomBlock {
     protected static final ItemStack BORDER = new ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE.parseItem()).setName("§0").build();
     public static String GENERATOR_ID;
 
-    public static void open(Player player, Generator generator) {
+    public static void open(Player player, Generator generator, Oregen3 plugin) {
         GENERATOR_ID = generator.getId();
 
         RyseInventory randomUI = RyseInventory.builder()
@@ -48,18 +48,18 @@ public class ListRandomBlock {
                         contents.fillRow(0, BORDER);
                         contents.set(0, IntelligentItem.of(new ItemBuilder(XMaterial.ARROW.parseMaterial())
                                 .setName("§e <- Go Back ")
-                                .build(), event -> MenuGenerator.open(player, generator)));
+                                .build(), event -> MenuGenerator.open(player, generator, plugin)));
                         contents.fillRow(45, BORDER);
 
                         contents.set(5, 4, IntelligentItem.of(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
                                 .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjA1NmJjMTI0NGZjZmY5OTM0NGYxMmFiYTQyYWMyM2ZlZTZlZjZlMzM1MWQyN2QyNzNjMTU3MjUzMWYifX19")
                                 .setName("§2Add Block")
                                 .addLore("", "§7Want to add more block? click here", "")
-                                .build(), event -> CreateRandomBlock.open(player, generator)));
+                                .build(), event -> CreateRandomBlock.open(player, generator, plugin)));
 
                         ListGenerator.movePage(player, contents, pagination);
 
-                        Configuration config = Oregen3.getPlugin().getConfig();
+                        Configuration config = plugin.getConfig();
                         ConfigurationSection path = config.getConfigurationSection("generators." + generator.getId() + ".random");
                         List<String> materials = new ArrayList<>(path.getKeys(false));
 
@@ -82,7 +82,7 @@ public class ListRandomBlock {
                                     meta.setLore(lore);
                                     item.setItemMeta(meta);
 
-                                    editMaterial(player, pagination, config, material, item, generator);
+                                    editMaterial(player, pagination, config, material, item, generator, plugin);
                                 } else {
                                     ItemStack item = new ItemBuilder(XMaterial.PAPER.parseItem()).setName(material.substring(7)).build();
                                     ItemMeta meta = item.getItemMeta();
@@ -95,7 +95,7 @@ public class ListRandomBlock {
                                     meta.setLore(lore);
                                     item.setItemMeta(meta);
 
-                                    editMaterial(player, pagination, config, material, item, generator);
+                                    editMaterial(player, pagination, config, material, item, generator, plugin);
                                 }
                                 // Skip oraxen items
                                 continue;
@@ -116,15 +116,15 @@ public class ListRandomBlock {
                             meta.setLore(lore);
                             item.setItemMeta(meta);
 
-                            editMaterial(player, pagination, config, material, item, generator);
+                            editMaterial(player, pagination, config, material, item, generator, plugin);
                         }
                     }
                 })
-                .build(Oregen3.getPlugin());
+                .build(plugin);
         randomUI.open(player);
     }
 
-    private static void editMaterial(Player player, Pagination pagination, Configuration config, String material, ItemStack item, Generator generator) {
+    private static void editMaterial(Player player, Pagination pagination, Configuration config, String material, ItemStack item, Generator generator, Oregen3 plugin) {
         pagination.addItem(IntelligentItem.of(item, event -> {
             if (event.isLeftClick()) {
                 pagination.inventory().close(player);
@@ -138,9 +138,9 @@ public class ListRandomBlock {
             if (event.isRightClick()) {
                 // TODO: Save config with comments
                 config.set("generators." + generator.getId() + ".random." + material, null);
-                Oregen3.getPlugin().saveConfig();
-                Oregen3.getPlugin().reload();
-                ListRandomBlock.open(player, generator);
+                plugin.saveConfig();
+                plugin.reload();
+                ListRandomBlock.open(player, generator, plugin);
             }
         }));
     }

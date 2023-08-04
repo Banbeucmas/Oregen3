@@ -1,9 +1,7 @@
 package me.banbeucmas.oregen3.data.permission;
 
 import me.banbeucmas.oregen3.Oregen3;
-import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.data.Generator;
-import me.banbeucmas.oregen3.util.PluginUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
@@ -32,18 +30,18 @@ public class AsyncOnSyncVaultPermissionChecker implements PermissionChecker, Lis
         final HashSet<String> list = permissionList.get(player.getName());
 
         if (player.isOnline()) {
-            if (!list.contains(permission) && Oregen3.getPerm().playerHas(player.getPlayer(), permission))
+            if (!list.contains(permission) && plugin.getPerm().playerHas(player.getPlayer(), permission))
                 list.add(permission);
-            else if (list.contains(permission) && !Oregen3.getPerm().playerHas(player.getPlayer(), permission))
+            else if (list.contains(permission) && !plugin.getPerm().playerHas(player.getPlayer(), permission))
                 list.remove(permission);
         }
         else {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    if (!list.contains(permission) && Oregen3.getPerm().playerHas(world, player, permission))
+                    if (!list.contains(permission) && plugin.getPerm().playerHas(world, player, permission))
                         list.add(permission);
-                    else if (list.contains(permission) && !Oregen3.getPerm().playerHas(world, player, permission))
+                    else if (list.contains(permission) && !plugin.getPerm().playerHas(world, player, permission))
                         list.remove(permission);
                 }
             }.runTaskAsynchronously(plugin);
@@ -57,7 +55,7 @@ public class AsyncOnSyncVaultPermissionChecker implements PermissionChecker, Lis
         new BukkitRunnable() {
             @Override
             public void run() {
-                for (final Generator chooser : DataManager.getGenerators().values()) {
+                for (final Generator chooser : plugin.getDataManager().getGenerators().values()) {
                     checkPerm(null, player, chooser.getPermission());
                 }
             }
@@ -72,21 +70,21 @@ public class AsyncOnSyncVaultPermissionChecker implements PermissionChecker, Lis
 
     @EventHandler(ignoreCancelled = true)
     public void onBlock(final BlockDamageEvent e) {
-        final OfflinePlayer player = PluginUtils.getOwner(e.getPlayer().getUniqueId(), e.getPlayer().getWorld());
+        final OfflinePlayer player = plugin.getUtils().getOwner(e.getPlayer().getUniqueId(), e.getPlayer().getWorld());
         if (player == null) return;
         checkPerms(player);
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onJoin(final PlayerJoinEvent e) {
-        final OfflinePlayer player = PluginUtils.getOwner(e.getPlayer().getUniqueId(), e.getPlayer().getWorld());
+        final OfflinePlayer player = plugin.getUtils().getOwner(e.getPlayer().getUniqueId(), e.getPlayer().getWorld());
         if (player == null) return;
         checkPerms(player);
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onCommand(final PlayerCommandPreprocessEvent e) {
-        final OfflinePlayer player = PluginUtils.getOwner(e.getPlayer().getUniqueId(), e.getPlayer().getWorld());
+        final OfflinePlayer player = plugin.getUtils().getOwner(e.getPlayer().getUniqueId(), e.getPlayer().getWorld());
         if (player == null) return;
         checkPerms(player);
     }

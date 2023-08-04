@@ -12,7 +12,6 @@ import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.gui.editor.ListGenerator;
 import me.banbeucmas.oregen3.manager.items.ItemBuilder;
-import org.bukkit.Sound;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -33,7 +32,7 @@ public class ChooseMusicGenerator {
         SOUNDS.addAll(Arrays.asList(XSound.values()));
     }
 
-    public static void open(Player player, Generator generator) {
+    public static void open(Player player, Generator generator, Oregen3 plugin) {
         RyseInventory inventory = RyseInventory.builder()
                 .identifier("ListMusic")
                 .title("Choose Music [p.1]")
@@ -48,12 +47,12 @@ public class ChooseMusicGenerator {
                         contents.fillRow(0, BORDER);
                         contents.set(0, IntelligentItem.of(new ItemBuilder(XMaterial.ARROW.parseMaterial())
                                 .setName("§e <- Go Back ")
-                                .build(), event -> MusicGenerator.open(player, generator)));
+                                .build(), event -> MusicGenerator.open(player, generator, plugin)));
                         contents.fillRow(45, BORDER);
 
                         ListGenerator.movePage(player, contents, pagination);
 
-                        Configuration config = Oregen3.getPlugin().getConfig();
+                        Configuration config = plugin.getConfig();
 
                         for (XSound sound : SOUNDS) {
                             // Check if sounds is support
@@ -81,14 +80,14 @@ public class ChooseMusicGenerator {
                                 config.set("generators." + generator.getId() + ".sound.name", sound.parseSound().toString().toUpperCase());
                                 if (!config.isSet("generators." + generator.getId() + ".sound.volume")) config.set("generators." + generator.getId() + ".sound.volume", 1);
                                 if (!config.isSet("generators." + generator.getId() + ".sound.pitch")) config.set("generators." + generator.getId() + ".sound.pitch", 1);
-                                Oregen3.getPlugin().saveConfig();
-                                Oregen3.getPlugin().reload();
-                                MusicGenerator.open(player, generator);
+                                plugin.saveConfig();
+                                plugin.reload();
+                                MusicGenerator.open(player, generator, plugin);
                             }));
                         }
                     }
                 })
-                .build(Oregen3.getPlugin());
+                .build(plugin);
         inventory.open(player);
     }
 }

@@ -17,7 +17,7 @@ public class EditorGUI {
 
     protected static final ItemStack BORDER = new ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE.parseItem()).setName("§0").build();
 
-    public static void open(Player player) {
+    public static void open(Player player, Oregen3 plugin) {
         RyseInventory editor = RyseInventory.builder()
                 .title("Editor Gui")
                 .rows(5)
@@ -39,17 +39,17 @@ public class EditorGUI {
                                     .setName("§7Edit generators")
                                     .addLore("", "§7Click to edit generators", "")
                                     .build()
-                                , event -> ListGenerator.open(player))
+                                , event -> ListGenerator.open(player, plugin))
                         );
                         pattern.set('2', IntelligentItem.of(
                                 new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
                                         .setName("§7Global Settings")
                                         .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDM0NjdhNTMxOTc4ZDBiOGZkMjRmNTYyODVjNzI3MzRkODRmNWVjODhlMGI0N2M0OTMyMzM2Mjk3OWIzMjNhZiJ9fX0=")
-                                        .build(), event -> MenuGlobal.open(player))
+                                        .build(), event -> MenuGlobal.open(player, plugin))
                         );
                     }
                 })
-                .build(Oregen3.getPlugin());
+                .build(plugin);
         editor.open(player);
     }
 }

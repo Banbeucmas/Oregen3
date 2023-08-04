@@ -1,24 +1,25 @@
 package me.banbeucmas.oregen3.commands;
 
 import me.banbeucmas.oregen3.Oregen3;
-import me.banbeucmas.oregen3.util.StringUtils;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class UsageCommand extends AbstractCommand {
-    UsageCommand(final CommandSender sender, final String label) {
-        super(null, sender, label, null);
+    UsageCommand(Oregen3 plugin, final CommandSender sender, final String label) {
+        super(plugin, null, sender, label, null);
     }
 
     @Override
     protected ExecutionResult run() {
+        Player player = sender instanceof Player ? (Player) sender : null;
         final CommandSender sender = getSender();
-        sender.sendMessage(StringUtils.getString("§7§m-------------§f[Oregen3§f]§7-------------", getPlayer()));
+        sender.sendMessage(plugin.getStringUtils().getString("§7§m-------------§f[Oregen3§f]§7-------------", player));
         sender.sendMessage("");
-        sender.sendMessage(StringUtils.getString("       §fPlugin made by §e§oBanbeucmas§f, updated by §e§oxHexed", getPlayer()));
-        sender.sendMessage(StringUtils.getString("       §f§oVersion: §e" + Oregen3.getPlugin().getDescription().getVersion(), getPlayer()));
-        sender.sendMessage(StringUtils.getString("       §f§o/" + getLabel() + " help §efor more info", getPlayer()));
+        sender.sendMessage(plugin.getStringUtils().getString("       §fPlugin made by §e§oBanbeucmas§f, updated by §e§oxHexed", player));
+        sender.sendMessage(plugin.getStringUtils().getString("       §f§oVersion: §e" + plugin.getDescription().getVersion(), player));
+        sender.sendMessage(plugin.getStringUtils().getString("       §f§o/" + getLabel() + " help §efor more info", player));
         sender.sendMessage("");
-        sender.sendMessage(StringUtils.getString("------------------------------------", getPlayer()));
+        sender.sendMessage(plugin.getStringUtils().getString("------------------------------------", player));
         return ExecutionResult.SUCCESS;
     }
 }

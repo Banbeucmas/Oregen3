@@ -29,15 +29,16 @@ public class Generator {
     private boolean worldBlacklist;
     private Set<String> worldList;
     private Map<String, Double> random;
+
     private transient double totalChance;
     @Getter(value = AccessLevel.NONE)
     private transient BlockPlacer[] blockPlacers;
     @Getter(value = AccessLevel.NONE)
     private transient Double[] chances;
 
-    Generator(final String id) {
+    Generator(Oregen3 plugin, final String id) {
         this.id = id;
-        final ConfigurationSection path = Oregen3.getPlugin().getConfig().getConfigurationSection("generators." + id);
+        final ConfigurationSection path = plugin.getConfig().getConfigurationSection("generators." + id);
 
         name = Objects.requireNonNull(path).getString("name", id);
         permission = path.getString("permission", "oregen3.generator." + id);

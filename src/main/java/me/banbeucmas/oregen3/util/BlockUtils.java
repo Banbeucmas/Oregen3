@@ -22,8 +22,14 @@ public class BlockUtils {
             BlockFace.WEST
     };
 
-    public static boolean isBlock(final Block b) {
-        return XBlock.isOneOf(b, Oregen3.getPlugin().getConfig().getStringList("blocks"));
+    private Oregen3 plugin;
+
+    public BlockUtils(Oregen3 plugin) {
+        this.plugin = plugin;
+    }
+
+    public boolean isBlock(final Block b) {
+        return XBlock.isOneOf(b, plugin.getConfig().getStringList("blocks"));
     }
 
     public static boolean isItem(final ItemStack i) {

@@ -14,7 +14,6 @@ import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.gui.editor.ListGenerator;
 import me.banbeucmas.oregen3.manager.items.ItemBuilder;
 import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -36,7 +35,7 @@ public class CreateRandomOraxen {
         }
     }
 
-    public static void open(Player player, Generator generator) {
+    public static void open(Player player, Generator generator, Oregen3 plugin) {
         RyseInventory oraxenUI = RyseInventory.builder()
                 .title("Oraxen [p.1]")
                 .rows(6)
@@ -50,10 +49,10 @@ public class CreateRandomOraxen {
                         contents.fillRow(0, BORDER);
                         contents.set(0, IntelligentItem.of(new ItemBuilder(XMaterial.ARROW.parseMaterial())
                                 .setName("§e <- Go Back ")
-                                .build(), event -> CreateRandomBlock.open(player, generator)));
+                                .build(), event -> CreateRandomBlock.open(player, generator, plugin)));
                         contents.fillRow(45, BORDER);
 
-                        Configuration config = Oregen3.getPlugin().getConfig();
+                        Configuration config = plugin.getConfig();
 
                         ListGenerator.movePage(player, contents, pagination);
 
@@ -63,14 +62,14 @@ public class CreateRandomOraxen {
                                     .build(), event -> {
                                 // TODO: Save config with comments
                                 config.set("generators." + generator.getId() + ".random.oraxen-" + OraxenItems.getIdByItem(item), 1.0);
-                                Oregen3.getPlugin().saveConfig();
-                                Oregen3.getPlugin().reload();
-                                ListRandomBlock.open(player, generator);
+                                plugin.saveConfig();
+                                plugin.reload();
+                                ListRandomBlock.open(player, generator, plugin);
                             }));
                         }
                     }
                 })
-                .build(Oregen3.getPlugin());
+                .build(plugin);
         oraxenUI.open(player);
     }
 }
