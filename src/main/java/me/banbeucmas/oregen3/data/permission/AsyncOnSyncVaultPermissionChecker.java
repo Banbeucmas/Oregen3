@@ -9,7 +9,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,6 +18,10 @@ public class AsyncOnSyncVaultPermissionChecker implements PermissionChecker, Lis
     private final Oregen3 plugin;
     private final Map<String, HashSet<String>> permissionList = new HashMap<>();
 
+    /**
+     * This class sucks, not thread-safe, might not update properly during first few block regenerations
+     * and causes extra lag while breaking blocks but hey it works :")
+     */
     public AsyncOnSyncVaultPermissionChecker(final Oregen3 plugin) {
         this.plugin = plugin;
         Bukkit.getPluginManager().registerEvents(this, plugin);
@@ -36,15 +39,12 @@ public class AsyncOnSyncVaultPermissionChecker implements PermissionChecker, Lis
                 list.remove(permission);
         }
         else {
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    if (!list.contains(permission) && plugin.getPerm().playerHas(world, player, permission))
-                        list.add(permission);
-                    else if (list.contains(permission) && !plugin.getPerm().playerHas(world, player, permission))
-                        list.remove(permission);
-                }
-            }.runTaskAsynchronously(plugin);
+            plugin.getUtils().runAsyncTask(() -> {
+                if (!list.contains(permission) && plugin.getPerm().playerHas(world, player, permission))
+                    list.add(permission);
+                else if (list.contains(permission) && !plugin.getPerm().playerHas(world, player, permission))
+                    list.remove(permission);
+            });
         }
 
         return list.contains(permission);
@@ -52,14 +52,11 @@ public class AsyncOnSyncVaultPermissionChecker implements PermissionChecker, Lis
 
     private void checkPerms(final OfflinePlayer player) {
         checkContains(player.getName());
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                for (final Generator chooser : plugin.getDataManager().getGenerators().values()) {
-                    checkPerm(null, player, chooser.getPermission());
-                }
+        plugin.getUtils().runAsyncTask(() -> {
+            for (final Generator chooser : plugin.getDataManager().getGenerators().values()) {
+                checkPerm(null, player, chooser.getPermission());
             }
-        }.runTaskAsynchronously(plugin);
+        });
     }
 
     private void checkContains(final String player) {

@@ -34,6 +34,9 @@ hooks:
     - LuckPerms
 
 global:
+  # Switch between Bukkit or Java async scheduler (Java is faster but "might" cause some issues)
+  # This affect generating blocks and/or permission checking
+  useJavaAsyncScheduler: false
   listener:
     # Generate blocks asynchronously. Turn this on if you experience lag while generating blocks
     asyncListener: false

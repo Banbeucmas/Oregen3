@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PlaceholderHandler extends PlaceholderExpansion {
-    private final HashMap<String, IdentifierHandler> identifierHandlers = new HashMap<>();
+    private final Map<String, IdentifierHandler> identifierHandlers = new HashMap<>();
 
     public PlaceholderHandler(Oregen3 plugin) {
         identifierHandlers.put("generator", (player, params) -> {

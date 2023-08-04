@@ -11,12 +11,23 @@ import org.bukkit.block.Block;
 
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.ForkJoinPool;
 
 public class PluginUtils {
     private Oregen3 plugin;
     
     public PluginUtils(Oregen3 plugin) {
         this.plugin = plugin;
+    }
+
+    public void runAsyncTask(Runnable task) {
+        //TODO: Migrate if check
+        if (plugin.getConfig().getBoolean("global.useJavaAsyncScheduler", false)) {
+            ForkJoinPool.commonPool().execute(task);
+        }
+        else {
+            Bukkit.getScheduler().runTaskAsynchronously(plugin, task);
+        }
     }
 
     public OfflinePlayer getOwner(final Location loc) {
