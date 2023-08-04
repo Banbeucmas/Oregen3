@@ -1,29 +1,6 @@
 # -------------------------------------
-# Configuration instruction link: https://github.com/xHexed/Oregen3/blob/master/src/main/resources/config.yml
+# Configuration link: https://github.com/xHexed/Oregen3/blob/master/src/main/resources/config.yml
 # Please click this link if you use the plugin the first time or updating from an old version
-#
-# Notes:
-#  Generator options:
-#    Required options: options that MUST be provided, or else the plugin will throw errors
-#    - random: list of blocks that will randomly be chosen upon generating ores
-#    Optional options: options that are optionally provided, the generator will work normally without it
-#    - permission: the permission it will use instead of the default provided one, defaults to oregen3.generator.<generator name>
-#    - sound: sound option that the block will cast if present
-#      - name: name of the sound, defaults to BLOCK_FIRE_EXTINGUISH
-#      - volume: volume of the sound, defaults to 1
-#      - pitch: pitch of the sound, defaults to 1
-#    - world: world-related options
-#      - blacklist: if the world list provided below are blacklist (non-whitelist), defaults to true
-#      - list: list of world that the generator are consider of, defaults to an empty list
-#    - sound: you can use old sounds, as long as it playable in your server version (ex: 1.8 sound names for 1.12 server)
-#
-# Available placeholder for messages:
-# - noPermission: %perm%
-# - noPlayer: %player%
-# - noIslandOthers: %player%
-# - messages:
-#    commands: %label% (First argument in command)
-# You can also use PlaceholderAPI placeholders in every messages
 # -------------------------------------
 mode:
   waterBlock: true
@@ -52,7 +29,7 @@ hooks:
   Vault:
     # Force using async permission lookup. Change to true if you have problems using the non-async one
     forceAsync: false
-    # Plugin list that store the permission data async (using database, ...), or you can list other plugins
+    # A plugin list that store permission data asynchronously (using database, ...) or you can list other plugins
     pluginAsyncList:
     - LuckPerms
 
@@ -75,6 +52,20 @@ global:
     # Set to 0 to disable
     maxBlockPlacePerTick: 0
 
+# Generator options:
+#   Required: Options that MUST be provided, or else the plugin will throw errors
+#   - random: list of blocks that will randomly be chosen upon generating ores
+#
+#   Optional: Options that are optionally provided, the generator will work normally without it
+#   - permission: The permission it will use instead of the default provided one, defaults to oregen3.generator.<generator name>
+#   - sound: sound options when block is being generated
+#     - name: Defaults to BLOCK_FIRE_EXTINGUISH. You can use old sound enums,
+#             as long as it playable in your server version (ex: 1.8 sound names for 1.12 server)
+#     - volume: Range from 0.0 to 2.0 (defaults to 1)
+#     - pitch: Same as volume
+#   - world: World-related options
+#     - blacklist: Controls if the generator can only generate in the list provided (true) or vise-versa (false)
+#     - list: defaults to an empty list
 generators:
   default:
     # Generator name that will be shown in placeholders
@@ -125,6 +116,13 @@ generators:
       - world1
       - world2
 
+# Available placeholder for messages:
+# - noPermission: %perm%
+# - noPlayer: %player%
+# - noIslandOthers: %player%
+# - messages:
+#    commands: %label% (First argument in command)
+# You can also use PlaceholderAPI placeholders
 messages:
   prefix: '&f[&6OreGen&e3&f]'
   commands:
