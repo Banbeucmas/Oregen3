@@ -1,5 +1,10 @@
-name: Java CI with Maven
-on: [ push, pull_request ]
+name: Pre-Release
+on:
+  push:
+    branches:
+      - master
+    tags-ignore:
+      - *
 
 jobs:
   build:
@@ -18,3 +23,11 @@ jobs:
         with:
           name: Artifacts
           path: target/Oregen3*.jar
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          title: Development Build
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: latest
+          prerelease: true
+          files: |
+            target/Oregen3*.jar

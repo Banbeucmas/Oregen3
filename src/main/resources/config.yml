@@ -1,6 +1,20 @@
 # -------------------------------------
 # Configuration link: https://github.com/xHexed/Oregen3/blob/master/src/main/resources/config.yml
 # Please click this link if you use the plugin the first time or updating from an old version
+# Generator options:
+#   Required: Options that MUST be provided, or else the plugin will throw errors
+#   - random: list of blocks that will randomly be chosen upon generating ores
+#
+#   Optional: Options that are optionally provided, the generator will work normally without it
+#   - permission: The permission it will use instead of the default provided one, defaults to oregen3.generator.<generator name>
+#   - sound: sound options when block is being generated
+#     - name: Defaults to BLOCK_FIRE_EXTINGUISH. You can use old sound enums,
+#             as long as it playable in your server version (ex: 1.8 sound names for 1.12 server)
+#     - volume: Range from 0.0 to 2.0 (defaults to 1)
+#     - pitch: Same as volume
+#   - world: World-related options
+#     - blacklist: Controls if the generator can only generate in the list provided (true) or vise-versa (false)
+#     - list: defaults to an empty list
 # -------------------------------------
 mode:
   waterBlock: true
@@ -55,20 +69,6 @@ global:
     # Set to 0 to disable
     maxBlockPlacePerTick: 0
 
-# Generator options:
-#   Required: Options that MUST be provided, or else the plugin will throw errors
-#   - random: list of blocks that will randomly be chosen upon generating ores
-#
-#   Optional: Options that are optionally provided, the generator will work normally without it
-#   - permission: The permission it will use instead of the default provided one, defaults to oregen3.generator.<generator name>
-#   - sound: sound options when block is being generated
-#     - name: Defaults to BLOCK_FIRE_EXTINGUISH. You can use old sound enums,
-#             as long as it playable in your server version (ex: 1.8 sound names for 1.12 server)
-#     - volume: Range from 0.0 to 2.0 (defaults to 1)
-#     - pitch: Same as volume
-#   - world: World-related options
-#     - blacklist: Controls if the generator can only generate in the list provided (true) or vise-versa (false)
-#     - list: defaults to an empty list
 generators:
   default:
     # Generator name that will be shown in placeholders
