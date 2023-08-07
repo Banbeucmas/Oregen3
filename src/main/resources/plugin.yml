@@ -1,5 +1,5 @@
 name: Oregen3
-version: ${project.version}
+version: ${version}
 main: me.banbeucmas.oregen3.Oregen3
 api-version: 1.13
 authors: [Banbeucmas, xHexed]
