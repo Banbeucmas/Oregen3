@@ -25,9 +25,7 @@ jobs:
         with:
           name: Artifacts
           path: build/libs/Oregen3*.jar
-      - uses: marvinpinto/action-automatic-releases@latest
+      - uses: softprops/action-gh-release@v1
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: false
-          files: |
-            target/Oregen3*.jar
+          files: build/libs/Oregen3*.jar
