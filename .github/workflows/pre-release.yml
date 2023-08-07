@@ -5,6 +5,7 @@ on:
       - master
     tags-ignore:
       - "*"
+  pull_request:
 
 jobs:
   build:
@@ -28,6 +29,7 @@ jobs:
           path: build/libs/Oregen3*.jar
       - name: Release build artifacts
         uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           name: Development Build
           tag_name: latest
