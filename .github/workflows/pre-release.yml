@@ -29,7 +29,7 @@ jobs:
           path: build/libs/Oregen3*.jar
       - name: Release build artifacts
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/heads/')
         with:
           name: Development Build
           tag_name: latest
