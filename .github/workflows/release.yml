@@ -25,7 +25,8 @@ jobs:
         with:
           name: Artifacts
           path: build/libs/Oregen3*.jar
-      - uses: softprops/action-gh-release@v1
+      - name: Release build artifacts
+        uses: softprops/action-gh-release@v1
         with:
           prerelease: false
           files: build/libs/Oregen3*.jar
