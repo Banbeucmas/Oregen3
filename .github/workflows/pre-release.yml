@@ -28,7 +28,6 @@ jobs:
           path: build/libs/Oregen3*.jar
       - uses: softprops/action-gh-release@v1
         with:
-          title: Development Build
+          name: Development Build
           tag_name: latest
-          prerelease: true
           files: build/libs/Oregen3*.jar

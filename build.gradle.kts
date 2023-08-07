@@ -62,6 +62,6 @@ tasks {
         relocate("com.cryptomorin.xseries", "me.banbeucmas.oregen3.xseries")
         relocate("com.bgsoftware.common.config", "me.banbeucmas.oregen3.config")
         relocate("io.github.rysefoxx.inventory", "me.banbeucmas.oregen3.inventory")
-        archiveFileName.set("LeaderMobs-${project.version}.jar")
+        archiveFileName.set("Oregen3-${project.version}.jar")
     }
 }
