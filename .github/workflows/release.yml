@@ -1,12 +1,9 @@
 name: Release
 on:
   push:
-    tags-ignore:
-      - latest
 
 jobs:
   tagged-release:
-    name: "Tagged Release"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Git Repo
