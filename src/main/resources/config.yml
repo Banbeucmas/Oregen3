@@ -21,6 +21,7 @@ mode:
   lavaBlock: false
   waterLava: true
 
+# Also supports cross-version material names (ex: FENCE or OAK_FENCE all works)
 blocks:
 - FENCE
 - ACACIA_FENCE
@@ -41,7 +42,7 @@ hooks:
     # Only works on lowest and highest mode
     ignoreOfflinePlayers: false
   Vault:
-    # Force using async permission lookup. Change to true if you have problems using the non-async one
+    # Force checking permissions asynchronously. Change to true if you have problems using the non-async one
     forceAsync: false
     # A plugin list that store permission data asynchronously (using database, ...) or you can list other plugins
     pluginAsyncList:
@@ -49,7 +50,7 @@ hooks:
 
 global:
   # Switch between Bukkit or Java async scheduler (Java is faster but "might" cause some issues)
-  # This affect generating blocks and/or permission checking
+  # This affects generating blocks and/or permission checks
   useJavaAsyncScheduler: false
   listener:
     # Generate blocks asynchronously. Turn this on if you experience lag while generating blocks
@@ -74,7 +75,7 @@ generators:
     # Generator name that will be shown in placeholders
     name: "My default"
     random:
-    # Example for oraxen/itemsadder support: oraxen-"blockID"
+    # Example for oraxen/itemsadder support: "plugin"-"blockID"
     # oraxen-ruby_ore: 10
     # itemsadder-example_block: 10
       COBBLESTONE: 30.0
@@ -132,7 +133,7 @@ messages:
     help: "&6&o/%label% help &f» Open help pages"
     reload: "&6&o/%label% reload &f» Reload config"
     info: "&6&o/%label% info [player] &f» Getting ore spawning chance of the island you are standing on or the targeted player"
-    edit: "&6&o/%label% edit &f» Edit generators in-game (coming soon...)"
+    edit: "&6&o/%label% edit &f» Edit generators in-game"
   gui:
     title: "&eChances"
     block:
