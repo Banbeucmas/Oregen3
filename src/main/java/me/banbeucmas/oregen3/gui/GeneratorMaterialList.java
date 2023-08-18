@@ -2,8 +2,6 @@ package me.banbeucmas.oregen3.gui;
 
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.Generator;
-import me.banbeucmas.oregen3.util.PluginUtils;
-import me.banbeucmas.oregen3.util.StringUtils;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -21,11 +19,9 @@ import java.util.regex.Pattern;
 
 public class GeneratorMaterialList implements InventoryHolder, InventoryHandler {
     private static final Pattern CHANCE = Pattern.compile("%chance%", Pattern.LITERAL);
-    private Oregen3 plugin;
     private final Inventory inv;
 
     public GeneratorMaterialList(Oregen3 plugin, final Location location, final OfflinePlayer player) {
-        this.plugin = plugin;
         int size = 9;
         final Generator mc = plugin.getUtils().getChosenGenerator(location);
         final Map<String, Double> chances = mc.getRandom();
@@ -55,7 +51,7 @@ public class GeneratorMaterialList implements InventoryHolder, InventoryHandler 
         });
     }
 
-    public GeneratorMaterialList(final World world, final OfflinePlayer player) {
+    public GeneratorMaterialList(Oregen3 plugin, final World world, final OfflinePlayer player) {
         int size = 9;
         final Generator mc = plugin.getUtils().getChosenGenerator(player.getUniqueId(), world);
         final Map<String, Double> chances = mc.getRandom();

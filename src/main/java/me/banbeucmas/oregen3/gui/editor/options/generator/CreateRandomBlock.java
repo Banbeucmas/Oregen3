@@ -61,14 +61,14 @@ public class CreateRandomBlock {
 
                         // Oraxen Require
                         if (Bukkit.getPluginManager().isPluginEnabled("Oraxen")) {
-                            contents.set(5, 4, IntelligentItem.of(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
+                            contents.set(4, 4, IntelligentItem.of(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
                                     .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjhiZGM3YTFkNmNmZjc2YTkyNTU2NTJkMzE2NTUzMjI4NWFjYzNhOWQxYzBmMTJmMzljYTAwNzc2OWE3ZWExNCJ9fX0=")
                                     .setName("§2Add Oraxen Block")
                                     .addLore("", "§7Oraxen Supported:§2 Found§7!", "", "§7Want to add oraxen block? click here", "")
                                     .build(), event -> CreateRandomOraxen.open(player, generator, plugin)
                             ));
                         } else {
-                            contents.set(5, 4, IntelligentItem.empty(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
+                            contents.set(4, 4, IntelligentItem.empty(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
                                     .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjhiZGM3YTFkNmNmZjc2YTkyNTU2NTJkMzE2NTUzMjI4NWFjYzNhOWQxYzBmMTJmMzljYTAwNzc2OWE3ZWExNCJ9fX0=")
                                     .setName("§2Add Oraxen Block")
                                     .addLore("", "§7Oraxen Supported:§c Not Found§7!", "")
@@ -76,10 +76,26 @@ public class CreateRandomBlock {
                             ));
                         }
 
+                        if (Bukkit.getPluginManager().isPluginEnabled("ItemsAdder")) {
+                            contents.set(6, 4, IntelligentItem.of(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
+                                    .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjhiZGM3YTFkNmNmZjc2YTkyNTU2NTJkMzE2NTUzMjI4NWFjYzNhOWQxYzBmMTJmMzljYTAwNzc2OWE3ZWExNCJ9fX0=")
+                                    .setName("§2Add Oraxen Block")
+                                    .addLore("", "§7Oraxen Supported:§2 Found§7!", "", "§7Want to add oraxen block? click here", "")
+                                    .build(), event -> CreateRandomItemsAdder.open(player, generator, plugin)
+                            ));
+                        } else {
+                            contents.set(6, 4, IntelligentItem.empty(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
+                                    .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjhiZGM3YTFkNmNmZjc2YTkyNTU2NTJkMzE2NTUzMjI4NWFjYzNhOWQxYzBmMTJmMzljYTAwNzc2OWE3ZWExNCJ9fX0=")
+                                    .setName("§2Add ItemsAdder Block")
+                                    .addLore("", "§7ItemsAdder Supported:§c Not Found§7!", "")
+                                    .build()
+                            ));
+                        }
+
 
                         Configuration config = plugin.getConfig();
-                        ConfigurationSection path = config.getConfigurationSection("generators." + generator.getId() + ".random");
-                        List<String> materials = config.getStringList("generators." + generator.getId() + ".random");
+                        //ConfigurationSection path = config.getConfigurationSection("generators." + generator.getId() + ".random");
+                        //List<String> materials = config.getStringList("generators." + generator.getId() + ".random");
 
                         ListGenerator.movePage(player, contents, pagination);
 
@@ -88,7 +104,7 @@ public class CreateRandomBlock {
                                             .addLore("", "§eClick to add block", "")
                                             .build(), event -> {
                                 // TODO: Save config with comments
-                                config.set("generators." + generator.getId() + ".random." + item.toString(), 1.0);
+                                config.set("generators." + generator.getId() + ".random." + item, 1.0);
                                 plugin.saveConfig();
                                 plugin.reload();
                                 ListRandomBlock.open(player, generator, plugin);

@@ -61,7 +61,7 @@ public class InformationCommand extends AbstractCommand {
                     return ExecutionResult.SUCCESS;
                 }
 
-                p.openInventory(new GeneratorMaterialList(world, player).getInventory());
+                p.openInventory(new GeneratorMaterialList(plugin, world, player).getInventory());
                 return ExecutionResult.SUCCESS;
             }
         }

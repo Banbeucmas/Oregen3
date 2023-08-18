@@ -9,7 +9,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.stream.Stream;
+import java.util.Arrays;
 
 public class BlockUtils {
     public static final BlockFace[] FACES = {
@@ -41,10 +41,14 @@ public class BlockUtils {
         final int x = loc.getBlockX();
         final int y = loc.getBlockY();
         final int z = loc.getBlockZ();
-        return Stream.of(world.getBlockAt(x + 1, y, z),
-                         world.getBlockAt(x - 1, y, z),
-                         world.getBlockAt(x, y, z + 1),
-                         world.getBlockAt(x, y, z - 1))
-                .anyMatch(b -> XBlock.isWater(b.getType()));
+        for (Block b : Arrays.asList(world.getBlockAt(x + 1, y, z),
+                world.getBlockAt(x - 1, y, z),
+                world.getBlockAt(x, y, z + 1),
+                world.getBlockAt(x, y, z - 1))) {
+            if (XBlock.isWater(b.getType())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
