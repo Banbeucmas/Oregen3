@@ -16,6 +16,7 @@ repositories {
     maven("https://repo.extendedclip.com/content/repositories/public/")
     maven("https://repo.bg-software.com/repository/api/")
     maven("https://repo.bg-software.com/repository/common/")
+    maven("https://nexus.iridiumdevelopment.net/repository/maven-releases/")
 }
 
 dependencies {
@@ -34,6 +35,7 @@ dependencies {
     compileOnly("com.songoda:skyblock:2.3.30")
     compileOnly("com.github.LoneDev6:api-itemsadder:3.4.1-r4")
     compileOnly("com.wasteofplastic:acidisland:3.0.8.2")
+    compileOnly("com.iridium", "IridiumSkyblock", "4.0.5")
 
     compileOnly("org.projectlombok:lombok:1.18.28")
     annotationProcessor("org.projectlombok:lombok:1.18.28")

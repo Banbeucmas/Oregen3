@@ -105,22 +105,25 @@ public class Oregen3 extends JavaPlugin {
 
         final PluginManager manager = getServer().getPluginManager();
         if (manager.isPluginEnabled("ASkyBlock")) {
-            hook     = new ASkyblockHook();
+            hook = new ASkyblockHook();
         }
         else if (manager.isPluginEnabled("AcidIsland")) {
-            hook     = new AcidIslandHook();
+            hook = new AcidIslandHook();
         }
         else if (manager.isPluginEnabled("BentoBox")) {
-            hook     = new BentoBoxHook(this);
+            hook = new BentoBoxHook(this);
         }
         else if (manager.isPluginEnabled("SuperiorSkyblock2")) {
-            hook     = new SuperiorSkyblockHook();
+            hook = new SuperiorSkyblockHook();
         }
         else if (manager.isPluginEnabled("FabledSkyBlock")) {
-            hook     = new FabledSkyBlockHook();
+            hook = new FabledSkyBlockHook();
         }
         else if (manager.isPluginEnabled("uSkyBlock")) {
-            hook     = new uSkyBlockHook();
+            hook = new uSkyBlockHook();
+        }
+        else if (manager.isPluginEnabled("IridiumSkyblock")) {
+            hook = new IridiumSkyblockHook();
         }
         else {
             getLogger().warning("Plugin dependency for Oregen3 not found! Turning enableDependency off...");
