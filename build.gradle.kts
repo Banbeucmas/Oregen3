@@ -4,7 +4,6 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
     maven("https://oss.sonatype.org/content/groups/public/")
@@ -65,5 +64,6 @@ tasks {
         relocate("com.bgsoftware.common.config", "me.banbeucmas.oregen3.config")
         relocate("io.github.rysefoxx.inventory", "me.banbeucmas.oregen3.inventory")
         archiveFileName.set("Oregen3-${project.version}.jar")
+        exclude("META-INF/**")
     }
 }
