@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 import java.util.regex.Matcher;
 
-import static me.banbeucmas.oregen3.util.StringUtils.*;
+import static me.banbeucmas.oregen3.util.StringParser.*;
 
 abstract class AbstractCommand {
 	Oregen3 plugin;
@@ -32,16 +32,16 @@ abstract class AbstractCommand {
 		Player player = sender instanceof Player ? (Player) sender : null;
 		switch (run()) {
 			case MISSING_ARGS:
-				sender.sendMessage(plugin.getStringUtils().getColoredPrefixString(plugin.getConfig().getString("messages.missingArgs"), player));
+				sender.sendMessage(plugin.getStringParser().getColoredPrefixString(plugin.getConfig().getString("messages.missingArgs"), player));
 				break;
 			case NO_PERMISSION:
-				sender.sendMessage(plugin.getStringUtils().getColoredPrefixString(PLACEHOLDER_PERM_PATTERN.matcher(plugin.getConfig().getString("messages.noPermission", "")).replaceAll(Matcher.quoteReplacement(permission)), player));
+				sender.sendMessage(plugin.getStringParser().getColoredPrefixString(PLACEHOLDER_PERM_PATTERN.matcher(plugin.getConfig().getString("messages.noPermission", "")).replaceAll(Matcher.quoteReplacement(permission)), player));
 				break;
 			case NO_PLAYER:
-				sender.sendMessage(plugin.getStringUtils().getColoredPrefixString(PLACEHOLDER_PLAYER_PATTERN.matcher(plugin.getConfig().getString("messages.noPlayer", "")).replaceAll(Matcher.quoteReplacement(player != null ? player.getName() : "")), player));
+				sender.sendMessage(plugin.getStringParser().getColoredPrefixString(PLACEHOLDER_PLAYER_PATTERN.matcher(plugin.getConfig().getString("messages.noPlayer", "")).replaceAll(Matcher.quoteReplacement(player != null ? player.getName() : "")), player));
 				break;
 			case NON_PLAYER:
-				sender.sendMessage(plugin.getStringUtils().getColoredPrefixString(plugin.getConfig().getString("messages.notPlayer"), player));
+				sender.sendMessage(plugin.getStringParser().getColoredPrefixString(plugin.getConfig().getString("messages.notPlayer"), player));
 		}
 	}
 

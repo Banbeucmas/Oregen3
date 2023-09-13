@@ -1,15 +1,12 @@
 package me.banbeucmas.oregen3.util;
 
-import com.cryptomorin.xseries.XSound;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.Generator;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 
-import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ForkJoinPool;
 
@@ -119,17 +116,5 @@ public class PluginUtils {
             }
         }
         return mc;
-    }
-
-    public void sendBlockEffect(final World world, final Block to, final Generator mc) {
-        if (mc.isSoundEnabled())
-            world.playSound(to.getLocation(), mc.getSound(), mc.getSoundVolume(), mc.getSoundPitch());
-        else if (plugin.getConfig().getBoolean("global.generators.sound.enabled", false)) {
-            world.playSound(to.getLocation(),
-                    Objects.requireNonNull(XSound.matchXSound(plugin.getConfig().getString("global.generators.sound.name", "BLOCK_FIRE_EXTINGUISH")).map(XSound::parseSound).orElse(XSound.BLOCK_FIRE_EXTINGUISH.parseSound())),
-                    (float) plugin.getConfig().getDouble("global.generators.sound.volume", 1),
-                    (float) plugin.getConfig().getDouble("global.generators.sound.pitch", 1)
-            );
-        }
     }
 }

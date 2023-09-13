@@ -12,7 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFromToEvent;
 
-import static me.banbeucmas.oregen3.util.BlockUtils.*;
+import static me.banbeucmas.oregen3.util.BlockChecker.*;
 
 public class BlockListener implements Listener {
     private Oregen3 plugin;
@@ -29,12 +29,12 @@ public class BlockListener implements Listener {
         final Material material = src.getType();
         for (final BlockFace face : FACES) {
             final Block check = to.getRelative(face);
-            if (plugin.getBlockUtils().isBlock(check)
+            if (plugin.getBlockChecker().isBlock(check)
                     && (XBlock.isWater(material))
                     && config.getBoolean("mode.waterBlock")) {
                 return true;
             }
-            else if (plugin.getBlockUtils().isBlock(check)
+            else if (plugin.getBlockChecker().isBlock(check)
                     && (XBlock.isLava(material))
                     && config.getBoolean("mode.lavaBlock")) {
                 return true;

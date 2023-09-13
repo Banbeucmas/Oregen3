@@ -1,7 +1,6 @@
-package me.banbeucmas.oregen3.hook.blockplacer;
+package me.banbeucmas.oregen3.handler.block.placer;
 
 import dev.lone.itemsadder.api.CustomBlock;
-import me.banbeucmas.oregen3.handler.block.placer.BlockPlacer;
 import org.bukkit.block.Block;
 
 public class ItemsAdderBlockPlacer implements BlockPlacer {

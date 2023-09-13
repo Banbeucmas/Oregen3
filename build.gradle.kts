@@ -22,8 +22,7 @@ dependencies {
     implementation("com.github.cryptomorin:XSeries:9.5.0")
     implementation("org.bstats:bstats-bukkit-lite:1.7")
     implementation("com.bgsoftware.common.config:CommentedConfiguration:1.0.3")
-    implementation("io.github.rysefoxx.inventory:RyseInventory-Plugin:1.5.6.2")
-    compileOnly("org.spigotmc:spigot-api:1.20.1-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
     compileOnly("me.clip:placeholderapi:2.11.3")
     compileOnly("com.wasteofplastic:askyblock:3.0.9.4")
@@ -62,7 +61,6 @@ tasks {
         relocate("org.bstats", "me.banbeucmas.oregen3.bstats")
         relocate("com.cryptomorin.xseries", "me.banbeucmas.oregen3.xseries")
         relocate("com.bgsoftware.common.config", "me.banbeucmas.oregen3.config")
-        relocate("io.github.rysefoxx.inventory", "me.banbeucmas.oregen3.inventory")
         archiveFileName.set("Oregen3-${project.version}.jar")
         exclude("META-INF/**")
     }

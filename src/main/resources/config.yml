@@ -2,10 +2,7 @@
 # Configuration link: https://github.com/xHexed/Oregen3/blob/master/src/main/resources/config.yml
 # Please click this link if you use the plugin the first time or updating from an old version
 # Generator options:
-#   Required: Options that MUST be provided, or else the plugin will throw errors
-#   - random: list of blocks that will randomly be chosen upon generating ores
-#
-#   Optional: Options that are optionally provided, the generator will work normally without it
+#   - random: list of blocks that will randomly be chosen upon generating ores, defaults to air (stops the liquid from flowing)
 #   - permission: The permission it will use instead of the default provided one, defaults to oregen3.generator.<generator name>
 #   - sound: sound options when block is being generated
 #     - name: Defaults to BLOCK_FIRE_EXTINGUISH. You can use old sound enums,

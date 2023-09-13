@@ -1,7 +1,7 @@
 package me.banbeucmas.oregen3.listener;
 
 import me.banbeucmas.oregen3.gui.InventoryHandler;
-import me.banbeucmas.oregen3.util.BlockUtils;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -12,12 +12,12 @@ import org.bukkit.inventory.InventoryHolder;
 public class InventoryListener implements Listener {
     @EventHandler
     public void onClick(final InventoryClickEvent e) {
-        if (!BlockUtils.isItem(e.getCurrentItem())) return;
+        if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR) return;
         final Inventory inventory = e.getView().getTopInventory();
         final InventoryHolder topInventory = inventory.getHolder();
         if (topInventory instanceof InventoryHandler) {
             final InventoryHandler holder = ((InventoryHandler) topInventory);
-            if (e.getInventory().equals(inventory))
+            if (e.getClickedInventory().equals(inventory))
                 holder.onClick(e);
             else {
                 holder.onPlayerInventoryClick(e);

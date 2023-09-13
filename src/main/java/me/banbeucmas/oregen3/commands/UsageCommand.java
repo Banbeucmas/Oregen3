@@ -13,13 +13,13 @@ public class UsageCommand extends AbstractCommand {
     protected ExecutionResult run() {
         Player player = sender instanceof Player ? (Player) sender : null;
         final CommandSender sender = getSender();
-        sender.sendMessage(plugin.getStringUtils().getString("§7§m-------------§f[Oregen3§f]§7-------------", player));
+        sender.sendMessage(plugin.getStringParser().getString("§7§m-------------§f[Oregen3§f]§7-------------", player));
         sender.sendMessage("");
-        sender.sendMessage(plugin.getStringUtils().getString("       §fPlugin made by §e§oBanbeucmas§f, updated by §e§oxHexed", player));
-        sender.sendMessage(plugin.getStringUtils().getString("       §f§oVersion: §e" + plugin.getDescription().getVersion(), player));
-        sender.sendMessage(plugin.getStringUtils().getString("       §f§o/" + getLabel() + " help §efor more info", player));
+        sender.sendMessage(plugin.getStringParser().getString("       §fPlugin made by §e§oBanbeucmas§f, updated by §e§oxHexed", player));
+        sender.sendMessage(plugin.getStringParser().getString("       §f§oVersion: §e" + plugin.getDescription().getVersion(), player));
+        sender.sendMessage(plugin.getStringParser().getString("       §f§o/" + getLabel() + " help §efor more info", player));
         sender.sendMessage("");
-        sender.sendMessage(plugin.getStringUtils().getString("------------------------------------", player));
+        sender.sendMessage(plugin.getStringParser().getString("------------------------------------", player));
         return ExecutionResult.SUCCESS;
     }
 }

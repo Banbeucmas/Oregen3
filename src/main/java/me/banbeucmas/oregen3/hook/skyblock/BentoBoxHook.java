@@ -23,7 +23,7 @@ public class BentoBoxHook implements SkyblockHook {
             manager = BentoBox.getInstance().getIslands();
 
             if (!BentoBox.getInstance().getAddonsManager().getAddonByName("Level").isPresent()) {
-                plugin.getLogger().warning(plugin.getStringUtils().getPrefixString("Level addon for BentoBox not found! Turning island level feature off...", null));
+                plugin.getLogger().warning(plugin.getStringParser().getPrefixString("Level addon for BentoBox not found! Turning island level feature off...", null));
                 level = false;
             }
         }, 2);

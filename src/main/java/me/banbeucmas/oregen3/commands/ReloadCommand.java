@@ -23,7 +23,7 @@ public class ReloadCommand extends AbstractCommand {
 
         plugin.reload();
         Player player = getSender() instanceof Player ? (Player) getSender() : null;
-        getSender().sendMessage(plugin.getStringUtils().getPrefixString("Config reloaded", player));
+        getSender().sendMessage(plugin.getStringParser().getPrefixString("Config reloaded", player));
         return ExecutionResult.SUCCESS;
     }
 }

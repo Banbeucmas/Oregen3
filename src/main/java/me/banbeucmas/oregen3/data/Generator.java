@@ -2,19 +2,18 @@ package me.banbeucmas.oregen3.data;
 
 import com.cryptomorin.xseries.XSound;
 import lombok.AccessLevel;
+import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.handler.block.placer.BlockPlacer;
-import me.banbeucmas.oregen3.handler.block.placer.VanillaBlockPlacer;
-import me.banbeucmas.oregen3.hook.blockplacer.ItemsAdderBlockPlacer;
-import me.banbeucmas.oregen3.hook.blockplacer.OraxenBlockPlacer;
 import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-@Getter
+@Data
 public class Generator {
     private String id;
     private long priority;
@@ -31,9 +30,9 @@ public class Generator {
     private Map<String, Double> random;
 
     private transient double totalChance;
-    @Getter(value = AccessLevel.NONE)
+    @Getter(value = AccessLevel.NONE) @Setter(value = AccessLevel.NONE)
     private transient BlockPlacer[] blockPlacers;
-    @Getter(value = AccessLevel.NONE)
+    @Getter(value = AccessLevel.NONE) @Setter(value = AccessLevel.NONE)
     private transient Double[] chances;
 
     Generator(Oregen3 plugin, final String id) {
@@ -45,7 +44,7 @@ public class Generator {
         priority   = path.getLong("priority", 0);
         level      = path.getDouble("level", 0);
         if (path.isSet("sound")) {
-            soundEnabled = true;
+            soundEnabled = path.getBoolean("sound.enabled", true);
             sound        = XSound.matchXSound(path.getString("sound.name", "BLOCK_FIRE_EXTINGUISH")).map(XSound::parseSound).orElse(XSound.BLOCK_FIRE_EXTINGUISH.parseSound());
             soundVolume  = (float) path.getDouble("sound.volume", 1);
             soundPitch   = (float) path.getDouble("sound.pitch", 1);
@@ -53,32 +52,47 @@ public class Generator {
         if (path.isSet("world")) {
             worldEnabled   = true;
             worldBlacklist = path.getBoolean("world.blacklist", true);
-            worldList      = new HashSet<>(path.getStringList("world.list"));
+            worldList      = new LinkedHashSet<>(path.getStringList("world.list"));
         }
-        final Set<String> randomList = Objects.requireNonNull(path.getConfigurationSection("random")).getKeys(false);
-        random = new HashMap<>();
-        for (final String mat : randomList) {
+        random = new LinkedHashMap<>();
+        for (final String mat : Objects.requireNonNull(path.getConfigurationSection("random")).getKeys(false)) {
             random.put(mat, path.getDouble("random." + mat));
         }
 
-        init();
-    }
-
-    public void init() {
         chances = new Double[random.size()];
         blockPlacers = new BlockPlacer[random.size()];
+        setRandomChance();
+    }
+
+    public void addRandomBlock(String mat, double chance) {
+        random.put(mat, chance);
+        chances = Arrays.copyOf(chances, chances.length + 1);
+        blockPlacers = Arrays.copyOf(blockPlacers, blockPlacers.length + 1);
+
+        blockPlacers[blockPlacers.length - 1] = BlockPlacer.getBlockPlacer(mat);
+        totalChance += chance;
+        chances[chances.length - 1] = totalChance;
+    }
+
+    public void setRandomBlock(String mat, double chance) {
+        random.put(mat, chance);
+        setRandomChance();
+    }
+
+    public void removeRandomBlock(String mat) {
+        random.remove(mat);
+        chances = Arrays.copyOf(chances, chances.length - 1);
+        blockPlacers = Arrays.copyOf(blockPlacers, blockPlacers.length - 1);
+        setRandomChance();
+    }
+
+    private void setRandomChance() {
         int i = 0;
+        totalChance = 0;
         for (Map.Entry<String, Double> entry : random.entrySet()) {
             String mat = entry.getKey();
             Double chance = entry.getValue();
-            if (mat.startsWith("oraxen-")) {
-                blockPlacers[i] = new OraxenBlockPlacer(mat.substring(mat.indexOf('-') + 1));
-            }
-            if (mat.startsWith("itemsadder-")) {
-                blockPlacers[i] = new ItemsAdderBlockPlacer(mat.substring(mat.indexOf('-') + 1));
-            } else {
-                blockPlacers[i] = new VanillaBlockPlacer(mat);
-            }
+            blockPlacers[i] = BlockPlacer.getBlockPlacer(mat);
             totalChance += chance;
             chances[i] = totalChance;
             i++;

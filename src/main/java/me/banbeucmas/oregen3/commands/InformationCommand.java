@@ -13,7 +13,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.regex.Matcher;
 
-import static me.banbeucmas.oregen3.util.StringUtils.PLACEHOLDER_PLAYER_PATTERN;
+import static me.banbeucmas.oregen3.util.StringParser.PLACEHOLDER_PLAYER_PATTERN;
 
 public class InformationCommand extends AbstractCommand {
     Oregen3 plugin;
@@ -57,20 +57,20 @@ public class InformationCommand extends AbstractCommand {
                 }
 
                 if (!plugin.hasDependency() || plugin.getUtils().getOwner(uuid, world) == null) {
-                    sender.sendMessage(PLACEHOLDER_PLAYER_PATTERN.matcher(plugin.getStringUtils().getColoredPrefixString(config.getString("messages.noIslandOthers"), p)).replaceAll(Matcher.quoteReplacement(Objects.requireNonNull(player.getName()))));
+                    sender.sendMessage(PLACEHOLDER_PLAYER_PATTERN.matcher(plugin.getStringParser().getColoredPrefixString(config.getString("messages.noIslandOthers"), p)).replaceAll(Matcher.quoteReplacement(Objects.requireNonNull(player.getName()))));
                     return ExecutionResult.SUCCESS;
                 }
 
-                p.openInventory(new GeneratorMaterialList(plugin, world, player).getInventory());
+                p.openInventory(new GeneratorMaterialList(plugin, player, world).getInventory());
                 return ExecutionResult.SUCCESS;
             }
         }
 
         if (!plugin.hasDependency() || plugin.getUtils().getOwner(p.getLocation()) == null) {
-            p.sendMessage(plugin.getStringUtils().getColoredPrefixString(config.getString("messages.noIsland"), p));
+            p.sendMessage(plugin.getStringParser().getColoredPrefixString(config.getString("messages.noIsland"), p));
             return ExecutionResult.SUCCESS;
         }
-        p.openInventory(new GeneratorMaterialList(plugin, p.getLocation(), p).getInventory());
+        p.openInventory(new GeneratorMaterialList(plugin, p, p.getLocation()).getInventory());
 
         return ExecutionResult.SUCCESS;
     }

@@ -1,6 +1,5 @@
 package me.banbeucmas.oregen3;
 
-import io.github.rysefoxx.inventory.plugin.pagination.InventoryManager;
 import lombok.AccessLevel;
 import lombok.Getter;
 import me.banbeucmas.oregen3.commands.CommandHandler;
@@ -9,14 +8,18 @@ import me.banbeucmas.oregen3.data.permission.*;
 import me.banbeucmas.oregen3.handler.block.placetask.BlockPlaceTask;
 import me.banbeucmas.oregen3.handler.block.placetask.LimitedBlockPlaceTask;
 import me.banbeucmas.oregen3.handler.block.placetask.NormalBlockPlaceTask;
-import me.banbeucmas.oregen3.handler.event.*;
+import me.banbeucmas.oregen3.handler.event.AsyncBlockEventHandler;
+import me.banbeucmas.oregen3.handler.event.BlockEventHandler;
+import me.banbeucmas.oregen3.handler.event.SyncBlockEventHandler;
 import me.banbeucmas.oregen3.hook.placeholder.PlaceholderHandler;
 import me.banbeucmas.oregen3.hook.skyblock.*;
 import me.banbeucmas.oregen3.listener.BlockListener;
+import me.banbeucmas.oregen3.listener.ChatListener;
 import me.banbeucmas.oregen3.listener.InventoryListener;
-import me.banbeucmas.oregen3.util.BlockUtils;
+import me.banbeucmas.oregen3.manager.ConfigManager;
+import me.banbeucmas.oregen3.util.BlockChecker;
 import me.banbeucmas.oregen3.util.PluginUtils;
-import me.banbeucmas.oregen3.util.StringUtils;
+import me.banbeucmas.oregen3.util.StringParser;
 import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.MetricsLite;
 import org.bukkit.Bukkit;
@@ -25,6 +28,7 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.Objects;
 @Getter
 public class Oregen3 extends JavaPlugin {
@@ -40,9 +44,13 @@ public class Oregen3 extends JavaPlugin {
     private BlockEventHandler blockEventHandler;
     private BlockPlaceTask blockPlaceTask;
     private PluginUtils utils = new PluginUtils(this);
-    private StringUtils stringUtils = new StringUtils(this);
-    private BlockUtils blockUtils = new BlockUtils(this);
+    private StringParser stringParser = new StringParser(this);
+    private BlockChecker blockChecker = new BlockChecker(this);
     private DataManager dataManager = new DataManager(this);
+    private ChatListener chatListener = new ChatListener(this);
+    private ConfigManager configManager = new ConfigManager(this);
+
+    private File configFolder = new File(getDataFolder(), "config.yml");
 
     public void onDisable() {
         dataManager.unregisterAll();
@@ -85,11 +93,7 @@ public class Oregen3 extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new BlockListener(this), this);
         getServer().getPluginManager().registerEvents(new InventoryListener(), this);
-        getServer().getPluginManager().registerEvents(new ChatEventHandler(this), this);
-        getServer().getPluginManager().registerEvents(new InventoryOpenHandler(), this);
-
-        InventoryManager inventoryManager = new InventoryManager(this);
-        inventoryManager.invoke();
+        getServer().getPluginManager().registerEvents(chatListener, this);
     }
 
     public void reload() {
@@ -165,7 +169,7 @@ public class Oregen3 extends JavaPlugin {
             }
         }
         else {
-            getLogger().warning(stringUtils.getColoredString("Vault not found! Offline player's permission will not be checked! Using bukkit's provided one...", null));
+            getLogger().warning(stringParser.getColoredString("Vault not found! Offline player's permission will not be checked! Using bukkit's provided one...", null));
             permissionChecker = new DefaultPermissionChecker();
         }
     }

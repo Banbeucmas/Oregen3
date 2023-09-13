@@ -2,7 +2,7 @@ package me.banbeucmas.oregen3.hook.placeholder;
 
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.Generator;
-import me.banbeucmas.oregen3.util.StringUtils;
+import me.banbeucmas.oregen3.util.StringParser;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -32,7 +32,7 @@ public class PlaceholderHandler extends PlaceholderExpansion {
             if (chooser == null)
                 return "0";
             final Map<String, Double> chances = chooser.getRandom();
-            return chances.containsKey(params[1]) ? StringUtils.DOUBLE_FORMAT.format(chances.get(params[1])) : "0";
+            return chances.containsKey(params[1]) ? StringParser.DOUBLE_FORMAT.format(chances.get(params[1])) : "0";
         });
     }
 
@@ -61,11 +61,7 @@ public class PlaceholderHandler extends PlaceholderExpansion {
     public String onRequest(final OfflinePlayer player, @NotNull final String identifier) {
         if (player == null || identifier.isEmpty()) return "";
         final String[] params = identifier.split("_");
-        if (identifierHandlers.containsKey(params[0].toLowerCase())) {
-            return identifierHandlers.get(params[0]).handle(player, params);
-        }
-        else {
-            return "";
-        }
+        return identifierHandlers.containsKey(params[0].toLowerCase()) ?
+                identifierHandlers.get(params[0]).handle(player, params) : "";
     }
 }
