@@ -2,53 +2,53 @@ package me.banbeucmas.oregen3.hook.skyblock;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
-import us.talabrek.ultimateskyblock.api.IslandInfo;
-import us.talabrek.ultimateskyblock.api.uSkyBlockAPI;
+import us.talabrek.ultimateskyblock.island.IslandInfo;
+import us.talabrek.ultimateskyblock.player.PlayerInfo;
+import us.talabrek.ultimateskyblock.uSkyBlock;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-// "Stupid api only use for online players rip" - xHexed, 4/7/2020
 public class uSkyBlockHook implements SkyblockHook {
-    private final uSkyBlockAPI usb;
+    private final uSkyBlock usb;
 
     public uSkyBlockHook() {
-        usb = (uSkyBlockAPI) Bukkit.getPluginManager().getPlugin("uSkyBlock");
+        usb = (uSkyBlock) Bukkit.getPluginManager().getPlugin("uSkyBlock");
     }
 
     @Override
     public double getIslandLevel(final UUID uuid, final Location loc) {
-        final OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
-        if (!player.isOnline()) return 0;
-        return (long) usb.getIslandLevel(player.getPlayer());
+        final PlayerInfo player = usb.getPlayerInfo(uuid);
+        if (player == null) return 0;
+        IslandInfo info = usb.getIslandInfo(player);
+        if (info == null) return 0;
+        return info.getLevel();
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public UUID getIslandOwner(final Location loc) {
         final IslandInfo info = usb.getIslandInfo(loc);
-        // We don't have other choice but to use the deprecated method because the api only return the leader's name :(
-        return info == null ? null : Bukkit.getOfflinePlayer(usb.getIslandInfo(loc).getLeader()).getUniqueId();
+        return info == null ? null : info.getLeaderUniqueId();
     }
 
     @Override
     public UUID getIslandOwner(final UUID uuid, World world) {
-        // Couldn't find any method related to this...
-        return null;
+        final PlayerInfo player = usb.getPlayerInfo(uuid);
+        if (player == null) return null;
+        final IslandInfo info = usb.getIslandInfo(player);
+        return info == null ? null : info.getLeaderUniqueId();
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public List<UUID> getMembers(final UUID uuid, World world) {
-        final OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
-        if (!player.isOnline()) return null;
         final List<UUID> list = new ArrayList<>();
-        for (final String s : usb.getIslandInfo(player.getPlayer()).getMembers()) {
-            list.add(Bukkit.getOfflinePlayer(s).getUniqueId());
-        }
+        final PlayerInfo player = usb.getPlayerInfo(uuid);
+        if (player == null) return list;
+        final IslandInfo info = usb.getIslandInfo(player);
+        if (info == null) return list;
+        list.addAll(info.getMemberUUIDs());
         return list;
     }
 }

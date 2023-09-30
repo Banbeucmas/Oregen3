@@ -14,7 +14,8 @@ public class SuperiorSkyblockHook implements SkyblockHook {
 
     @Override
     public double getIslandLevel(final UUID uuid, final Location loc) {
-        return SuperiorSkyblockAPI.getPlayer(uuid).getIsland().getIslandLevel().doubleValue();
+        Island island = SuperiorSkyblockAPI.getPlayer(uuid).getIsland();
+        return island != null ? island.getIslandLevel().doubleValue() : 0;
     }
 
     @Override
@@ -31,7 +32,9 @@ public class SuperiorSkyblockHook implements SkyblockHook {
     @Override
     public List<UUID> getMembers(final UUID uuid, World world) {
         final List<UUID> list = new ArrayList<>();
-        for (final SuperiorPlayer superiorPlayer : SuperiorSkyblockAPI.getPlayer(uuid).getIsland().getIslandMembers(true)) {
+        Island island = SuperiorSkyblockAPI.getPlayer(uuid).getIsland();
+        if (island == null) return list;
+        for (final SuperiorPlayer superiorPlayer : island.getIslandMembers(true)) {
             list.add(superiorPlayer.getUniqueId());
         }
         return list;

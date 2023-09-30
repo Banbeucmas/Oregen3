@@ -22,11 +22,19 @@ dependencies {
     implementation("com.github.cryptomorin:XSeries:9.5.0")
     implementation("org.bstats:bstats-bukkit-lite:1.7")
     implementation("com.bgsoftware.common.config:CommentedConfiguration:1.0.3")
-    compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT") {
+        isTransitive = false
+    }
+    compileOnly("net.md-5:bungeecord-chat:1.16-R0.4") {
+        isTransitive = false
+    }
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
     compileOnly("me.clip:placeholderapi:2.11.4")
     compileOnly("com.wasteofplastic:askyblock:3.0.9.4")
-    compileOnly("com.github.rlf:uSkyBlock-API:2.8.3")
+    compileOnly("ovh.uskyblock:uSkyBlock-Core:3.0.0") {
+        isTransitive = false
+    }
+    compileOnly("com.github.rlf:uSkyBlock-API:3.0.0")
     compileOnly("world.bentobox:bentobox:2.0.0-SNAPSHOT")
     compileOnly("com.bgsoftware:SuperiorSkyblockAPI:1.11.1")
     compileOnly("com.github.Th0rgal:oraxen:1.161.0")
