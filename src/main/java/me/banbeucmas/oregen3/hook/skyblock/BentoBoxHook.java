@@ -56,7 +56,9 @@ public class BentoBoxHook implements SkyblockHook {
 
     @Override
     public UUID getIslandOwner(final UUID uuid, World world) {
-        return manager.getOwner(world, uuid);
+        final Island island = manager.getIsland(world, uuid);
+        if (island == null) return null;
+        return island.getOwner();
     }
 
     @Override
