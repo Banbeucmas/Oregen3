@@ -1,0 +1,67 @@
+package me.banbeucmas.oregen3.hook.placeholder;
+
+import me.banbeucmas.oregen3.Oregen3;
+import me.banbeucmas.oregen3.data.Generator;
+import me.banbeucmas.oregen3.util.StringParser;
+import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class PlaceholderHandler extends PlaceholderExpansion {
+    private final Map<String, IdentifierHandler> identifierHandlers = new HashMap<>();
+
+    public PlaceholderHandler(Oregen3 plugin) {
+        identifierHandlers.put("generator", (player, params) -> {
+            World world = null;
+            if (params.length > 0) world = Bukkit.getWorld(params[0]);
+            final Generator chooser = plugin.getUtils().getChosenGenerator(player.getUniqueId(), world);
+            return chooser != null ? chooser.getName() : "";
+        });
+        identifierHandlers.put("random", (player, params) -> {
+            if (params.length < 2) return "0";
+            World world = null;
+            if (params.length > 2) {
+                world = Bukkit.getWorld(params[2]);
+            }
+            final Generator chooser = plugin.getUtils().getChosenGenerator(player.getUniqueId(), world);
+            if (chooser == null)
+                return "0";
+            final Map<String, Double> chances = chooser.getRandom();
+            return chances.containsKey(params[1]) ? StringParser.DOUBLE_FORMAT.format(chances.get(params[1])) : "0";
+        });
+    }
+
+    @Override
+    public @NotNull String getIdentifier() {
+        return "oregen3";
+    }
+
+    @Override
+    public @NotNull String getAuthor() {
+        return "xHexed";
+    }
+
+    @Override
+    public @NotNull String getVersion() {
+        return "1.0";
+    }
+
+    @Override
+    public boolean persist() { return true; }
+
+    @Override
+    public boolean canRegister() { return true; }
+
+    @Override
+    public String onRequest(final OfflinePlayer player, @NotNull final String identifier) {
+        if (player == null || identifier.isEmpty()) return "";
+        final String[] params = identifier.split("_");
+        return identifierHandlers.containsKey(params[0].toLowerCase()) ?
+                identifierHandlers.get(params[0]).handle(player, params) : "";
+    }
+}

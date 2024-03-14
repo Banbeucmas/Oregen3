@@ -1,72 +1,64 @@
 package me.banbeucmas.oregen3.commands;
 
 import me.banbeucmas.oregen3.Oregen3;
-import me.banbeucmas.oregen3.utils.StringUtils;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
+import java.util.regex.Matcher;
 
-public abstract class AbstractCommand {
+import static me.banbeucmas.oregen3.util.StringParser.*;
 
-	private String permission;
-	private String[] args;
-	private CommandSender sender;
-	private Oregen3 plugin = Oregen3.getPlugin();
+abstract class AbstractCommand {
+	Oregen3 plugin;
+	String permission;
+	CommandSender sender;
+	String label;
+	String[] args;
 
-
-	public AbstractCommand(String permission, String[] args, CommandSender sender) {
+	AbstractCommand(final Oregen3 plugin, final String permission, final CommandSender sender, final String label, final String[] args) {
+		this.plugin = plugin;
 		this.permission = permission;
-		this.args = args;
-		this.sender = sender;
+		this.label      = label;
+		this.args       = args;
+		this.sender     = sender;
 	}
 
 	/**
 	 * @return an {@link ExecutionResult}, should never be null
 	 */
-	public abstract ExecutionResult now();
+	abstract ExecutionResult run();
 
-	public void execute() {
-		switch (now()) {
-			case DONT_CARE:
-				break;
+	void execute() {
+		Player player = sender instanceof Player ? (Player) sender : null;
+		switch (run()) {
 			case MISSING_ARGS:
-			    if(getFormat() != null){
-				    sender.sendMessage(StringUtils.getPrefixString("&cFormat: &f" + getFormat()));
-			    }
-			    break;
-            case NO_PERMISSION:
-			    sender.sendMessage(StringUtils.getPrefixString("&4Missing Permission: &c" + permission));
-			    break;
-		    case NO_PLAYER:
-			    sender.sendMessage(StringUtils.getPrefixString("&4Player is not excist or isn't online"));
-			    break;
-		    case NOT_PLAYER:
-			    sender.sendMessage(StringUtils.getPrefixString("&4Only player can use this command"));
-		    case CONSOLE_NOT_PERMITTED:
-			    sender.sendMessage(StringUtils.getPrefixString("&4This command is not available to console"));
-			    break;
-		    default:
-			    break;
+				sender.sendMessage(plugin.getStringParser().getColoredPrefixString(plugin.getConfig().getString("messages.missingArgs"), player));
+				break;
+			case NO_PERMISSION:
+				sender.sendMessage(plugin.getStringParser().getColoredPrefixString(PLACEHOLDER_PERM_PATTERN.matcher(plugin.getConfig().getString("messages.noPermission", "")).replaceAll(Matcher.quoteReplacement(permission)), player));
+				break;
+			case NO_PLAYER:
+				sender.sendMessage(plugin.getStringParser().getColoredPrefixString(PLACEHOLDER_PLAYER_PATTERN.matcher(plugin.getConfig().getString("messages.noPlayer", "")).replaceAll(Matcher.quoteReplacement(player != null ? player.getName() : "")), player));
+				break;
+			case NON_PLAYER:
+				sender.sendMessage(plugin.getStringParser().getColoredPrefixString(plugin.getConfig().getString("messages.notPlayer"), player));
 		}
 	}
 
 	/* Getters */
-	public String getPermission() {
+	String getPermission() {
 		return permission;
 	}
 
-	public String[] getArgs() {
+	String[] getArgs() {
 		return args;
 	}
 
-	public String getFormat() {
-		return null;
+	String getLabel() {
+		return label;
 	}
 
-	public CommandSender getSender() {
+	CommandSender getSender() {
 		return sender;
-	}
-
-	public Oregen3 getPlugin() {
-		return plugin;
 	}
 }

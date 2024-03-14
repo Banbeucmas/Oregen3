@@ -1,28 +1,30 @@
 package me.banbeucmas.oregen3.data;
 
+import lombok.Getter;
 import me.banbeucmas.oregen3.Oregen3;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class DataManager {
-    private static Map<String, MaterialChooser> choosers = new HashMap<>();
+    private Oregen3 plugin;
 
-    public static Map<String, MaterialChooser> getChoosers() {
-        return choosers;
+    @Getter
+    private final Map<String, Generator> generators = new LinkedHashMap<>();
+
+    public DataManager(Oregen3 plugin) {
+        this.plugin = plugin;
     }
 
-    public static void unregisterAll(){
-        choosers = null;
+    public void unregisterAll(){
+        generators.clear();
     }
 
-    public static void loadData(){
-        choosers = new HashMap<>();
-        FileConfiguration config = Oregen3.getPlugin().getConfig();
-        for(String id : config.getConfigurationSection("generators").getKeys(false)){
-            getChoosers().put(id, new MaterialChooser(id));
-        }
+    public void loadData() {
+        unregisterAll();
+        plugin.getConfig()
+                .getConfigurationSection("generators")
+                .getKeys(false)
+                .forEach(id -> generators.put(id, new Generator(plugin, id)));
     }
 }
