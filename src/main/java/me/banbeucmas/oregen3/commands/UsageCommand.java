@@ -1,25 +1,25 @@
 package me.banbeucmas.oregen3.commands;
 
-import me.banbeucmas.oregen3.utils.StringUtils;
-import org.bukkit.ChatColor;
+import me.banbeucmas.oregen3.Oregen3;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class UsageCommand extends AbstractCommand {
-    public UsageCommand(CommandSender sender) {
-        super(null, null, sender);
+    UsageCommand(Oregen3 plugin, final CommandSender sender, final String label) {
+        super(plugin, null, sender, label, null);
     }
 
-    //Copied from old Project lol
     @Override
-    public ExecutionResult now() {
-        CommandSender sender = getSender();
-        sender.sendMessage(StringUtils.getColoredString("&7&m-------------&f[Oregen3&f]&7-------------"));
+    protected ExecutionResult run() {
+        Player player = sender instanceof Player ? (Player) sender : null;
+        final CommandSender sender = getSender();
+        sender.sendMessage(plugin.getStringParser().getString("§7§m-------------§f[Oregen3§f]§7-------------", player));
         sender.sendMessage("");
-        sender.sendMessage(StringUtils.getColoredString("       &fPlugin made by &e&oBanbeucmas"));
-        sender.sendMessage(StringUtils.getColoredString("       &f&o/help &efor more info"));
+        sender.sendMessage(plugin.getStringParser().getString("       §fPlugin made by §e§oBanbeucmas§f, updated by §e§oxHexed", player));
+        sender.sendMessage(plugin.getStringParser().getString("       §f§oVersion: §e" + plugin.getDescription().getVersion(), player));
+        sender.sendMessage(plugin.getStringParser().getString("       §f§o/" + getLabel() + " help §efor more info", player));
         sender.sendMessage("");
-        sender.sendMessage(StringUtils.getColoredString("------------------------------------"));
-
-        return ExecutionResult.DONT_CARE;
+        sender.sendMessage(plugin.getStringParser().getString("------------------------------------", player));
+        return ExecutionResult.SUCCESS;
     }
 }

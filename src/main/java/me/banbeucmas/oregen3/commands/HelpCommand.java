@@ -1,33 +1,33 @@
 package me.banbeucmas.oregen3.commands;
 
-import me.banbeucmas.oregen3.utils.StringUtils;
+import me.banbeucmas.oregen3.Oregen3;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import static me.banbeucmas.oregen3.util.StringParser.PLACEHOLDER_LABEL_PATTERN;
+
 public class HelpCommand extends AbstractCommand {
-    public HelpCommand(CommandSender sender) {
-        super("oregen3.help", null, sender);
+    HelpCommand(Oregen3 plugin, final CommandSender sender, final String label) {
+        super(plugin, "oregen3.help", sender, label, null);
     }
 
     @Override
-    public ExecutionResult now() {
-        if(!(getSender() instanceof Player)){
-            return ExecutionResult.NO_PERMISSION;
+    protected ExecutionResult run() {
+        if (!(getSender() instanceof Player)) {
+            return ExecutionResult.NON_PLAYER;
         }
-        sendHelp(getSender());
-        return ExecutionResult.DONT_CARE;
-    }
 
-    private void sendHelp(CommandSender sender) {
-        sender.sendMessage(StringUtils.getPrefixString("&6&o/og3 help &f» Open help pages"));
-        if(sender.hasPermission("oregen3.reload")){
-            sender.sendMessage(StringUtils.getPrefixString("&6&o/og3 reload &f» Reload config"));
+        final Player sender = (Player) getSender();
+        sender.sendMessage(plugin.getStringParser().getColoredPrefixString(PLACEHOLDER_LABEL_PATTERN.matcher(plugin.getConfig().getString("messages.commands.help", "")).replaceAll(getLabel()), sender));
+        if (sender.hasPermission("oregen3.reload")) {
+            sender.sendMessage(plugin.getStringParser().getColoredPrefixString(PLACEHOLDER_LABEL_PATTERN.matcher(plugin.getConfig().getString("messages.commands.reload", "")).replaceAll(getLabel()), sender));
         }
-        if(sender.hasPermission("oregen3.information")){
-            sender.sendMessage(StringUtils.getPrefixString("&6&o/og3 info &f» Getting ore spawning chance of the island you are standing"));
+        if (sender.hasPermission("oregen3.information")) {
+            sender.sendMessage(plugin.getStringParser().getColoredPrefixString(PLACEHOLDER_LABEL_PATTERN.matcher(plugin.getConfig().getString("messages.commands.info", "")).replaceAll(getLabel()), sender));
         }
-        if(sender.hasPermission("oregen3.debug")){
-            sender.sendMessage(StringUtils.getPrefixString("&6&o/og3 debug &f» Enable debugging"));
+        if (sender.hasPermission("oregen3.edit")) {
+            sender.sendMessage(plugin.getStringParser().getColoredPrefixString(PLACEHOLDER_LABEL_PATTERN.matcher(plugin.getConfig().getString("messages.commands.edit", "")).replaceAll(getLabel()), sender));
         }
+        return ExecutionResult.SUCCESS;
     }
 }
